@@ -1,1 +1,15 @@
-products
+<div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="inputForm" (ngSubmit)="onFormSubmit()">
+            <div class="row form-group-row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <div class="custom-label">Product Name <span class='mandate'>*</span></div>
+                        <input autocomplete="off" type="text" id="name"
+                            formControlName="name" placeholder="Product Name" >
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
