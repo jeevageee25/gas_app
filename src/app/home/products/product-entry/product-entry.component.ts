@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProductEntryComponent implements OnInit {
   inputForm:any;
+  categories:any = ['Domestic', 'Commercial'];
 
   constructor(private fb: FormBuilder) { }
 
@@ -17,8 +18,9 @@ export class ProductEntryComponent implements OnInit {
 
   createForm() {
     this.inputForm = this.fb.group({
-      type: ['Buyer'],
-      first_name: ['', [Validators.required]],
+      name: [],
+      category:[],
+      rate:[]
     })
   }
 

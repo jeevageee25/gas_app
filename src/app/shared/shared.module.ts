@@ -6,7 +6,8 @@ import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
-
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
 @NgModule({
   declarations: [],
   imports: [
@@ -17,16 +18,20 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     FormsModule,
     RadioButtonModule,
     DropdownModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule
   ],
   exports:[
     DividerModule,
     DialogModule,
-    // AutoCompleteModule,
+    AutoCompleteModule,
     FormsModule,
     RadioButtonModule,
     DropdownModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule
   ]
 })
 export class SharedModule { }
