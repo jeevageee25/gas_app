@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { TabViewModule } from 'primeng/tabview';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
         path: 'products',
         loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
 
+      },
+      {
+        path: 'delivery-executive',
+        loadChildren: () => import('./delivery-executive/delivery-executive.module').then(m => m.DeliveryExecutiveModule)
       }
     ]
   }
@@ -27,9 +32,10 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    TabViewModule,
     RouterModule.forChild(routes)
   ],
-  exports:[
+  exports: [
     HomeComponent
   ]
 })

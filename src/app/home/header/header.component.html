@@ -1,1 +1,4 @@
-<p>header works!</p>
+
+<p-tabView (onChange)="handleChange($event)">
+    <p-tabPanel [header]="item.name" *ngFor="let item of pages"></p-tabPanel>
+</p-tabView>
