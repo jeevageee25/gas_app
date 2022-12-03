@@ -9,6 +9,8 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
+  //Products
+
    getProducts(payload:any){
     return this.http.post(environment.apiurl + `api/products/search`, payload)
   }
@@ -25,4 +27,21 @@ export class ProductsService {
     return this.http.delete(environment.apiurl + `api/products/delete/${_id}`)
   }
 
+  // Delivery Area
+
+  searchArea(payload:any){
+    return this.http.post(environment.apiurl + `api/area/search`, payload)
+  }
+
+  addArea(payload:any){
+    return this.http.post(environment.apiurl + `api/area/add`, payload)
+  }
+
+  updateArea(payload:any){
+    return this.http.post(environment.apiurl + `api/area/update`, payload)
+  }
+
+  deleteArea(_id:any){
+    return this.http.delete(environment.apiurl + `api/area/delete/${_id}`)
+  }
 }

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { ServicesModule } from './services/services.module';
 import { ConfirmPopupModule } from "primeng/confirmpopup";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ConfirmPopupModule } from "primeng/confirmpopup";
     HomeModule,
     ServicesModule,
     HttpClientModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

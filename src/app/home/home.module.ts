@@ -19,6 +19,10 @@ const routes: Routes = [
       {
         path: 'delivery-executive',
         loadChildren: () => import('./delivery-executive/delivery-executive.module').then(m => m.DeliveryExecutiveModule)
+      },
+      {
+        path: 'delivery-area',
+        loadChildren: () => import('./delivery-area/delivery-area.module').then(m => m.DeliveryAreaModule)
       }
     ]
   }

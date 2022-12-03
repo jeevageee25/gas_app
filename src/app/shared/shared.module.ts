@@ -10,6 +10,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
 import { TableModule } from 'ngx-easy-table';
 import {ToastModule} from 'primeng/toast';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [],
@@ -25,7 +26,8 @@ import {ToastModule} from 'primeng/toast';
     InputTextModule,
     ButtonModule,
     TableModule,
-    ToastModule
+    ToastModule,
+    FontAwesomeModule
   ],
   exports:[
     DividerModule,
@@ -38,7 +40,8 @@ import {ToastModule} from 'primeng/toast';
     InputTextModule,
     ButtonModule,
     TableModule,
-    ToastModule
+    ToastModule,
+    FontAwesomeModule
   ]
 })
 export class SharedModule { }
