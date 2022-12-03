@@ -12,13 +12,26 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class AreaEntryComponent implements OnInit {
   inputForm: FormGroup = new FormGroup({});
-  tableData:any = [];
+  configuration: Config = { ...DefaultConfig };
+  columns: Columns[] = [];
+  tableData = [];
   constructor(private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.createForm();
     this.searchArea();
+    this.initTable();
   } 
+
+  initTable() {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.rows = 10;
+    this.columns = [
+      { key: '', title: 'SL #' },
+      { key: 'area', title: 'Area' },
+      { key: '', title: 'Actions' }
+    ];
+  }
 
   createForm() {
     this.inputForm = this.fb.group({
