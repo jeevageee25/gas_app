@@ -62,4 +62,22 @@ export class ProductsService {
   deleteRole(_id:any){
     return this.http.delete(environment.apiurl + `api/role/delete/${_id}`)
   }
+
+  // Executives
+
+  searchEmployee(payload:any){
+    return this.http.post(environment.apiurl + `api/executive/search`, payload)
+  }
+
+  addEmployee(payload:any){
+    return this.http.post(environment.apiurl + `api/executive/add`, payload)
+  }
+
+  updateEmployee(payload:any){
+    return this.http.post(environment.apiurl + `api/executive/update`, payload)
+  }
+
+  deleteEmployee(_id:any){
+    return this.http.delete(environment.apiurl + `api/executive/delete/${_id}`)
+  }
 }

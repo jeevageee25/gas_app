@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class ExecutiveEntryComponent implements OnInit {
   inputForm: FormGroup = new FormGroup({});
-  categories: any = ['Domestic', 'Commercial'];
+  roles: any = [];
   configuration: Config = { ...DefaultConfig };
   columns: Columns[] = [];
   tableData = [];
@@ -21,6 +21,7 @@ export class ExecutiveEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.getRoles();
     this.searchEmployee();
     this.initTable();
   }
@@ -29,7 +30,7 @@ export class ExecutiveEntryComponent implements OnInit {
     this.configuration = { ...DefaultConfig };
     this.configuration.rows = 10;
     this.columns = [
-      { key: 'area', title: 'Area' },
+      { key: 'role', title: 'Role' },
       { key: 'siebel_code', title: 'Siebel Code' },
       { key: 'staff_name', title: 'Staff Name' },
       { key: '', title: 'Actions' }
@@ -39,7 +40,7 @@ export class ExecutiveEntryComponent implements OnInit {
   createForm() {
     this.inputForm = this.fb.group({
       _id: [],
-      area: ['', Validators.required],
+      role: ['', Validators.required],
       siebel_code: ['', Validators.required],
       staff_name: ['', Validators.required]
     })
@@ -50,8 +51,8 @@ export class ExecutiveEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
     }
-    const { name, category, price } = this.inputForm.value;
-    this.PService.addProducts({ name, category, price }).subscribe((res: any) => {
+    const { staff_name, role, siebel_code } = this.inputForm.value;
+    this.PService.addEmployee({ staff_name, role, siebel_code }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
       this.searchEmployee();
       this.inputForm.reset();
@@ -65,8 +66,8 @@ export class ExecutiveEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
     }
-    const { _id, name, category, price } = this.inputForm.value;
-    this.PService.updateProducts({ _id, name, category, price }).subscribe((res: any) => {
+    const { _id, staff_name, role, siebel_code } = this.inputForm.value;
+    this.PService.updateEmployee({ _id, staff_name, role, siebel_code }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchEmployee();
       this.inputForm.reset();
@@ -76,7 +77,7 @@ export class ExecutiveEntryComponent implements OnInit {
   }
 
   deleteEmployee(row: any) {
-    this.PService.deleteProducts(row._id).subscribe((res: any) => {
+    this.PService.deleteEmployee(row._id).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Deleted Successfully !');
       this.searchEmployee();
     }, e => {
@@ -85,8 +86,16 @@ export class ExecutiveEntryComponent implements OnInit {
   }
 
   searchEmployee() {
-    this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
+    this.PService.searchEmployee({ search_key: {} }).subscribe((res: any) => {
       this.tableData = res?.data || []
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  getRoles() {
+    this.PService.searchRole({ search_key: {} }).subscribe((res: any) => {
+      this.roles = res?.data.map((r: any) => { return r.role }) || []
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })

@@ -5,14 +5,15 @@
                 <div class="row ">
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <div class="custom-label"> Area <span class='mandate'>*</span></div>
-                            <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
-                                formControlName="area" placeholder="Enter Area">
+                            <div class="custom-label"> Role <span class='mandate'>*</span></div>
+                            <p-dropdown class="custom-pdropdown" formControlName="role" [options]="roles"
+                            [placeholder]="'Select Role'">
+                        </p-dropdown>    
                         </div>
                     </div>
                     <div class="ccol-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <div class="custom-label"> Siebel Code <span class='mandate'>*</span></div>
+                            <div class="custom-label">Siebel Code<span class='mandate'>*</span></div>
                             <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
                                 formControlName="siebel_code" placeholder="Enter Siebel Code">
                         </div>
@@ -20,7 +21,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <div class="custom-label">Staff Name <span class='mandate'>*</span></div>
-                            <input style='width: 100%;' autocomplete="off" type="number" id="rate" pInputText
+                            <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
                                 formControlName="staff_name" placeholder="Enter Staff Name">
                         </div>
                     </div>
@@ -39,17 +40,17 @@
     </div>
     <br />
     <div class="row">
-        <div class="table-title">Delivery Executive List</div>
+        <div class="table-title">Employees List</div>
         <ngx-table [configuration]="configuration" #table [data]="tableData" class="custom-table" [columns]="columns">
             <ng-template let-row>
                 <td>
-                    <span class="font-small">{{row.name}}</span>
+                    <span class="font-small">{{row.role}}</span>
                 </td>
                 <td>
-                    <span class="font-small">{{row.category}}</span>
+                    <span class="font-small">{{row.siebel_code}}</span>
                 </td>
                 <td>
-                    <span class="font-small">{{row.price}}</span>
+                    <span class="font-small">{{row.staff_name}}</span>
                 </td>
                 <td>
                     <span class="font-small">

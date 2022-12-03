@@ -21,4 +21,4 @@ const routes: Routes = [
     SharedModule
   ]
 })
-export class DeliveryExecutiveModule { }
+export class ExecutiveModule { }

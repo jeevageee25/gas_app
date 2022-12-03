@@ -17,8 +17,8 @@ const routes: Routes = [
 
       },
       {
-        path: 'delivery-executive',
-        loadChildren: () => import('./delivery-executive/delivery-executive.module').then(m => m.DeliveryExecutiveModule)
+        path: 'employees',
+        loadChildren: () => import('./executive/executive.module').then(m => m.ExecutiveModule)
       },
       {
         path: 'delivery-area',
