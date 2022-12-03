@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { ServicesModule } from './services/services.module';
+import { ConfirmPopupModule } from "primeng/confirmpopup";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ServicesModule } from './services/services.module';
     AppRoutingModule,
     HomeModule,
     ServicesModule,
-    HttpClientModule
+    HttpClientModule,
+    ConfirmPopupModule
   ],
   providers: [],
   bootstrap: [AppComponent]

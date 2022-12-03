@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { ConfirmationService } from 'primeng/api';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -16,7 +17,7 @@ export class ProductEntryComponent implements OnInit {
   columns: Columns[] = [];
   tableData = [];
 
-  constructor(private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
+  constructor( private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -94,5 +95,20 @@ export class ProductEntryComponent implements OnInit {
   editRow(row:any){
     this.inputForm.patchValue(row);
   }
+
+  confirm(event: Event, row:any) {
+    const target:any = event.target;
+    this.confirmationService.confirm({
+      target,
+      message: "Are you sure that you want to proceed?",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.deleteProduct(row);
+      },
+      reject: () => {
+       
+      }
+    });
+}
 
 }

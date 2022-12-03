@@ -51,3 +51,7 @@ body {
 .pi:hover {
     transform: scale(1.5);
 }
+
+.p-confirm-popup .p-confirm-popup-footer button:last-child {
+    background: #ff9800;
+}
