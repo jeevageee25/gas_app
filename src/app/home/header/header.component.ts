@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     this.pages = [
       {name:"Products", link:['home', 'products'], icon:"pi pi-database"},
       {name:"Delivery Area", link:['home', 'delivery-area'], icon:"pi pi-globe"},
-      // {name:"Delivery Executive", link:['home', 'delivery-executive'], icon:"pi pi-users"},
+      {name:"Allocate Executive Area", link:['home', 'area-allocation'], icon:"pi pi-user-plus"},
       {name:"Roles", link:['home', 'roles'], icon:"pi pi-sitemap"},
       {name:"Employees", link:['home', 'employees'], icon:"pi pi-users"},
     ]

@@ -14,7 +14,6 @@ const routes: Routes = [
       {
         path: 'products',
         loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
-
       },
       {
         path: 'employees',
@@ -23,6 +22,10 @@ const routes: Routes = [
       {
         path: 'delivery-area',
         loadChildren: () => import('./delivery-area/delivery-area.module').then(m => m.DeliveryAreaModule)
+      },
+      {
+        path: 'area-allocation',
+        loadChildren: () => import('./allocate-executive/allocate-executive.module').then(m => m.AllocateExecutiveModule)
       },
       {
         path: 'roles',
