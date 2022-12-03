@@ -23,6 +23,10 @@ const routes: Routes = [
       {
         path: 'delivery-area',
         loadChildren: () => import('./delivery-area/delivery-area.module').then(m => m.DeliveryAreaModule)
+      },
+      {
+        path: 'roles',
+        loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)
       }
     ]
   }

@@ -44,4 +44,22 @@ export class ProductsService {
   deleteArea(_id:any){
     return this.http.delete(environment.apiurl + `api/area/delete/${_id}`)
   }
+
+  // Roles
+
+  searchRole(payload:any){
+    return this.http.post(environment.apiurl + `api/role/search`, payload)
+  }
+
+  addRole(payload:any){
+    return this.http.post(environment.apiurl + `api/role/add`, payload)
+  }
+
+  updateRole(payload:any){
+    return this.http.post(environment.apiurl + `api/role/update`, payload)
+  }
+
+  deleteRole(_id:any){
+    return this.http.delete(environment.apiurl + `api/role/delete/${_id}`)
+  }
 }
