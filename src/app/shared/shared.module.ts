@@ -20,7 +20,7 @@ import {ButtonModule} from 'primeng/button';
     DropdownModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
   ],
   exports:[
     DividerModule,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-product-entry',
@@ -10,10 +11,11 @@ export class ProductEntryComponent implements OnInit {
   inputForm:any;
   categories:any = ['Domestic', 'Commercial'];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.searchProducts();
   }
 
   createForm() {
@@ -26,6 +28,12 @@ export class ProductEntryComponent implements OnInit {
 
   onFormSubmit() {
 
+  }
+
+  searchProducts(){
+    this.PService.getProducts({search_key:{}}).subscribe(res=>{
+
+    })
   }
 
 }
