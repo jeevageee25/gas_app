@@ -1,1 +1,66 @@
-<p>executive-entry works!</p>
+<div class="page-content">
+    <div class="row wrap">
+        <div class="col-md-12">
+            <form [formGroup]="inputForm">
+                <div class="row ">
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label"> Area <span class='mandate'>*</span></div>
+                            <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
+                                formControlName="area" placeholder="Enter Area">
+                        </div>
+                    </div>
+                    <div class="ccol-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label"> Siebel Code <span class='mandate'>*</span></div>
+                            <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
+                                formControlName="siebel_code" placeholder="Enter Siebel Code">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label">Staff Name <span class='mandate'>*</span></div>
+                            <input style='width: 100%;' autocomplete="off" type="number" id="rate" pInputText
+                                formControlName="staff_name" placeholder="Enter Staff Name">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                        style="margin-top:10px;align-self: flex-end !important;">
+                        <button *ngIf="!inputForm.value._id" pButton pRipple type="button" (click)='addEmployee()'
+                            label="Add" class="p-button-success"></button>
+                        <button *ngIf="inputForm.value._id" pButton pRipple type="button" (click)='updateEmployee()'
+                            label="Update" class="p-button-success"></button>
+                        &nbsp; &nbsp;
+                        <button pButton pRipple type="reset" label="Reset" class="p-button-warning"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="table-title">Delivery Executive List</div>
+        <ngx-table [configuration]="configuration" #table [data]="tableData" class="custom-table" [columns]="columns">
+            <ng-template let-row>
+                <td>
+                    <span class="font-small">{{row.name}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.category}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.price}}</span>
+                </td>
+                <td>
+                    <span class="font-small">
+                        <i class="pi pi-pencil" (click)="editRow(row)"></i>
+                    </span>
+                    &nbsp;&nbsp;
+                    <span class="font-small">
+                        <i class="pi pi-trash" (click)="confirm($event, row)"></i>
+                    </span>
+                </td>
+            </ng-template>
+        </ngx-table>
+    </div>
+</div>

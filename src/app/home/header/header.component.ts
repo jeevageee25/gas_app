@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   initPages(){
     this.pages = [
       {name:"Products", link:['home', 'products']},
-      {name:"Delivery Execute", link:['home', 'delivery-executive']}
+      {name:"Delivery Executive", link:['home', 'delivery-executive']}
     ]
   }
 
