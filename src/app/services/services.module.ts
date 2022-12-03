@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProductsService } from './products.service';
+import { ToastService } from './toast.service';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -13,7 +15,9 @@ import { ProductsService } from './products.service';
   exports:[SharedModule],
   declarations: [],
   providers:[
-    ProductsService
+    ProductsService,
+    ToastService,
+    MessageService
   ]
 })
 export class ServicesModule { }

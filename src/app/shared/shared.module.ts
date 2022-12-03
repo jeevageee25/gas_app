@@ -8,6 +8,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
+import { TableModule } from 'ngx-easy-table';
+import {ToastModule} from 'primeng/toast';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -21,6 +24,8 @@ import {ButtonModule} from 'primeng/button';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
+    TableModule,
+    ToastModule
   ],
   exports:[
     DividerModule,
@@ -31,7 +36,9 @@ import {ButtonModule} from 'primeng/button';
     DropdownModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    TableModule,
+    ToastModule
   ]
 })
 export class SharedModule { }

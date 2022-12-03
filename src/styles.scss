@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background: #ffe5d6 !important
+}
+
+.p-dropdown {
+    width: 100%;
+}
+
+.p-tabview .p-tabview-panels {
+    padding: 0px !important;
+}
+
+.page-content {
+    border:1px solid #ea5600;
+    margin: 10px !important;
+    padding: 40px 30px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+.p-color {
+    color: #ea5600;
+}
+
+.table-title {
+    background: #4a4a48;
+    color: #fff;
+    padding: 7px 0;
+}
+
+.custom-table {
+    font-size: medium; 
+    display: inline-table;
+    padding: 0px !important
+}
+
+.pi-pencil {
+    color: rgb(29, 29, 250);
+    cursor: pointer;
+}
+
+.pi-trash {
+    color: red;
+    cursor: pointer;
+}
+
+.pi:hover {
+    transform: scale(1.5);
+}

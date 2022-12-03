@@ -13,4 +13,16 @@ export class ProductsService {
     return this.http.post(environment.apiurl + `api/products/search`, payload)
   }
 
+  addProducts(payload:any){
+    return this.http.post(environment.apiurl + `api/products/add`, payload)
+  }
+
+  updateProducts(payload:any){
+    return this.http.post(environment.apiurl + `api/products/update`, payload)
+  }
+
+  deleteProducts(_id:any){
+    return this.http.delete(environment.apiurl + `api/products/delete/${_id}`)
+  }
+
 }
