@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ConfirmationService } from 'primeng/api';
 import { ProductsService } from 'src/app/services/products.service';
@@ -11,130 +11,42 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./allocate-executive.component.scss']
 })
 export class AllocateExectuveComponent implements OnInit {
-  inputForm: FormGroup = new FormGroup({});
-  dateForm: FormGroup = new FormGroup({});
-  configuration: Config = { ...DefaultConfig };
-  columns: Columns[] = [];
-  tableData = [];
-  executives = [];
-  areaData = [];
-  areaObj: any = {};
+  tableData: any = [];
   executiveObj: any = {};
-  constructor(private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
+  areaObj: any = {};
+  areaData: any = [];
+  dateForm: FormGroup = new FormGroup({});
+  executives: any = [];
+  executive_id = new FormControl();
+
+  constructor(
+    private confirmationService: ConfirmationService,
+    private toastService: ToastService,
+    private fb: FormBuilder,
+    private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.createForm();
-    this.initTable();
     this.getExecutives();
     this.getAreas();
   }
-
-  initTable() {
-    this.configuration = { ...DefaultConfig };
-    this.configuration.rows = 10;
-    this.columns = [
-      { key: '', title: 'SL #' },
-      { key: 'executive_id', title: 'Executive Name' },
-      { key: 'area', title: 'Allocated Area' },
-      { key: '', title: 'Actions' }
-    ];
-  }
-
   createForm() {
-    this.inputForm = this.fb.group({
-      _id: [],
-      executive_id: ['', Validators.required],
-      area_ids: ['', Validators.required],
-    })
     const date = new Date();
     date.setHours(0, 0, 0, 0)
     this.dateForm = this.fb.group({
       allocation_date: [date, Validators.required],
+      _id: []
     })
     this.searchAreaAllocation();
   }
 
-  addAreaAllocation() {
-    if (this.inputForm.invalid) {
-      this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
-      return;
-    }
-    const { executive_id, area_ids } = this.inputForm.value;
-    const find_alloation_exists = this.tableData.some((item: any) => item.executive_id === executive_id);
-    if (find_alloation_exists) {
-      this.toastService.showWarningToaster('Warning', 'Area is already allocated for this Delivery Executive !');
-      return;
-    }
-    const { allocation_date } = this.dateForm.value;
-    this.PService.addAreaAllocation({ allocation_date, executive_id, area_ids }).subscribe((res: any) => {
-      this.toastService.showSuccessToaster('Success', 'Added Successfully !');
-      this.searchAreaAllocation();
-      this.inputForm.reset();
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  updateAreaAllocation() {
-    if (this.inputForm.invalid) {
-      this.toastService.showWarningToaster('Warning', 'Please fill the Mandatory Fields !');
-      return;
-    }
-    const { executive_id, area_ids, _id } = this.inputForm.value;
-    this.PService.updateAreaAllocation({ _id, executive_id, area_ids }).subscribe((res: any) => {
-      this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
-      this.searchAreaAllocation();
-      this.inputForm.reset();
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  deleteAreaAllocation(row: any) {
-    this.PService.deleteAreaAllocation(row._id).subscribe((res: any) => {
-      this.toastService.showSuccessToaster('Success', 'Deleted Successfully !');
-      this.searchAreaAllocation();
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  searchAreaAllocation() {
-    this.PService.searchAreaAllocation({ search_key: { allocation_date: this.dateForm.value.allocation_date } }).subscribe((res: any) => {
-      this.tableData = res?.data || [];
-      if (this.tableData.length) {
-        this.dateForm.get('date')?.disable();
-      }
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  editRow(row: any) {
-    this.inputForm.patchValue(row);
-  }
-
-  confirm(event: Event, row: any) {
-    const target: any = event.target;
-    this.confirmationService.confirm({
-      target,
-      message: "Are you sure that you want to proceed?",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.deleteAreaAllocation(row);
-      },
-      reject: () => {
-
-      }
-    });
-  }
-
   getExecutives() {
     this.PService.searchEmployee({ search_key: { role: "Delivery Executive" } }).subscribe((res: any) => {
-      this.executives = res?.data || [];
-      this.executives.map((i: any) => {
+      const data = res?.data || [];
+      data.map((i: any) => {
         this.executiveObj[i._id] = i.staff_name;
       })
+      this.executives = data;
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
@@ -151,11 +63,82 @@ export class AllocateExectuveComponent implements OnInit {
     })
   }
 
-  convertToName(ids: any) {
-    return ids.map((i: any) => { return this.areaObj[i] });
+  getDefaultAllocation() {
+    this.PService.searchDefaultAreaAllocation({ search_key: {} }).subscribe((res: any) => {
+      this.tableData = res?.data.map((t: any) => {
+        return { area_ids: t.area_ids, executive_id: t.executive_id }
+      }) || [];
+      this.toastService.showInfoToaster('Info', 'Showing Default Allocation');
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  addCard() {
+    if (this.executive_id.value) {
+      this.tableData.unshift({
+        executive_id: this.executive_id.value,
+        area_ids: []
+      });
+    }
+  }
+
+  removeArea(t: any, a: any) {
+    this.tableData[t]?.area_ids.splice(a, 1);
+    this.tableData = [...this.tableData];
+  }
+
+  removeCard(t: any) {
+    this.tableData.splice(t, 1);
+    this.tableData = [...this.tableData];
+  }
+
+  addAreaAllocation() {
+    const { allocation_date } = this.dateForm.value;
+    this.PService.addAreaAllocation({ allocation_date, allocation_data: this.tableData }).subscribe((res: any) => {
+      this.searchAreaAllocation();
+      this.toastService.showSuccessToaster('Success', 'Added Successfully !');
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  onSubmit() {
+    this.dateForm.value._id ? this.updateAreaAllocation() : this.addAreaAllocation();
   }
 
   onReset() {
-    this.tableData = [];
+    this.searchAreaAllocation();
+  }
+
+  updateAreaAllocation() {
+    const { _id } = this.dateForm.value;
+    this.PService.updateAreaAllocation({ _id, allocation_data: this.tableData }).subscribe((res: any) => {
+      this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
+      this.searchAreaAllocation();
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  searchAreaAllocation() {
+    this.PService.searchAreaAllocation({ search_key: { allocation_date: this.dateForm.value.allocation_date } }).subscribe((res: any) => {
+      const data = res?.data[0] || [];
+      if (!data?.allocation_data?.length) {
+        this.getDefaultAllocation();
+        this.dateForm.get('_id')?.setValue('');
+      }
+      else {
+        this.tableData = data.allocation_data;
+        this.dateForm.get('_id')?.setValue(data._id);
+      }
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  get executive_options() {
+    const added_executives = this.tableData.map((t: any) => { return t.executive_id })
+    return this.executives.filter((e: any) => !added_executives.includes(e._id))
   }
 }

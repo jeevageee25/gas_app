@@ -18,3 +18,44 @@
     color: #fff;
     margin-bottom: 5px;
 }
+
+.card {
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    padding: 10px;
+    height: 100%;
+    border: 2px solid #ffc90059;
+}
+
+.chips {
+    margin: 5px;
+    padding: 3px;
+    border-radius: 6px;
+    background-color: #ffae76;
+    color: #fff;
+    white-space: nowrap;
+    display: -webkit-inline-box;
+}
+
+.icons {
+    cursor: pointer;
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.pi-times-circle {
+    color: red;
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #03d91f;
+    background: #0a9e1d;
+}
+
+::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+    border-color: #03d91f;
+    background: #0a9e1d;
+}
