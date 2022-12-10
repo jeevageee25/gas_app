@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RolesComponent } from './roles_entry/roles-entry.component';
+import { PreviledgesComponent } from './previledges/previledges.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    RolesComponent
+    RolesComponent,
+    PreviledgesComponent
   ],
   imports: [
     CommonModule,

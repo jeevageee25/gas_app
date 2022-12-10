@@ -1,0 +1,9 @@
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #03d91f;
+    background: #0a9e1d;
+}
+
+::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+    border-color: #03d91f;
+    background: #0a9e1d;
+}

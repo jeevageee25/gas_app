@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="table-title">Previlege List</div>
+    <ngx-table [configuration]="configuration" #table [data]="tableData" class="custom-table" [columns]="columns" style="overflow: auto;
+    max-height: 250px;
+    display: -webkit-inline-box;">
+        <ng-template let-row>
+            <td>
+                <span class="font-small">{{row.screen}}</span>
+            </td>
+            <td>
+                <p-checkbox [binary]="true" [(ngModel)]="row.create"></p-checkbox>
+            </td>
+            <td>
+                <p-checkbox [binary]="true" [(ngModel)]="row.view"></p-checkbox>
+            </td>
+            <td>
+                <p-checkbox [binary]="true" [(ngModel)]="row.update"></p-checkbox>
+            </td>
+            <td>
+                <p-checkbox [binary]="true" [(ngModel)]="row.delete"></p-checkbox>
+            </td>
+        </ng-template>
+    </ngx-table>
+</div>
+
+<div class="dialog-footer">
+    <div style="margin-top: 20px;text-align: center;">
+        <button type="button" pButton pRipple type="button" (click)='update()' label="Update"
+            class="p-button-success"></button>
+        &nbsp; &nbsp;
+        <button pButton pRipple  label="Reset" (click)='onReset()' class="p-button-warning"></button>
+        &nbsp; &nbsp;
+        <button pButton pRipple  label="Cancel" (click)='onCancel()' class="p-button-warning"></button>
+    </div>
+</div>

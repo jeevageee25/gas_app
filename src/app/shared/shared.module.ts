@@ -13,7 +13,8 @@ import {ToastModule} from 'primeng/toast';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {CalendarModule} from 'primeng/calendar';
-
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {CheckboxModule} from 'primeng/checkbox';
 @NgModule({
   declarations: [],
   imports: [
@@ -31,7 +32,9 @@ import {CalendarModule} from 'primeng/calendar';
     ToastModule,
     FontAwesomeModule,
     MultiSelectModule,
-    CalendarModule
+    CalendarModule,
+    DynamicDialogModule,
+    CheckboxModule
   ],
   exports:[
     DividerModule,
@@ -47,7 +50,9 @@ import {CalendarModule} from 'primeng/calendar';
     ToastModule,
     FontAwesomeModule,
     MultiSelectModule,
-    CalendarModule
+    CalendarModule,
+    DynamicDialogModule,
+    CheckboxModule
   ]
 })
 export class SharedModule { }
