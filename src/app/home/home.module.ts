@@ -30,7 +30,11 @@ const routes: Routes = [
       {
         path: 'roles',
         loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)
-      }
+      },
+      {
+        path: 'default-area',
+        loadChildren: () => import('./default-allocation/default-allocation.module').then(m => m.DefaultAllocationModule)
+      },
     ]
   }
 ]

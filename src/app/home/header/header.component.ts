@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
       {name:"Allocate Executive Area", link:['home', 'area-allocation'], icon:"pi pi-user-plus"},
       {name:"Roles", link:['home', 'roles'], icon:"pi pi-sitemap"},
       {name:"Employees", link:['home', 'employees'], icon:"pi pi-users"},
+      {name:"Default Area Allocation", link:['home', 'default-area'], icon:"pi pi-users"},
     ]
   }
 

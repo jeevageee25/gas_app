@@ -1,0 +1,66 @@
+<div class="page-content">
+    <div class="row wrap">
+        <div class="col-md-8">
+            <form [formGroup]="inputForm">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label"> Executive Name<span class='mandate'>*</span></div>
+                            <p-dropdown class="custom-pdropdown" optionLabel="staff_name" optionValue="_id" formControlName="executive_id" [options]="executives"
+                                [placeholder]="'Select Executive'">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label">Delivery Area <span class='mandate'>*</span></div>
+                            <p-multiSelect class="custom-pdropdown" optionLabel="area" optionValue="_id"
+                                formControlName="area_ids" [options]="areaData" [placeholder]="'Select Area'">
+                            </p-multiSelect>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"
+                        style="margin-top:10px;align-self: flex-end !important;">
+                        <button *ngIf="!inputForm.value._id" pButton pRipple type="button" (click)='addAreaAllocation()'
+                            label="Add" class="p-button-success"></button>
+                        <button *ngIf="inputForm.value._id" pButton pRipple type="button" (click)='updateAreaAllocation()'
+                            label="Update" class="p-button-success"></button>
+                        &nbsp; &nbsp;
+                        <button pButton pRipple type="reset" (click)="onReset()" label="Reset"
+                            class="p-button-warning"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="table-title">Delivery Area List</div>
+        <ngx-table [configuration]="configuration" #table [data]="tableData" class="custom-table" [columns]="columns">
+            <ng-template let-row let-index="index">
+                <td>
+                    <span class="font-small">{{index+1}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{executiveObj[row.executive_id]}}</span>
+                </td>
+                <td>
+                    <span class="font-small">
+                        <ul style="padding: 0;">
+                            <li *ngFor="let item of convertToName(row.area_ids)">{{item}}</li>
+                        </ul>
+                    </span>
+                </td>
+                <td>
+                    <span class="font-small">
+                        <i class="pi pi-pencil" (click)="editRow(row)"></i>
+                    </span>
+                    &nbsp;&nbsp;
+                    <span class="font-small">
+                        <i class="pi pi-trash" (click)="confirm($event, row)"></i>
+                    </span>
+                </td>
+            </ng-template>
+        </ngx-table>
+    </div>
+</div>
