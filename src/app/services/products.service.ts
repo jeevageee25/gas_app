@@ -84,19 +84,38 @@ export class ProductsService {
   // Area Allocation
 
   searchAreaAllocation(payload:any){
-    return this.http.post(environment.apiurl + `api/default_area_allocation/search`, payload)
+    return this.http.post(environment.apiurl + `api/area_allocation/search`, payload)
   }
 
   addAreaAllocation(payload:any){
-    return this.http.post(environment.apiurl + `api/default_area_allocation/add`, payload)
+    return this.http.post(environment.apiurl + `api/area_allocation/add`, payload)
   }
 
   updateAreaAllocation(payload:any){
-    return this.http.post(environment.apiurl + `api/default_area_allocation/update`, payload)
+    return this.http.post(environment.apiurl + `api/area_allocation/update`, payload)
   }
 
   deleteAreaAllocation(_id:any){
+    return this.http.delete(environment.apiurl + `api/area_allocation/delete/${_id}`)
+  }
+
+  //Default Area Allocation
+  
+  searchDefaultAreaAllocation(payload:any){
+    return this.http.post(environment.apiurl + `api/default_area_allocation/search`, payload)
+  }
+
+  addDefaultAreaAllocation(payload:any){
+    return this.http.post(environment.apiurl + `api/default_area_allocation/add`, payload)
+  }
+
+  updateDefaultAreaAllocation(payload:any){
+    return this.http.post(environment.apiurl + `api/default_area_allocation/update`, payload)
+  }
+
+  deleteDefaultAreaAllocation(_id:any){
     return this.http.delete(environment.apiurl + `api/default_area_allocation/delete/${_id}`)
   }
+
 
 }

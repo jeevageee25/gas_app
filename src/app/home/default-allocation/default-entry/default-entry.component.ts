@@ -59,7 +59,7 @@ export class DefaultEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Area is already allocated for this Delivery Executive !');
       return;
     }
-    this.PService.addAreaAllocation({ executive_id, area_ids }).subscribe((res: any) => {
+    this.PService.addDefaultAreaAllocation({ executive_id, area_ids }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
       this.searchAreaAllocation();
       this.inputForm.reset();
@@ -74,7 +74,7 @@ export class DefaultEntryComponent implements OnInit {
       return;
     }
     const { executive_id, area_ids, _id } = this.inputForm.value;
-    this.PService.updateAreaAllocation({ _id, executive_id, area_ids }).subscribe((res: any) => {
+    this.PService.updateDefaultAreaAllocation({ _id, executive_id, area_ids }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchAreaAllocation();
       this.inputForm.reset();
@@ -84,7 +84,7 @@ export class DefaultEntryComponent implements OnInit {
   }
 
   deleteAreaAllocation(row: any) {
-    this.PService.deleteAreaAllocation(row._id).subscribe((res: any) => {
+    this.PService.deleteDefaultAreaAllocation(row._id).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Deleted Successfully !');
       this.searchAreaAllocation();
     }, e => {
@@ -93,7 +93,7 @@ export class DefaultEntryComponent implements OnInit {
   }
 
   searchAreaAllocation() {
-    this.PService.searchAreaAllocation({ search_key: {} }).subscribe((res: any) => {
+    this.PService.searchDefaultAreaAllocation({ search_key: {} }).subscribe((res: any) => {
       this.tableData = res?.data || [];
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
@@ -146,6 +146,6 @@ export class DefaultEntryComponent implements OnInit {
   }
 
   onReset() {
-    this.tableData = [];
+    this.searchAreaAllocation();
   }
 }
