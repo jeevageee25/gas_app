@@ -80,4 +80,23 @@ export class ProductsService {
   deleteEmployee(_id:any){
     return this.http.delete(environment.apiurl + `api/executive/delete/${_id}`)
   }
+
+  // Area Allocation
+
+  searchAreaAllocation(payload:any){
+    return this.http.post(environment.apiurl + `api/area_allocation/search`, payload)
+  }
+
+  addAreaAllocation(payload:any){
+    return this.http.post(environment.apiurl + `api/area_allocation/add`, payload)
+  }
+
+  updateAreaAllocation(payload:any){
+    return this.http.post(environment.apiurl + `api/area_allocation/update`, payload)
+  }
+
+  deleteAreaAllocation(_id:any){
+    return this.http.delete(environment.apiurl + `api/area_allocation/delete/${_id}`)
+  }
+
 }

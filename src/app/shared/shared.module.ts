@@ -11,6 +11,8 @@ import {ButtonModule} from 'primeng/button';
 import { TableModule } from 'ngx-easy-table';
 import {ToastModule} from 'primeng/toast';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
   declarations: [],
@@ -27,7 +29,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ButtonModule,
     TableModule,
     ToastModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MultiSelectModule,
+    CalendarModule
   ],
   exports:[
     DividerModule,
@@ -41,7 +45,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ButtonModule,
     TableModule,
     ToastModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MultiSelectModule,
+    CalendarModule
   ]
 })
 export class SharedModule { }

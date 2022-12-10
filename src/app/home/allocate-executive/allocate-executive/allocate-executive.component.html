@@ -1,23 +1,50 @@
 <div class="page-content">
     <div class="row wrap">
-        <div class="col-md-12">
-            <form [formGroup]="inputForm">
-                <div class="row ">
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <div class="custom-label"> Area <span class='mandate'>*</span></div>
-                            <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
-                                formControlName="area" placeholder="Enter Area">
+        <div class="col-md-4">
+            <form [formGroup]="dateForm">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12" [class.cr-not] = "tableData.length">
+                        <div class="form-group"  [class.pr-none] = "tableData.length">
+                            <div class="custom-label"> Allocation Date<span class='mandate'>*</span></div>
+                            <p-calendar [class.allocation] = "tableData.length" [showIcon]="true"
+                                formControlName="allocation_date"></p-calendar>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="align-self: flex-end;">
+                        <button pButton pRipple type="button" (click)='searchAreaAllocation()' label="Search"
+                            class="p-button-success" style="background: #4c96f4;"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <form [formGroup]="inputForm">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label"> Executive Name<span class='mandate'>*</span></div>
+                            <p-dropdown class="custom-pdropdown" optionLabel="staff_name" optionValue="_id" formControlName="executive_id" [options]="executives"
+                                [placeholder]="'Select Executive'">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label">Delivery Area <span class='mandate'>*</span></div>
+                            <p-multiSelect class="custom-pdropdown" optionLabel="area" optionValue="_id"
+                                formControlName="area_ids" [options]="areaData" [placeholder]="'Select Area'">
+                            </p-multiSelect>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"
                         style="margin-top:10px;align-self: flex-end !important;">
-                        <button *ngIf="!inputForm.value._id" pButton pRipple type="button" (click)='addArea()'
+                        <button *ngIf="!inputForm.value._id" pButton pRipple type="button" (click)='addAreaAllocation()'
                             label="Add" class="p-button-success"></button>
-                        <button *ngIf="inputForm.value._id" pButton pRipple type="button" (click)='updateArea()'
+                        <button *ngIf="inputForm.value._id" pButton pRipple type="button" (click)='updateAreaAllocation()'
                             label="Update" class="p-button-success"></button>
                         &nbsp; &nbsp;
-                        <button pButton pRipple type="reset" label="Reset" class="p-button-warning"></button>
+                        <button pButton pRipple type="reset" (click)="onReset()" label="Reset"
+                            class="p-button-warning"></button>
                     </div>
                 </div>
             </form>
@@ -32,7 +59,14 @@
                     <span class="font-small">{{index+1}}</span>
                 </td>
                 <td>
-                    <span class="font-small">{{row.area}}</span>
+                    <span class="font-small">{{executiveObj[row.executive_id]}}</span>
+                </td>
+                <td>
+                    <span class="font-small">
+                        <ul style="padding: 0;">
+                            <li *ngFor="let item of convertToName(row.area_ids)">{{item}}</li>
+                        </ul>
+                    </span>
                 </td>
                 <td>
                     <span class="font-small">
