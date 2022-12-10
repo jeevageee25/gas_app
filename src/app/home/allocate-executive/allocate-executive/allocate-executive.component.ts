@@ -17,6 +17,9 @@ export class AllocateExectuveComponent implements OnInit {
   areaData: any = [];
   dateForm: FormGroup = new FormGroup({});
   executives: any = [];
+  products: any = [];
+  productObj: any = {};
+  productPriceObj: any = {};
   executive_id = new FormControl();
 
   constructor(
@@ -29,6 +32,7 @@ export class AllocateExectuveComponent implements OnInit {
     this.createForm();
     this.getExecutives();
     this.getAreas();
+    this.searchProducts();
   }
   createForm() {
     const date = new Date();
@@ -52,6 +56,18 @@ export class AllocateExectuveComponent implements OnInit {
     })
   }
 
+  searchProducts() {
+    this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
+      this.products = res?.data || []
+      this.products.map((i: any) => {
+        this.productObj[i._id] = `${i.category} - ${i.name}`;
+        this.productPriceObj[i._id] = i.price;
+      })
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
   getAreas() {
     this.PService.searchArea({ search_key: {} }).subscribe((res: any) => {
       this.areaData = res?.data || []
@@ -66,7 +82,12 @@ export class AllocateExectuveComponent implements OnInit {
   getDefaultAllocation() {
     this.PService.searchDefaultAreaAllocation({ search_key: {} }).subscribe((res: any) => {
       this.tableData = res?.data.map((t: any) => {
-        return { area_ids: t.area_ids, executive_id: t.executive_id }
+        return {
+          allocations: t.area_ids.map((a: any) => {
+            return { area_id: a, count: null, product: null }
+          }),
+          executive_id: t.executive_id
+        }
       }) || [];
       this.toastService.showInfoToaster('Info', 'Showing Default Allocation');
     }, e => {
@@ -78,13 +99,21 @@ export class AllocateExectuveComponent implements OnInit {
     if (this.executive_id.value) {
       this.tableData.unshift({
         executive_id: this.executive_id.value,
-        area_ids: []
+        allocations: []
       });
     }
   }
 
+  onAddArea(t: any, item: any) {
+    if (item.selectedArea) {
+      this.tableData[t].allocations.unshift({ area_id: item.selectedArea, count: null, product: null });
+      delete this.tableData[t].selectedArea;
+      this.tableData = [...this.tableData];
+    }
+  }
+
   removeArea(t: any, a: any) {
-    this.tableData[t]?.area_ids.splice(a, 1);
+    this.tableData[t]?.allocations.splice(a, 1);
     this.tableData = [...this.tableData];
   }
 
@@ -93,9 +122,14 @@ export class AllocateExectuveComponent implements OnInit {
     this.tableData = [...this.tableData];
   }
 
+  calculateRevenue(allocations: any = []) {
+    return allocations.reduce((t: any, v: any) => { return t + ((v.count || 0) * this.productPriceObj[v.product] || 0) }, 0)
+  }
+
   addAreaAllocation() {
+    const allocation_data = this.tableData.filter((t: any) => t.allocations.length)
     const { allocation_date } = this.dateForm.value;
-    this.PService.addAreaAllocation({ allocation_date, allocation_data: this.tableData }).subscribe((res: any) => {
+    this.PService.addAreaAllocation({ allocation_date, allocation_data }).subscribe((res: any) => {
       this.searchAreaAllocation();
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
     }, e => {
@@ -113,7 +147,8 @@ export class AllocateExectuveComponent implements OnInit {
 
   updateAreaAllocation() {
     const { _id } = this.dateForm.value;
-    this.PService.updateAreaAllocation({ _id, allocation_data: this.tableData }).subscribe((res: any) => {
+    const allocation_data = this.tableData.filter((t: any) => t.allocations.length)
+    this.PService.updateAreaAllocation({ _id, allocation_data }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchAreaAllocation();
     }, e => {

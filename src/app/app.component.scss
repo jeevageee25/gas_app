@@ -12,3 +12,11 @@
 ::ng-deep .ngx-table__table--hoverable > tbody tr:nth-child(odd) {
     background: #fcf7f4;
 }
+
+::ng-deep .p-calendar-w-btn .p-datepicker-trigger {
+    background: #719e36;
+}
+
+::ng-deep .p-calendar-w-btn .p-datepicker-trigger:hover {
+    background: #719e36;
+}
