@@ -21,6 +21,7 @@ export class AllocateExectuveComponent implements OnInit {
   productObj: any = {};
   productPriceObj: any = {};
   executive_id = new FormControl();
+  defaultData: any = [];
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -33,7 +34,9 @@ export class AllocateExectuveComponent implements OnInit {
     this.getExecutives();
     this.getAreas();
     this.searchProducts();
+    this.getDefaultAllocation();
   }
+
   createForm() {
     const date = new Date();
     date.setHours(0, 0, 0, 0)
@@ -81,7 +84,7 @@ export class AllocateExectuveComponent implements OnInit {
 
   getDefaultAllocation() {
     this.PService.searchDefaultAreaAllocation({ search_key: {} }).subscribe((res: any) => {
-      this.tableData = res?.data.map((t: any) => {
+      this.defaultData = res?.data.map((t: any) => {
         return {
           allocations: t.area_ids.map((a: any) => {
             return { area_id: a, count: null, product: null }
@@ -89,17 +92,18 @@ export class AllocateExectuveComponent implements OnInit {
           executive_id: t.executive_id
         }
       }) || [];
-      this.toastService.showInfoToaster('Info', 'Showing Default Allocation');
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
   }
 
   addCard() {
-    if (this.executive_id.value) {
+    const e_id = this.executive_id.value;
+    if (e_id) {
+      const allocations = this.defaultData.find((d: any) => d.executive_id === e_id)?.allocations || [];
       this.tableData.unshift({
-        executive_id: this.executive_id.value,
-        allocations: []
+        executive_id: e_id,
+        allocations
       });
     }
   }
@@ -160,8 +164,9 @@ export class AllocateExectuveComponent implements OnInit {
     this.PService.searchAreaAllocation({ search_key: { allocation_date: this.dateForm.value.allocation_date } }).subscribe((res: any) => {
       const data = res?.data[0] || [];
       if (!data?.allocation_data?.length) {
-        this.getDefaultAllocation();
+        this.tableData = [...this.defaultData];
         this.dateForm.get('_id')?.setValue('');
+        this.toastService.showInfoToaster('Info', 'Showing Default Allocation');
       }
       else {
         this.tableData = data.allocation_data;
