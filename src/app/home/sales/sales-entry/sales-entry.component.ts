@@ -14,13 +14,15 @@ export class SalesEntryComponent implements OnInit {
   executive_id = "63956dd48b1c848d58212097";
   areaObj: any = {};
   showParent = true;
+  entries: any = [];
+  _id: any = '';
 
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) { }
 
   ngOnInit(): void {
-    this.searchAreaAllocation();
     this.getAreas();
+    this.searchSales();
   }
 
   convertDateFormat(date: any) {
@@ -54,7 +56,19 @@ export class SalesEntryComponent implements OnInit {
   formatData(data: any) {
     const grouped = this.gs.groupBy(data, ['area_id']);
     this.tableData = grouped;
-    console.log('grouped', grouped)
+    this.entriesData(grouped);
+  }
+
+  entriesData(grouped: any) {
+    this.entries = [];
+    for (const [key, value] of Object.entries(grouped)) {
+      const data: any = value;
+      let obj: any = { area_id: key, sales: [] };
+      data.forEach((d: any) => {
+        obj.sales.push({ product_id: d.product, count: d.count, price: d.price })
+      })
+      this.entries.push(obj);
+    }
   }
 
   onAreaClick(area_id: any) {
@@ -63,7 +77,72 @@ export class SalesEntryComponent implements OnInit {
   }
 
   onConfirm() {
+    const updated_products: any = this.gs.updated_products;
+    this.entries.forEach((e: any) => {
+      if (e.area_id === updated_products[0].area_id) {
+        const remove_area_id = updated_products.map((u: any) => {
+          delete u.area_id;
+          return u;
+        })
+        e.sales = remove_area_id;
+      }
+    })
+    this._id ? this.updateSales() : this.addSales();
+    this.showParent = true;
+  }
 
+  addSales() {
+    const payload = {
+      allocation_date: this.convertDateFormat(new Date()),
+      executive_id: this.executive_id,
+      entries: this.entries
+    }
+    this.PService.addSales(payload).subscribe((res: any) => {
+      this.searchSales();
+      this.toastService.showSuccessToaster('Success', 'Added Successfully !');
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  updateSales() {
+    const payload = {
+      allocation_date: this.convertDateFormat(new Date()),
+      executive_id: this.executive_id,
+      entries: this.entries,
+      _id: this._id
+    }
+    this.PService.updateSales(payload).subscribe((res: any) => {
+      this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
+      this.searchSales();
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  searchSales() {
+    this.PService.searchSales({ search_key: { executive_id: this.executive_id, allocation_date: this.convertDateFormat(new Date()) } }).subscribe((res: any) => {
+      const data = res?.data[0] || [];
+      if (data && data._id) {
+        this._id = data?._id;
+        let obj: any = {};
+        data.entries.forEach((e: any) => {
+          obj[e.area_id] = obj[e.area_id] || [];
+          e.sales.forEach((s: any) => {
+            obj[e.area_id].push({
+              ...s, area_id: e.area_id
+            })
+          })
+        })
+        this.tableData = obj;
+        this.entriesData(obj);
+      }
+      else {
+        this.searchAreaAllocation();
+      }
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
   }
 
   get areas() {
