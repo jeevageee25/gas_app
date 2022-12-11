@@ -47,6 +47,11 @@ export class AllocateExectuveComponent implements OnInit {
     this.searchAreaAllocation();
   }
 
+  convertDateFormat(date:any){
+    const d = new Date(date);
+    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+  }
+
   getExecutives() {
     this.PService.searchEmployee({ search_key: { role: "Delivery Executive" } }).subscribe((res: any) => {
       const data = res?.data || [];
@@ -133,7 +138,7 @@ export class AllocateExectuveComponent implements OnInit {
   addAreaAllocation() {
     const allocation_data = this.tableData.filter((t: any) => t.allocations.length)
     const { allocation_date } = this.dateForm.value;
-    this.PService.addAreaAllocation({ allocation_date, allocation_data }).subscribe((res: any) => {
+    this.PService.addAreaAllocation({ allocation_date : this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
       this.searchAreaAllocation();
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
     }, e => {
@@ -161,7 +166,7 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   searchAreaAllocation() {
-    this.PService.searchAreaAllocation({ search_key: { allocation_date: this.dateForm.value.allocation_date } }).subscribe((res: any) => {
+    this.PService.searchAreaAllocation({ search_key: { allocation_date: this.convertDateFormat(this.dateForm.value.allocation_date) } }).subscribe((res: any) => {
       const data = res?.data[0] || [];
       if (!data?.allocation_data?.length) {
         this.tableData = [...this.defaultData];

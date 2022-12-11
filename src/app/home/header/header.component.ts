@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
       {name:"Roles", link:['home', 'roles'], icon:"pi pi-sitemap"},
       {name:"Employees", link:['home', 'employees'], icon:"pi pi-users"},
       {name:"Default Area Allocation", link:['home', 'default-area'], icon:"pi pi-users"},
+      {name:"Sales Entry", link:['home', 'sales-entry'], icon:"pi pi-users"},
     ]
   }
 

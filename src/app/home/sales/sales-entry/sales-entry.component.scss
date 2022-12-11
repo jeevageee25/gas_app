@@ -1,0 +1,17 @@
+.card {
+    background: #00761C;
+    cursor: pointer;
+    border: 2px solid #43dc1f;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    height: 100%;
+    box-shadow: rgb(0 0 0 / 25%) 0px 14px 28px, rgb(0 0 0 / 22%) 0px 10px 10px;
+}
+
+.card:active {
+    background: #fff; 
+    color: #039c28;
+}

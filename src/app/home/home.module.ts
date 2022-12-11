@@ -35,6 +35,10 @@ const routes: Routes = [
         path: 'default-area',
         loadChildren: () => import('./default-allocation/default-allocation.module').then(m => m.DefaultAllocationModule)
       },
+      {
+        path: 'sales-entry',
+        loadChildren: () => import('./sales/sales.module').then(m => m.SalesModule)
+      },
     ]
   }
 ]

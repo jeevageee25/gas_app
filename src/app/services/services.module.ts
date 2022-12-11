@@ -7,6 +7,7 @@ import { ProductsService } from './products.service';
 import { ToastService } from './toast.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { GlobalService } from './global.service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { DialogService } from 'primeng/dynamicdialog';
     ToastService,
     MessageService,
     ConfirmationService,
-    DialogService
+    DialogService,
+    GlobalService
   ]
 })
 export class ServicesModule { }
