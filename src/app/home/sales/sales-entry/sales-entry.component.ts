@@ -65,7 +65,7 @@ export class SalesEntryComponent implements OnInit {
       const data: any = value;
       let obj: any = { area_id: key, sales: [] };
       data.forEach((d: any) => {
-        obj.sales.push({ product_id: d.product, count: d.count, price: d.price })
+        obj.sales.push({ product: d.product, count: d.count, price: d.price })
       })
       this.entries.push(obj);
     }
