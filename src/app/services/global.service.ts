@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalService {
 
+  product_details =[];
   constructor() { }
 
   groupBy(arr: any, groups: any) {

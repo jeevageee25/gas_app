@@ -1,9 +1,12 @@
 <div class="page-content">
-    <div class="row wrap">
+    <div class="row wrap" *ngIf='showParent'>
         <div class="col-md-2 col-sm-4 col-xs-4" *ngFor="let area of areas">
-                <div class="card">
-                    {{areaObj[area]}}
+            <div class="card" (click)="onAreaClick(area)">
+                {{areaObj[area]}}
             </div>
         </div>
+    </div>
+    <div class="row wrap" *ngIf='!showParent'>
+        <app-sales-products></app-sales-products>
     </div>
 </div>

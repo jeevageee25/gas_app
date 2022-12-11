@@ -1,0 +1,68 @@
+.accordian-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.accordian-container div {
+    text-align: center;
+}
+
+.accordian-container div span {
+    color: #252424;
+    font-weight: 700;
+}
+
+.count {
+    margin: 0;
+    position: relative;
+    top: 10px;
+}
+
+.noteTable {
+    width: 100%;
+}
+
+.noteTable tr {
+    display: flex;
+}
+
+.noteTable tr th,
+.noteTable tr td {
+    width: 33%;
+}
+
+.txt-right {
+    text-align: right;
+}
+
+::ng-deep .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+    background: #ecba78;
+}
+
+.noteTable tr:nth-child(odd) {
+    background: #f1f1f1;
+}
+
+.val {
+    position: relative;
+    top: 10px;
+    left: 1px;
+    font-weight: 700;
+}
+
+.total-count {
+    color: #08a305;
+    font-weight: 700;
+}
+
+.note-header {
+    padding: 10px 4px !important;
+    background: #575757 !important;
+    color: #fff !important;
+}
+
+.expected-revenue {
+    white-space: nowrap;
+    position: relative;
+    right: 96px;
+}

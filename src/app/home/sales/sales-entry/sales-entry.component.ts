@@ -13,6 +13,7 @@ export class SalesEntryComponent implements OnInit {
   tableData: any = {};
   executive_id = "63956dd48b1c848d58212097";
   areaObj:any = {};
+  showParent = true;
 
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) { }
@@ -54,6 +55,11 @@ export class SalesEntryComponent implements OnInit {
     const grouped = this.gs.groupBy(data, ['area_id']);
     this.tableData = grouped;
     console.log('grouped', grouped)
+  }
+
+  onAreaClick(area_id:any){
+    this.gs.product_details = this.tableData[area_id];
+    this.showParent = false;
   }
 
   get areas(){

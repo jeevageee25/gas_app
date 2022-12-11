@@ -1,0 +1,88 @@
+
+<p-accordion>
+    <p-accordionTab [header]="productObj[item.product]" *ngFor="let item of products">
+        <div class="accordian-container">
+            <div>
+                <span>Allocated</span>
+                <p class="count">{{item.count}}</p>
+            </div>
+            <div>
+                <span>Supplied</span>
+                <input style='width: 75%;margin: 0px 5px;' autocomplete="off" type="number" pInputText
+                    [(ngModel)]="item.supplied">
+            </div>
+            <div>
+                <span>Returns</span>
+                <p class="count">{{item.supplied && (item.count-item.supplied) || 0}}</p>
+            </div>
+        </div>
+        <br />
+        <div>
+            <table class="noteTable">
+                <tr class="note-header">
+                    <th>Notes</th>
+                    <th>Count</th>
+                    <th class="txt-right">Amount</th>
+                </tr>
+                <tr>
+                    <td class="val">2000</td>
+                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.twoth"></td>
+                    <td class="txt-right val">{{2000*(item.twoth||0) | currency:'INR' }}</td>
+                </tr>
+                <tr>
+                    <td class="val">500</td>
+                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.fivehrd"></td>
+                    <td class="txt-right val">{{500*(item.fivehrd||0) | currency:'INR'}}</td>
+
+                </tr>
+                <tr>
+                    <td class="val">100</td>
+                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.hrd"></td>
+                    <td class="txt-right val">{{100*(item.hrd||0) | currency:'INR'}}</td>
+
+                </tr>
+                <tr>
+                    <td class="val">50</td>
+                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.fifty"></td>
+                    <td class="txt-right val">{{50*(item.fifty||0) | currency:'INR'}}</td>
+
+                </tr>
+                <tr>
+                    <td class="val">20</td>
+                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.twenty"></td>
+                    <td class="txt-right val">{{20*(item.twenty||0) | currency:'INR'}}</td>
+
+                </tr>
+                <tr>
+                    <td class="val">10</td>
+                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.ten"></td>
+                    <td class="txt-right val">{{10*(item.ten||0) | currency:'INR'}}</td>
+                </tr>
+                <tr>
+                    <td class="val">5</td>
+                    <td><input style='width: 80%;margin: 5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="item.five"></td>
+                    <td class="txt-right val">{{5*(item.five||0) | currency:'INR'}}</td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td class="val"></td>
+                    <td class="val total-count">Total </td>
+                    <td class="txt-right val total-count">{{calculateTotal(item) | currency:'INR'}}</td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td class="val"></td>
+                    <td class="val total-count">
+                        <span class="expected-revenue">Expected Revenue</span>
+                    </td>
+                    <td class="txt-right val total-count">{{calculateExpectedTotal(item) | currency:'INR'}}</td>
+                </tr>
+            </table>
+        </div>
+    </p-accordionTab>
+</p-accordion>

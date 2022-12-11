@@ -15,6 +15,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {CalendarModule} from 'primeng/calendar';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {CheckboxModule} from 'primeng/checkbox';
+import {AccordionModule} from 'primeng/accordion';
 @NgModule({
   declarations: [],
   imports: [
@@ -34,7 +35,8 @@ import {CheckboxModule} from 'primeng/checkbox';
     MultiSelectModule,
     CalendarModule,
     DynamicDialogModule,
-    CheckboxModule
+    CheckboxModule,
+    AccordionModule
   ],
   exports:[
     DividerModule,
@@ -52,7 +54,8 @@ import {CheckboxModule} from 'primeng/checkbox';
     MultiSelectModule,
     CalendarModule,
     DynamicDialogModule,
-    CheckboxModule
+    CheckboxModule,
+    AccordionModule
   ]
 })
 export class SharedModule { }

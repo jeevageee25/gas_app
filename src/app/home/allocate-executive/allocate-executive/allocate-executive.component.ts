@@ -47,9 +47,9 @@ export class AllocateExectuveComponent implements OnInit {
     this.searchAreaAllocation();
   }
 
-  convertDateFormat(date:any){
+  convertDateFormat(date: any) {
     const d = new Date(date);
-    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
   }
 
   getExecutives() {
@@ -136,9 +136,14 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   addAreaAllocation() {
-    const allocation_data = this.tableData.filter((t: any) => t.allocations.length)
+    const allocation_data = this.tableData.filter((t: any) => t.allocations.length);
+    allocation_data.forEach((a: any) => {
+      a.allocations.forEach((b: any) => {
+        b.price = this.productPriceObj[b.product];
+      })
+    })
     const { allocation_date } = this.dateForm.value;
-    this.PService.addAreaAllocation({ allocation_date : this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
+    this.PService.addAreaAllocation({ allocation_date: this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
       this.searchAreaAllocation();
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
     }, e => {
@@ -156,7 +161,12 @@ export class AllocateExectuveComponent implements OnInit {
 
   updateAreaAllocation() {
     const { _id } = this.dateForm.value;
-    const allocation_data = this.tableData.filter((t: any) => t.allocations.length)
+    const allocation_data = this.tableData.filter((t: any) => t.allocations.length);
+    allocation_data.forEach((a: any) => {
+      a.allocations.forEach((b: any) => {
+        b.price = this.productPriceObj[b.product];
+      })
+    })
     this.PService.updateAreaAllocation({ _id, allocation_data }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchAreaAllocation();
