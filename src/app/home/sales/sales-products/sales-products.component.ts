@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -11,13 +11,15 @@ import { ToastService } from 'src/app/services/toast.service';
 export class SalesProductsComponent implements OnInit {
   products: any = [];
   productObj: any = {};
+  @Output() back = new EventEmitter<string>();
+  @Output() confirm = new EventEmitter<string>();
 
   constructor(
     private toastService: ToastService,
     private PService: ProductsService,
     private gs: GlobalService
   ) {
-    this.products = this.gs.product_details;
+    this.products = JSON.parse(JSON.stringify(this.gs.product_details));
   }
 
   ngOnInit(): void {
@@ -47,6 +49,19 @@ export class SalesProductsComponent implements OnInit {
   }
 
   calculateExpectedTotal(item: any) {
-    return (item.price ||0 ) * (item.supplied || 0);
+    return (item.price || 0) * (item.supplied || 0);
+  }
+
+  onSubmit() {
+    this.gs.updated_products = JSON.parse(JSON.stringify(this.products));
+    this.confirm.emit();
+  }
+
+  onReset() {
+    this.products = JSON.parse(JSON.stringify(this.gs.product_details));
+  }
+
+  onBack() {
+    this.back.emit();
   }
 }

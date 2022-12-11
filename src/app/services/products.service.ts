@@ -117,5 +117,22 @@ export class ProductsService {
     return this.http.delete(environment.apiurl + `api/default_area_allocation/delete/${_id}`)
   }
 
+  //Sales Entry
+  
+  searchSales(payload:any){
+    return this.http.post(environment.apiurl + `api/sales_entry/search`, payload)
+  }
+
+  addSales(payload:any){
+    return this.http.post(environment.apiurl + `api/sales_entry/add`, payload)
+  }
+
+  updateSales(payload:any){
+    return this.http.post(environment.apiurl + `api/sales_entry/update`, payload)
+  }
+
+  deleteSales(_id:any){
+    return this.http.delete(environment.apiurl + `api/sales_entry/delete/${_id}`)
+  }
 
 }

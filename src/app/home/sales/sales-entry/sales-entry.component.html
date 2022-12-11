@@ -7,6 +7,6 @@
         </div>
     </div>
     <div class="row wrap" *ngIf='!showParent'>
-        <app-sales-products></app-sales-products>
+        <app-sales-products (back)="showParent=true" (confirm)="onConfirm()"></app-sales-products>
     </div>
 </div>
