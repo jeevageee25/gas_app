@@ -7,8 +7,8 @@
                         <div class="form-group">
                             <div class="custom-label"> Role <span class='mandate'>*</span></div>
                             <p-dropdown class="custom-pdropdown" formControlName="role" [options]="roles"
-                            [placeholder]="'Select Role'">
-                        </p-dropdown>    
+                                [placeholder]="'Select Role'">
+                            </p-dropdown>
                         </div>
                     </div>
                     <div class="ccol-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -23,6 +23,20 @@
                             <div class="custom-label">Staff Name <span class='mandate'>*</span></div>
                             <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
                                 formControlName="staff_name" placeholder="Enter Staff Name">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label">User Name <span class='mandate'>*</span></div>
+                            <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
+                                formControlName="user_name" placeholder="Enter Username">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="custom-label">Password<span class='mandate'>*</span></div>
+                            <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
+                                formControlName="password" placeholder="Enter Password">
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
@@ -51,6 +65,12 @@
                 </td>
                 <td>
                     <span class="font-small">{{row.staff_name}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.user_name}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.password}}</span>
                 </td>
                 <td>
                     <span class="font-small">

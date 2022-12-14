@@ -33,6 +33,8 @@ export class ExecutiveEntryComponent implements OnInit {
       { key: 'role', title: 'Role' },
       { key: 'siebel_code', title: 'Siebel Code' },
       { key: 'staff_name', title: 'Staff Name' },
+      { key: 'user_name', title: 'User Name' },
+      { key: 'password', title: 'Password' },
       { key: '', title: 'Actions' }
     ];
   }
@@ -42,7 +44,9 @@ export class ExecutiveEntryComponent implements OnInit {
       _id: [],
       role: ['', Validators.required],
       siebel_code: ['', Validators.required],
-      staff_name: ['', Validators.required]
+      staff_name: ['', Validators.required],
+      user_name: ['', Validators.required],
+      password: ['', Validators.required]
     })
   }
 
@@ -51,8 +55,8 @@ export class ExecutiveEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
     }
-    const { staff_name, role, siebel_code } = this.inputForm.value;
-    this.PService.addEmployee({ staff_name, role, siebel_code }).subscribe((res: any) => {
+    const { staff_name, role, siebel_code, user_name, password } = this.inputForm.value;
+    this.PService.addEmployee({ staff_name, role, siebel_code, user_name, password }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
       this.searchEmployee();
       this.inputForm.reset();
@@ -66,8 +70,8 @@ export class ExecutiveEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
     }
-    const { _id, staff_name, role, siebel_code } = this.inputForm.value;
-    this.PService.updateEmployee({ _id, staff_name, role, siebel_code }).subscribe((res: any) => {
+    const { _id, staff_name, role, siebel_code, user_name, password } = this.inputForm.value;
+    this.PService.updateEmployee({ _id, staff_name, role, siebel_code, user_name, password }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchEmployee();
       this.inputForm.reset();
