@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -11,6 +12,14 @@ import { ToastService } from 'src/app/services/toast.service';
 export class SalesProductsComponent implements OnInit {
   products: any = [];
   productObj: any = {};
+  payment_options = [
+    { key: 'Cash', value: 'cash' },
+    { key: 'Upi', value: 'upi' },
+    { key: 'Card', value: 'card' },
+    { key: 'Cheque', value: 'cheque' },
+  ]
+
+  payment = new FormControl('');
   @Output() back = new EventEmitter<string>();
   @Output() confirm = new EventEmitter<string>();
 
@@ -26,6 +35,25 @@ export class SalesProductsComponent implements OnInit {
     this.searchProducts();
   }
 
+  onModechange(index: any, e: any) {
+    if (e.value === 'cash') {
+      this.products[index]['payments'] = {
+        twoth: 0,
+        fivehrd: 0,
+        hrd: 0,
+        fifty: 0,
+        twenty: 0,
+        ten: 0,
+        five: 0,
+      }
+    }
+    else {
+      this.products[index]['payments'] = {
+        txn_id: ""
+      };
+    }
+  }
+
   searchProducts() {
     this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
       (res?.data || []).map((i: any) => {
@@ -36,7 +64,8 @@ export class SalesProductsComponent implements OnInit {
     })
   }
 
-  calculateTotal(item: any) {
+  calculateTotal(data: any) {
+    const item: any = data.payments;
     return (
       2000 * (item.twoth || 0) +
       500 * (item.fivehrd || 0) +
