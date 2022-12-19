@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         this.searchRole(res.data[0].role)
       }
       else {
-        this.toast.showSuccessToaster('Warning', 'Wrong Credentials. Please try again.');
+        this.toast.showWarningToaster('Warning', 'Wrong Credentials. Please try again.');
       }
     }, e => {
       this.toast.showErrorToaster('Error', 'Service Unavailale. Please try again later.');
