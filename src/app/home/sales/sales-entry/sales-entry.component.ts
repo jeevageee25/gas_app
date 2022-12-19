@@ -18,7 +18,11 @@ export class SalesEntryComponent implements OnInit {
   _id: any = '';
 
   constructor(private PService: ProductsService,
-    private toastService: ToastService, private gs: GlobalService) { }
+    private toastService: ToastService, private gs: GlobalService) {
+    const session: any = sessionStorage.getItem('user_info');
+    const data: any = JSON.parse(session);
+    this.executive_id = data._id;
+  }
 
   ngOnInit(): void {
     this.getAreas();
@@ -46,7 +50,9 @@ export class SalesEntryComponent implements OnInit {
       const data = res?.data[0] || [];
       if (data?.allocation_data?.length) {
         const exec_match = data.allocation_data.find((a: any) => a.executive_id === this.executive_id);
-        this.formatData(exec_match.allocations);
+        if (exec_match) {
+          this.formatData(exec_match.allocations);
+        }
       }
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');

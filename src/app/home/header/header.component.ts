@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   pages: any = []
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private ts: ToastService) { }
 
   ngOnInit(): void {
     this.initPages();
@@ -28,10 +29,17 @@ export class HeaderComponent implements OnInit {
     ];
     const session: any = sessionStorage.getItem('previledge');
     const previlege: any = JSON.parse(session);
-    const data = previlege.filter((v:any)=>v.view);
-    const views = data.map((v:any)=>v.screen);
-    this.pages = this.pages.filter((p:any)=>views.includes(p.name));
-    this.router.navigate([this.pages[0].link.join('/')])
+    const data = previlege.filter((v: any) => v.view);
+    const views = data.map((v: any) => v.screen);
+    this.pages = this.pages.filter((p: any) => views.includes(p.name));
+    if (this.pages.length === 0) {
+      sessionStorage.clear();
+      this.ts.showWarningToaster('Warning', 'No Previledges given. Please contact administrator');
+      this.router.navigate(['login']);
+    }
+    else {
+      this.router.navigate([this.pages[0].link.join('/')])
+    }
   }
 
   handleChange(event: any) {
