@@ -5,8 +5,10 @@
 
 .header {
     place-content: center;
-    align-items: center;
+    justify-content: end;
     height: 100vh;
     background: #f4f4f4;
-    // background-image: url("../../../assets/images/indane.jpeg");
+    background-image: url("../../../assets/images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
