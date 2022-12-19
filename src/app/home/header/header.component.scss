@@ -3,3 +3,17 @@
     border-color: #ea5600;
     color: #ea5600;
 }
+
+.logout {
+    background: #fff;
+    position: relative;
+    display: flex;
+    align-self: center;
+    position: relative;
+    right: 25px;
+    cursor: pointer;
+}
+
+.logout:hover {
+    color: #ea5600;
+}

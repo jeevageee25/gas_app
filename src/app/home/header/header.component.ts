@@ -46,4 +46,10 @@ export class HeaderComponent implements OnInit {
     const index = event.index;
     this.router.navigate(this.pages[index].link);
   }
+
+  onLogout() {
+    sessionStorage.clear();
+    this.ts.showSuccessToaster('', 'Successfully Logged out');
+    this.router.navigate(['/login']);
+  }
 }
