@@ -17,11 +17,21 @@ export class PreviledgesComponent implements OnInit {
   constructor(private toastService: ToastService, private PService: ProductsService, public config: DynamicDialogConfig, public ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
+    this.initData();
     if (this.config?.data?.previledge) {
-      this.tableData = this.config.data.previledge;
-    }
-    else {
-      this.initData();
+      const previledge = this.config.data.previledge;
+      let obj: any = {};
+      previledge.forEach((p: any) => {
+        obj[p.screen] = p;
+      })
+      let data:any = [];
+      this.tableData.forEach((e: any) => {
+        if (obj[e.screen]) {
+          e = obj[e.screen];
+        }
+        data.push(e);
+      });
+      this.tableData = [...data];
     }
     this.initTable();
   }
@@ -43,8 +53,11 @@ export class PreviledgesComponent implements OnInit {
     this.tableData = [
       { screen: 'Products', create: false, view: false, update: false, delete: false },
       { screen: 'Delivery Area', create: false, view: false, update: false, delete: false },
+      { screen: 'Allocate Executive Area', create: false, view: false, update: false, delete: false },
       { screen: 'Roles', create: false, view: false, update: false, delete: false },
       { screen: 'Employees', create: false, view: false, update: false, delete: false },
+      { screen: 'Default Area Allocation', create: false, view: false, update: false, delete: false },
+      { screen: 'Sales Entry', create: false, view: false, update: false, delete: false }
     ];
   }
 

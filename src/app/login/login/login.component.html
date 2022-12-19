@@ -1,0 +1,31 @@
+<div class="row wrap header">
+    <div class="col-md-4 card">
+        <form [formGroup]="inputForm">
+            <div class="column" style="background: #fff;">
+                <div class=" col-xs-12">
+                    <div class="form-group">
+                        <div class="custom-label">Login <span class='mandate'>*</span></div>
+                        <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
+                            formControlName="user_name" placeholder="Enter Username / Email">
+                    </div>
+                </div>
+                <div class=" col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <div class="custom-label">Password<span class='mandate'>*</span></div>
+                        <input style='width: 100%;' autocomplete="off" type="password" id="name" pInputText
+                            formControlName="password" placeholder="Enter Password">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class=" col-sm-6 col-xs-6">
+                        <button style='width: 100%;' pButton pRipple type="button" label="Login" (click)="onloginClick()" class="p-button-success"></button>
+                    </div>
+                    <div class=" col-sm-6 col-xs-6">
+                        <button style='width: 100%;' pButton pRipple type="reset" label="Reset" class="p-button-warning"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

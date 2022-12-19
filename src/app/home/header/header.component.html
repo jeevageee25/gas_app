@@ -1,6 +1,5 @@
-<div style="height: 49px;
-display: flex;overflow: auto;">
-<img style='height: inherit;' src="../../../assets/images/indane.jpeg">
+<div style="display: flex;overflow: auto;">
+<img style='height: 49px;' src="../../../assets/images/indane.jpeg">
 <p-tabView style="flex: 2;" (onChange)="handleChange($event)">
     <p-tabPanel [header]="item.name" [leftIcon]="item.icon" *ngFor="let item of pages"></p-tabPanel>
 </p-tabView>
