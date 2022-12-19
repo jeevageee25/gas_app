@@ -11,7 +11,6 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class SalesProductsComponent implements OnInit {
   products: any = [];
-  productObj: any = {};
   payment_options = [
     { key: 'Cash', value: 'cash' },
     { key: 'Upi', value: 'upi' },
@@ -20,6 +19,7 @@ export class SalesProductsComponent implements OnInit {
   ]
 
   payment = new FormControl('');
+  @Input() productObj:any;
   @Output() back = new EventEmitter<string>();
   @Output() confirm = new EventEmitter<string>();
 
@@ -32,7 +32,6 @@ export class SalesProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchProducts();
   }
 
   onModechange(index: any, e: any) {
@@ -52,16 +51,6 @@ export class SalesProductsComponent implements OnInit {
         txn_id: ""
       };
     }
-  }
-
-  searchProducts() {
-    this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
-      (res?.data || []).map((i: any) => {
-        this.productObj[i._id] = `${i.category} - ${i.name}`;
-      })
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
   }
 
   calculateTotal(data: any) {

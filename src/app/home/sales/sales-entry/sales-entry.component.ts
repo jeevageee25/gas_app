@@ -16,6 +16,7 @@ export class SalesEntryComponent implements OnInit {
   showParent = true;
   entries: any = [];
   _id: any = '';
+  productObj:any = {};
 
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) {
@@ -26,6 +27,7 @@ export class SalesEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAreas();
+    this.searchProducts();
     this.searchSales();
   }
 
@@ -146,6 +148,16 @@ export class SalesEntryComponent implements OnInit {
       else {
         this.searchAreaAllocation();
       }
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  searchProducts() {
+    this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
+      (res?.data || []).map((i: any) => {
+        this.productObj[i._id] = `${i.category} - ${i.name}`;
+      })
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
