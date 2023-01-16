@@ -152,6 +152,11 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   onSubmit() {
+    const invalid = this.tableData?.some((t:any)=>t?.allocations.some((a:any)=>!a.count  || !a.product));
+    if(invalid){
+      this.toastService.showWarningToaster('Warning', 'Please fill all the fields');
+      return;
+    }
     this.dateForm.value._id ? this.updateAreaAllocation() : this.addAreaAllocation();
   }
 
