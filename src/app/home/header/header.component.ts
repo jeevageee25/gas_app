@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
       { name: "Employees", link: ['home', 'employees'], icon: "pi pi-users" },
       { name: "Default Area Allocation", link: ['home', 'default-area'], icon: "pi pi-users" },
       { name: "Sales Entry", link: ['home', 'sales-entry'], icon: "pi pi-users" },
+      { name: "Reports", link: ['home', 'report'], icon: "pi pi-users" },
     ];
     const session: any = sessionStorage.getItem('previledge');
     const previlege: any = JSON.parse(session);
