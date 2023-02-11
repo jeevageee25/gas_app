@@ -11,7 +11,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class SalesEntryComponent implements OnInit {
 
   tableData: any = {};
-  executive_id = "63956dd48b1c848d58212097";
+  executive_id = "";
   areaObj: any = {};
   showParent = true;
   entries: any = [];

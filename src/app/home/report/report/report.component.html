@@ -1,66 +1,92 @@
 <div class="page-content">
-    <div class="row wrap">
-        <div class="col-md-4">
-            <form [formGroup]="dateForm">
-                <div class="row">
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding: 0;">
-                        <div class="form-group">
-                            <div class="custom-label">Date<span class='mandate'>*</span></div>
-                            <p-calendar [showIcon]="true" formControlName="allocation_date"></p-calendar>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
-                        style="margin-top:10px;align-self: flex-end !important;">
-                        <button pButton pRipple type="button" label="Search" class="p-button-success"></button>
-                    </div>
-                </div>
-            </form>
+  <div class="row wrap">
+    <div class="col-md-4">
+      <form [formGroup]="dateForm">
+        <div class="row">
+          <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding: 0;">
+            <div class="form-group">
+              <div class="custom-label">Date<span class='mandate'>*</span></div>
+              <p-calendar [showIcon]="true" formControlName="allocation_date"></p-calendar>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+            style="margin-top:10px;align-self: flex-end !important;">
+            <button pButton pRipple type="button" label="Search" (click)="getData()" class="p-button-success"></button>
+          </div>
         </div>
+      </form>
     </div>
-    <br />
-    <div class="row">
-        <div class="table-title">Reports</div>
-        <ngx-table [id]="'table'" [configuration]="configuration" #table [data]="tableData" [columns]="columns"
-        class="custom-table" [detailsTemplate]="detailsTemplate" style="font-size: medium;overflow: auto;">
+  </div>
+  <br />
+  <div class="row">
+    <div class="table-title">Reports</div>
+    <ngx-table [id]="'table'" [configuration]="configuration" #table [data]="tableData" [columns]="columns"
+      class="custom-table" [detailsTemplate]="detailsTemplate" style="font-size: medium;overflow: auto;">
+      <ng-template let-row let-changeEvent let-index="index">
+        <td>
+          <div class="font-small">{{index + 1}}</div>
+        </td>
+        <td>
+          <span class="font-small ">{{areaObj[row.area_id]}}</span>
+        </td>
+        <td>
+          <div class="font-small">{{executiveObj[row.executive_id]}}</div>
+        </td>
+        <td>
+          <span class="font-small ">{{row.allocated}}</span>
+        </td>
+        <td>
+          <span class="font-small ">{{row.allocated-row.supplied}}</span>
+        </td>
+        <td>
+          <span class="font-small ">{{row.supplied}}</span>
+        </td>
+        <td>
+          <span class="font-small ">{{row.expected_amount}}</span>
+        </td>
+        <td>
+          <span class="font-small ">{{row.collected}}</span>
+        </td>
+        <td>
+          <span class="font-small values"
+            [ngClass]="{'green': row.difference>0, 'red' : row.difference<0 }">{{row.difference}}</span>
+        </td>
+      </ng-template>
+    </ngx-table>
+    <ng-template #detailsTemplate let-row let-index1="index">
+      <ngx-table [id]="'child-'+index1" [configuration]="nestedConfiguration" [data]="row.list"
+        [columns]="nestedColumns">
         <ng-template let-row let-changeEvent let-index="index">
           <td>
-            <div class="font-small">{{index + 1}}</div>
+            <div class="font-small ">{{index + 1}}</div>
           </td>
           <td>
-            <span class="font-small ">{{row.batch_id}}</span>
+            <span class="font-small ">{{productObj[row.product_id]}}</span>
           </td>
           <td>
-            <div class="font-small">{{row.produce}}</div>
+            <span class="font-small ">{{row.price}}</span>
           </td>
           <td>
-            <span class="font-small ">{{row.variety}}</span>
+            <span class="font-small ">{{row.allocated}}</span>
           </td>
           <td>
-            <span class="font-small ">{{row.grade}}</span>
+            <span class="font-small ">{{row.supplied}}</span>
           </td>
           <td>
-            <span class="font-small ">{{row.total_packed_qty}}</span>
+            <span class="font-small ">{{row.payment_method}}</span>
           </td>
           <td>
-            <span class="font-small ">{{row.bag_count}}</span>
+            <span class="font-small ">{{row.expected_amount}}</span>
+          </td>
+          <td>
+            <span class="font-small ">{{row.collected}}</span>
+          </td>
+          <td>
+            <span class="font-small values"
+              [ngClass]="{'green': row.difference>0, 'red' : row.difference<0 }">{{row.difference}}</span>
           </td>
         </ng-template>
       </ngx-table>
-      <ng-template #detailsTemplate let-row let-index1="index">
-        <ngx-table [id]="'child-'+index1" [configuration]="nestedConfiguration" [data]="row.list"
-          [columns]="nestedColumns">
-          <ng-template let-row let-changeEvent let-index="index">
-            <td>
-              <div class="font-small ">{{index + 1}}</div>
-            </td>
-            <td>
-              <span class="font-small ">{{row.count}}</span>
-            </td>
-            <td>
-              <span class="font-small ">{{row.weight}}</span>
-            </td>
-          </ng-template>
-        </ngx-table>
-      </ng-template>
-    </div>
+    </ng-template>
+  </div>
 </div>

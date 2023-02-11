@@ -37,13 +37,13 @@ export class SalesProductsComponent implements OnInit {
   onModechange(index: any, e: any) {
     if (e.value === 'cash') {
       this.products[index]['payments'] = {
-        twoth: 0,
-        fivehrd: 0,
-        hrd: 0,
-        fifty: 0,
-        twenty: 0,
-        ten: 0,
-        five: 0,
+        2000: 0,
+        500: 0,
+        100: 0,
+        50: 0,
+        20: 0,
+        10: 0,
+        5: 0,
       }
     }
     else {
@@ -56,13 +56,13 @@ export class SalesProductsComponent implements OnInit {
   calculateTotal(data: any) {
     const item: any = data.payments;
     return (
-      2000 * (item.twoth || 0) +
-      500 * (item.fivehrd || 0) +
-      100 * (item.hrd || 0) +
-      50 * (item.fifty || 0) +
-      20 * (item.twenty || 0) +
-      10 * (item.ten || 0) +
-      5 * (item.five || 0)
+      2000 * (item['2000'] || 0) +
+      500 * (item['500'] || 0) +
+      100 * (item['100'] || 0) +
+      50 * (item['50'] || 0) +
+      20 * (item['20'] || 0) +
+      10 * (item['10'] || 0) +
+      5 * (item['5'] || 0)
     );
   }
 
