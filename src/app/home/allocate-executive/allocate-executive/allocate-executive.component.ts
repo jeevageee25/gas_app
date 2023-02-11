@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ConfirmationService } from 'primeng/api';
 import { ProductsService } from 'src/app/services/products.service';
@@ -11,7 +11,7 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./allocate-executive.component.scss']
 })
 export class AllocateExectuveComponent implements OnInit {
-  tableData: any = [];
+  alloationForm: any;
   executiveObj: any = {};
   areaObj: any = {};
   areaData: any = [];
@@ -31,10 +31,10 @@ export class AllocateExectuveComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.getDefaultAllocation();
     this.getExecutives();
     this.getAreas();
     this.searchProducts();
-    this.getDefaultAllocation();
   }
 
   createForm() {
@@ -44,7 +44,9 @@ export class AllocateExectuveComponent implements OnInit {
       allocation_date: [date, Validators.required],
       _id: []
     })
-    this.searchAreaAllocation();
+    this.alloationForm = this.fb.group({
+      tableData: this.fb.array([])
+    })
   }
 
   convertDateFormat(date: any) {
@@ -97,6 +99,7 @@ export class AllocateExectuveComponent implements OnInit {
           executive_id: t.executive_id
         }
       }) || [];
+      this.searchAreaAllocation();
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
@@ -105,30 +108,46 @@ export class AllocateExectuveComponent implements OnInit {
   addCard() {
     const e_id = this.executive_id.value;
     if (e_id) {
-      const allocations = this.defaultData.find((d: any) => d.executive_id === e_id)?.allocations || [];
-      this.tableData.unshift({
-        executive_id: e_id,
+      const alloc = this.defaultData.find((d: any) => d.executive_id === e_id)?.allocations || [];
+      let allocations = this.fb.array([]) as FormArray;
+      alloc.forEach((a: any) => {
+        allocations.push(
+          this.fb.group({
+            area_id: new FormControl(a.area_id, Validators.required),
+            product: new FormControl(a.product, Validators.required),
+            count: new FormControl(a.count, Validators.required)
+          })
+        )
+    })
+      this.tableDataCtrls.push(this.fb.group({
+        executive_id: new FormControl(e_id, Validators.required),
+        selectedArea: new FormControl(''),
         allocations
-      });
+      }))
     }
   }
 
   onAddArea(t: any, item: any) {
-    if (item.selectedArea) {
-      this.tableData[t].allocations.unshift({ area_id: item.selectedArea, count: null, product: null });
-      delete this.tableData[t].selectedArea;
-      this.tableData = [...this.tableData];
+    if (item.value.selectedArea) {
+      const formc: any = this.alloationForm.controls['tableData'] as FormArray;
+      const formA = formc.controls[t].get('allocations') as FormArray;
+      formA.push(this.fb.group({
+        area_id: new FormControl(item.value.selectedArea, Validators.required),
+        product: new FormControl('', Validators.required),
+        count: new FormControl('', Validators.required)
+      }));
+      formc.controls[t].get('selectedArea').setValue('');
     }
   }
 
-  removeArea(t: any, a: any) {
-    this.tableData[t]?.allocations.splice(a, 1);
-    this.tableData = [...this.tableData];
+  removeArea(i: any, j: any) {
+    const formc: any = this.alloationForm.controls['tableData'] as FormArray;
+    const formA = formc.controls[i].get('allocations') as FormArray;
+    formA.removeAt(j);
   }
 
-  removeCard(t: any) {
-    this.tableData.splice(t, 1);
-    this.tableData = [...this.tableData];
+  removeCard(i: any) {
+    this.tableDataCtrls.removeAt(i);
   }
 
   calculateRevenue(allocations: any = []) {
@@ -136,7 +155,7 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   addAreaAllocation() {
-    const allocation_data = this.tableData.filter((t: any) => t.allocations.length);
+    const allocation_data =this.tableDataCtrls.value.filter((t: any) => t.allocations.length);
     allocation_data.forEach((a: any) => {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
@@ -152,8 +171,8 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   onSubmit() {
-    const invalid = this.tableData?.some((t:any)=>t?.allocations.some((a:any)=>!a.count  || !a.product));
-    if(invalid){
+    if(this.alloationForm.invalid){
+      this.alloationForm.markAllAsTouched()
       this.toastService.showWarningToaster('Warning', 'Please fill all the fields');
       return;
     }
@@ -166,7 +185,7 @@ export class AllocateExectuveComponent implements OnInit {
 
   updateAreaAllocation() {
     const { _id } = this.dateForm.value;
-    const allocation_data = this.tableData.filter((t: any) => t.allocations.length);
+    const allocation_data = this.tableDataCtrls.value.filter((t: any) => t.allocations.length);
     allocation_data.forEach((a: any) => {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
@@ -181,15 +200,16 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   searchAreaAllocation() {
-    this.PService.searchAreaAllocation({ search_key: { allocation_date: this.convertDateFormat(this.dateForm.value.allocation_date) } }).subscribe((res: any) => {
+    const payload = { search_key: { allocation_date: this.convertDateFormat(this.dateForm.value.allocation_date) } };
+    this.PService.searchAreaAllocation(payload).subscribe((res: any) => {
       const data = res?.data[0] || [];
       if (!data?.allocation_data?.length) {
-        this.tableData = [...this.defaultData];
+        this.generateDefaultForm([...this.defaultData]);
         this.dateForm.get('_id')?.setValue('');
         this.toastService.showInfoToaster('Info', 'Showing Default Allocation');
       }
       else {
-        this.tableData = data.allocation_data;
+        this.generateDefaultForm([...data.allocation_data]);
         this.dateForm.get('_id')?.setValue(data._id);
       }
     }, e => {
@@ -197,8 +217,41 @@ export class AllocateExectuveComponent implements OnInit {
     })
   }
 
+  generateDefaultForm(data: any) {
+    this.alloationForm = this.fb.group({
+      tableData: this.fb.array([])
+    })
+    data.forEach((d: any) => {
+      let allocations = this.fb.array([]) as FormArray;
+      d.allocations.forEach((a: any) => {
+        allocations.push(
+          this.fb.group({
+            area_id: new FormControl(a.area_id, Validators.required),
+            product: new FormControl(a.product, Validators.required),
+            count: new FormControl(a.count, Validators.required)
+          })
+        )
+      })
+      this.tableDataCtrls.push(this.fb.group({
+        executive_id: new FormControl(d.executive_id, Validators.required),
+        selectedArea: new FormControl(''),
+        allocations
+      }))
+    })
+    console.log(this.tableDataCtrls.value)
+  }
+
+  get tableDataCtrls() {
+    return this.alloationForm.controls['tableData'] as FormArray;
+  }
+
+  getAllocationCtrls(t: any) {
+    const formc: any = this.alloationForm.controls['tableData'] as FormArray;
+    return formc.controls[t].get('allocations')
+  }
+
   get executive_options() {
-    const added_executives = this.tableData.map((t: any) => { return t.executive_id })
-    return this.executives.filter((e: any) => !added_executives.includes(e._id))
+    const added_executives = this.tableDataCtrls.value?.map((t: any) => { return t.executive_id })
+    return this.executives.filter((e: any) => !added_executives?.includes(e._id))
   }
 }

@@ -35,51 +35,60 @@
         </div>
     </div>
     <br />
-    <div class="row wrap">
-        <div *ngFor='let item of tableData;let t=index' class="col-xl-6 col-lg-6 col-md-6 col-sm-2 col-xs-12"
-            style="margin-bottom: 20px;">
-            <div class="card">
-                <div class="card-title">
-                    <span>{{executiveObj[item.executive_id]}}</span>
-                    <span>Expected Revenue: {{calculateRevenue(item.allocations) | currency:'INR'}}</span>
-                    <i (click)='removeCard(t)' class="pi pi-times-circle icons"></i>
-                </div>
-                <div class="card-body">
-                <div class="row wrap" style="padding-bottom: 15px;">
-                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
-                        <p-dropdown class="custom-pdropdown" optionLabel="area" optionValue="_id"
-                            [(ngModel)]="item.selectedArea" [options]="areaData" [placeholder]="'Select Area'">
-                        </p-dropdown>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;text-align: end;">
-                        <button type="button" pButton pRipple type="button" (click)='onAddArea(t, item)' label="Add"
-                            class="p-button-success addArea"></button>
-                    </div>
-                </div>
-                <div>
-                    <div class="area">
-                        <div *ngFor="let allocation of item?.allocations;let a=index" class="chips">
-                            <span style="width: 35%;text-overflow: ellipsis;
-                            overflow: hidden;">{{areaObj[allocation.area_id]}}</span>
-                            <div style="width: 35%">
-                                <p-dropdown class="custom-pdropdown" optionLabel="name" optionValue="_id"
-                                    [(ngModel)]="allocation.product" [options]="products"
-                                    [placeholder]="'Select Product'">
-                                </p-dropdown>
+    <div class="row wrap" *ngIf="alloationForm.get('tableData')">
+        <form [formGroup]="alloationForm">
+            <div formArrayName="tableData" class="row wrap">
+                <div *ngFor="let item of alloationForm.get('tableData').controls;let t=index;let l=last"
+                    class="col-xl-6 col-lg-6 col-md-6 col-sm-2 col-xs-12" style="margin-bottom: 20px;">
+                    <div class="card" formGroupName="{{t}}">
+                        <div class="card-title">
+                            <span>{{executiveObj[item.value.executive_id]}}</span>
+                            <span>Expected Revenue: {{calculateRevenue(item.value.allocations) | currency:'INR'}}</span>
+                            <i (click)='removeCard(t)' class="pi pi-times-circle icons"></i>
+                        </div>
+                        <div class="card-body">
+                            <div class="row wrap" style="padding-bottom: 15px;">
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
+                                    <p-dropdown class="custom-pdropdown" optionLabel="area" optionValue="_id"
+                                        formControlName="selectedArea" [options]="areaData"
+                                        [placeholder]="'Select Area'">
+                                    </p-dropdown>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"
+                                    style="padding: 0;text-align: end;">
+                                    <button type="button" pButton pRipple type="button" (click)='onAddArea(t, item)'
+                                        label="Add" class="p-button-success addArea"></button>
+                                </div>
                             </div>
-                            <div style="width: 20%">
-                                <input style='width: 100%;margin: 0px 5px;' autocomplete="off" type="number" id="rate"
-                                    pInputText placeholder="Count" [(ngModel)]="allocation.count">
-                            </div>
-                            <div style="width: 10%;text-align: center;">
-                                <i (click)='removeArea(t, a)' class="pi pi-times red-icon icons"></i>
+                            <div>
+                                <div class="area" formArrayName="allocations">
+                                    <div *ngFor="let item of getAllocationCtrls(t).controls;let a=index;let b=last">
+                                        <div formGroupName="{{a}}" class="chips">
+                                            <span style="width: 35%;text-overflow: ellipsis;
+                            overflow: hidden;">{{areaObj[item?.value?.area_id]}}</span>
+                                            <div style="width: 35%">
+                                                <p-dropdown class="custom-pdropdown" optionLabel="name"
+                                                    optionValue="_id" formControlName="product" [options]="products"
+                                                    [placeholder]="'Select Product'">
+                                                </p-dropdown>
+                                            </div>
+                                            <div style="width: 20%">
+                                                <input style='width: 100%;margin: 0px 5px;' autocomplete="off"
+                                                    type="number" id="rate" pInputText placeholder="Count"
+                                                    formControlName="count">
+                                            </div>
+                                            <div style="width: 10%;text-align: center;">
+                                                <i (click)='removeArea(t, a)' class="pi pi-times red-icon icons"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-        </div>
+        </form>
         <br />
     </div>
     <div class="dialog-footer">
