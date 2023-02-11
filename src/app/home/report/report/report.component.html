@@ -20,16 +20,47 @@
     <br />
     <div class="row">
         <div class="table-title">Reports</div>
-        <ngx-table [configuration]="configuration" style="display: block;" #table [data]="tableData"
-            class="custom-table" [columns]="columns">
-            <ng-template let-row let-index="index">
-                <td>
-                    <span class="font-small">{{index+1}}</span>
-                </td>
-                <td>
-                    <span class="font-small">{{row.role}}</span>
-                </td>
-            </ng-template>
+        <ngx-table [id]="'table'" [configuration]="configuration" #table [data]="tableData" [columns]="columns"
+        class="custom-table" [detailsTemplate]="detailsTemplate" style="font-size: medium;overflow: auto;">
+        <ng-template let-row let-changeEvent let-index="index">
+          <td>
+            <div class="font-small">{{index + 1}}</div>
+          </td>
+          <td>
+            <span class="font-small ">{{row.batch_id}}</span>
+          </td>
+          <td>
+            <div class="font-small">{{row.produce}}</div>
+          </td>
+          <td>
+            <span class="font-small ">{{row.variety}}</span>
+          </td>
+          <td>
+            <span class="font-small ">{{row.grade}}</span>
+          </td>
+          <td>
+            <span class="font-small ">{{row.total_packed_qty}}</span>
+          </td>
+          <td>
+            <span class="font-small ">{{row.bag_count}}</span>
+          </td>
+        </ng-template>
+      </ngx-table>
+      <ng-template #detailsTemplate let-row let-index1="index">
+        <ngx-table [id]="'child-'+index1" [configuration]="nestedConfiguration" [data]="row.list"
+          [columns]="nestedColumns">
+          <ng-template let-row let-changeEvent let-index="index">
+            <td>
+              <div class="font-small ">{{index + 1}}</div>
+            </td>
+            <td>
+              <span class="font-small ">{{row.count}}</span>
+            </td>
+            <td>
+              <span class="font-small ">{{row.weight}}</span>
+            </td>
+          </ng-template>
         </ngx-table>
+      </ng-template>
     </div>
 </div>

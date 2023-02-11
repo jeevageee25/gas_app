@@ -10,8 +10,10 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 export class ReportComponent implements OnInit {
   dateForm: FormGroup = new FormGroup({});
   configuration: Config = { ...DefaultConfig };
+  nestedConfiguration: Config = { ...DefaultConfig };
   columns: Columns[] = [];
-  tableData = [];
+  nestedColumns: Columns[] = [];
+  tableData = [{}];
 
   constructor(private toastService: ToastService,
     private fb: FormBuilder) { }
@@ -19,6 +21,7 @@ export class ReportComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.initTable();
+    this.initConfig();
   }
 
 
@@ -31,38 +34,39 @@ export class ReportComponent implements OnInit {
   }
 
   initTable() {
-    this.configuration = { ...DefaultConfig };
-    this.configuration.fixedColumnWidth = true;
-    this.configuration.horizontalScroll = true;
-    this.configuration.rows = 10;
     this.columns = [
       { key: '', title: 'SL #' },
       { key: 'area', title: 'Area' },
-      { key: 'name', title: 'Name' },
-      { key: 'given', title: 'Given' },
-      { key: 'diff', title: 'Diff' },
-      { key: 'total', title: 'Total' },
-      { key: 'dom', title: 'Dom (No Subsidy)' },
-      { key: 'ws', title: 'WS' },
-      { key: 'card', title: 'Card' },
-      { key: 'online', title: 'Online' },
-      { key: 'credit', title: 'Credit' },
-      { key: 'mis/dep', title: 'Mis/Dep' },
-      { key: 'exp', title: 'Exp' },
-      { key: 'bhim', title: 'BHIM' },
-      { key: '2000', title: '2000' },
-      { key: '500', title: '500' },
-      { key: '200', title: '200' },
-      { key: '100', title: '100' },
-      { key: '50', title: '50' },
-      { key: '20', title: '20' },
-      { key: '10', title: '10' },
-      { key: 'cash', title: 'Cash' },
-      { key: 'diff', title: 'Diff' },
-      { key: 'nc_cy', title: 'NC Cyli' },
-      { key: 'otv_cy', title: 'OTV Cyli' },
-      { key: 'cash', title: 'NC Cyli' },
+      { key: 'executive_id', title: 'Executive Name' },
+      { key: 'allocated', title: 'Allocated' },
+      { key: 'returned', title: 'Returned' },
+      { key: 'supplied', title: 'Supplied' },
+      { key: 'expected_amount', title: 'Expected Amount' },
+      { key: 'collected_amount', title: 'Collected Amount' },
+      { key: 'difference', title: 'Difference' },
     ];
+    this.nestedColumns = [
+      { key: 'no', title: 'Sl #', width: '5%' },
+      { key: 'product', title: 'Product' },
+      { key: 'price', title: 'Price' },
+      { key: 'allocated', title: 'Allocated' },
+      { key: 'supplied', title: 'Supplied' },
+      { key: 'payment_methpd', title: 'Payment Method' },
+      { key: 'expected_amount', title: 'Expected Amount' },
+      { key: 'collected_amount', title: 'Collected Amount' },
+      { key: 'difference', title: 'Difference' },
+    ];
+  }
+
+  initConfig() {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.detailsTemplate = true;
+    this.configuration.fixedColumnWidth = false;
+    this.configuration.showDetailsArrow = true;
+    this.configuration.rows = 10;
+    this.nestedConfiguration = { ...DefaultConfig };
+    this.nestedConfiguration.fixedColumnWidth = false;
+    this.nestedConfiguration.rows = 5;
   }
 
 }
