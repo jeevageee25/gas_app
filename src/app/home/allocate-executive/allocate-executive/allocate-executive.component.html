@@ -85,7 +85,7 @@
                                                     type="number" id="rate" pInputText placeholder="Count"
                                                     formControlName="count">
                                                 <ng-container *ngIf="isVisibleErrorText('count', item)">
-                                                    <div class="custom-error-text"
+                                                    <div style='margin: 0px 5px;' class="custom-error-text"
                                                         *ngIf="item.controls['count']?.errors?.['required']">
                                                         Count is required
                                                     </div>
