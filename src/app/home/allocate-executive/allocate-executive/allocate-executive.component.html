@@ -66,16 +66,30 @@
                                         <div formGroupName="{{a}}" class="chips">
                                             <span style="width: 35%;text-overflow: ellipsis;
                             overflow: hidden;">{{areaObj[item?.value?.area_id]}}</span>
-                                            <div style="width: 35%">
+                                            <div style="width: 35%;align-self: start;"
+                                                [ngClass]="isFieldInvalid('product', item) ? 'custom-error' : ''">
                                                 <p-dropdown class="custom-pdropdown" optionLabel="name"
                                                     optionValue="_id" formControlName="product" [options]="products"
                                                     [placeholder]="'Select Product'">
                                                 </p-dropdown>
+                                                <ng-container *ngIf="isVisibleErrorText('product', item)">
+                                                    <div class="custom-error-text"
+                                                        *ngIf="item.controls['product']?.errors?.['required']">
+                                                        Product is required
+                                                    </div>
+                                                </ng-container>
                                             </div>
-                                            <div style="width: 20%">
+                                            <div style="width: 20%;align-self: start;"
+                                                [ngClass]="isFieldInvalid('count', item) ? 'custom-error' : ''">
                                                 <input style='width: 100%;margin: 0px 5px;' autocomplete="off"
                                                     type="number" id="rate" pInputText placeholder="Count"
                                                     formControlName="count">
+                                                <ng-container *ngIf="isVisibleErrorText('count', item)">
+                                                    <div class="custom-error-text"
+                                                        *ngIf="item.controls['count']?.errors?.['required']">
+                                                        Count is required
+                                                    </div>
+                                                </ng-container>
                                             </div>
                                             <div style="width: 10%;text-align: center;">
                                                 <i (click)='removeArea(t, a)' class="pi pi-times red-icon icons"></i>

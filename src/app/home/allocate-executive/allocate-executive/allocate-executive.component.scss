@@ -54,8 +54,34 @@
 }
 
 .red-icon {
+    color: #ffd3ae;
+}
+
+
+.red-icon:hover {
+    color: #ff8824;
+}
+
+.custom-error .custom-input-error,
+.custom-error .p-dropdown,
+.custom-error .p-dropdown .p-inputtext , .custom-error input{
+    border-color: red;
+}
+
+::ng-deep .custom-error  .custom-pdropdown  .p-dropdown {
+    border: 1px solid red !important;
+}
+
+.custom-error .custom-label-error {
     color: red;
 }
+
+.custom-error .custom-error-text {
+    color: red;
+    font-size: 12px;
+    display: block;
+}
+
 
 ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
     border-color: #03d91f;

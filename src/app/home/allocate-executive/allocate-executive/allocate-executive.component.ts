@@ -118,7 +118,7 @@ export class AllocateExectuveComponent implements OnInit {
             count: new FormControl(a.count, Validators.required)
           })
         )
-    })
+      })
       this.tableDataCtrls.push(this.fb.group({
         executive_id: new FormControl(e_id, Validators.required),
         selectedArea: new FormControl(''),
@@ -155,7 +155,7 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   addAreaAllocation() {
-    const allocation_data =this.tableDataCtrls.value.filter((t: any) => t.allocations.length);
+    const allocation_data = this.tableDataCtrls.value.filter((t: any) => t.allocations.length);
     allocation_data.forEach((a: any) => {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
@@ -171,7 +171,7 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.alloationForm.invalid){
+    if (this.alloationForm.invalid) {
       this.alloationForm.markAllAsTouched()
       this.toastService.showWarningToaster('Warning', 'Please fill all the fields');
       return;
@@ -238,7 +238,6 @@ export class AllocateExectuveComponent implements OnInit {
         allocations
       }))
     })
-    console.log(this.tableDataCtrls.value)
   }
 
   get tableDataCtrls() {
@@ -248,6 +247,15 @@ export class AllocateExectuveComponent implements OnInit {
   getAllocationCtrls(t: any) {
     const formc: any = this.alloationForm.controls['tableData'] as FormArray;
     return formc.controls[t].get('allocations')
+  }
+
+  isVisibleErrorText(fieldName: string, item: any) {
+    return (item.controls[fieldName].dirty || item.controls[fieldName].invalid) && item.controls[fieldName].touched;
+  }
+
+  isFieldInvalid(fieldType: string, item: any): boolean {
+    return item.controls[fieldType]?.invalid &&
+      (item.controls[fieldType]?.touched ||  item.controls[fieldType]?.dirty);
   }
 
   get executive_options() {
