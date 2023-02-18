@@ -7,12 +7,17 @@
             </div>
             <div>
                 <span>Supplied</span>
+                <p class="count">{{item.supplied}}</p>
+            </div>
+            <div>
+                <span>Delivery Count</span>
                 <input style='width: 75%;margin: 0px 5px;' autocomplete="off" type="number" pInputText
-                    [(ngModel)]="item.supplied">
+                    [(ngModel)]="item.delivery_count">
             </div>
             <div>
                 <span>Returns</span>
-                <p class="count">{{item.supplied && (item.count-item.supplied) || 0}}</p>
+                <p class="count" *ngIf="(item.count-(item.supplied || 0) - (item.delivery_count|| 0))>-1">{{item.count && (item.count-(item.supplied || 0) - (item.delivery_count|| 0)) || 0}}</p>
+                <p class="count" *ngIf="(item.count-(item.supplied || 0) - (item.delivery_count|| 0))<0">0</p>
             </div>
         </div>
         <br />
@@ -101,14 +106,11 @@
             <input style='width: 100%;' autocomplete="off" type="text" pInputText placeholder="Enter Txn Id"
                 [(ngModel)]="item.payments.txn_id">
         </div>
+        <div class="accordian-footer">
+            <button pButton pRipple label="Back" (click)='onBack()' class="p-button-warning"></button>
+            &nbsp; &nbsp;
+            <button type="button" pButton pRipple type="button" (click)='onSubmit(item)' label="Submit"
+                class="p-button-success"></button>
+        </div>
     </p-accordionTab>
 </p-accordion>
-
-<div class="accordian-footer">
-    <button pButton pRipple label="Back" (click)='onBack()' class="p-button-warning"></button>
-    &nbsp; &nbsp;
-    <button type="button" pButton pRipple type="button" (click)='onSubmit()' label="Submit"
-        class="p-button-success"></button>
-    &nbsp; &nbsp;
-    <button pButton pRipple label="Reset" (click)='onReset()' class="p-button-warning"></button>
-</div>

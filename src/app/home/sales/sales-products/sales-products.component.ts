@@ -25,7 +25,6 @@ export class SalesProductsComponent implements OnInit {
 
   constructor(
     private toastService: ToastService,
-    private PService: ProductsService,
     private gs: GlobalService
   ) {
     this.products = JSON.parse(JSON.stringify(this.gs.product_details));
@@ -70,14 +69,18 @@ export class SalesProductsComponent implements OnInit {
     return (item.price || 0) * (item.supplied || 0);
   }
 
-  onSubmit() {
-    this.gs.updated_products = JSON.parse(JSON.stringify(this.products));
+  onSubmit(item:any) {
+    if(item.count-(item.supplied || 0)-(item.delivery_count || 0) <1){
+      this.toastService.showWarningToaster('Warning', 'Please check the count !');
+      return;
+    }
+    if(!item.paymentMode){
+      this.toastService.showWarningToaster('Warning', 'Please select Payment !');
+      return;
+    }
+    this.gs.data_entry = JSON.parse(JSON.stringify(item));
     this.confirm.emit();
-  }
-
-  onReset() {
-    this.products = JSON.parse(JSON.stringify(this.gs.product_details));
-  }
+  } 
 
   onBack() {
     this.back.emit();

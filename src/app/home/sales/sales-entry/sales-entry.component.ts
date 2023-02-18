@@ -14,9 +14,8 @@ export class SalesEntryComponent implements OnInit {
   executive_id = "";
   areaObj: any = {};
   showParent = true;
-  entries: any = [];
   _id: any = '';
-  productObj:any = {};
+  productObj: any = {};
 
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) {
@@ -46,14 +45,28 @@ export class SalesEntryComponent implements OnInit {
     })
   }
 
-  searchAreaAllocation() {
+  searchSales() {
+    this.PService.searchSales({
+      search_key: {
+        executive_id: this.executive_id,
+        allocation_date: this.convertDateFormat(new Date()),
+      }
+    }).subscribe((res: any) => {
+      const data = res?.data || [];
+      this.searchAreaAllocation(data);
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
+
+  searchAreaAllocation(sales: any) {
     const allocation_date = new Date();
     this.PService.searchAreaAllocation({ search_key: { allocation_date: this.convertDateFormat(allocation_date) } }).subscribe((res: any) => {
       const data = res?.data[0] || [];
       if (data?.allocation_data?.length) {
         const exec_match = data.allocation_data.find((a: any) => a.executive_id === this.executive_id);
         if (exec_match) {
-          this.formatData(exec_match.allocations);
+          this.formatData(exec_match.allocations, sales);
         }
       }
     }, e => {
@@ -61,96 +74,43 @@ export class SalesEntryComponent implements OnInit {
     })
   }
 
-  formatData(data: any) {
-    const grouped = this.gs.groupBy(data, ['area_id']);
-    this.tableData = grouped;
-    this.entriesData(grouped);
-  }
-
-  entriesData(grouped: any) {
-    this.entries = [];
+  formatData(data: any, sales: any = []) {
+    let grouped: any = this.gs.groupBy(data, ['area_id']);
+    const sales_grouped: any = this.gs.groupBy(sales, ['area_id', 'product']);
     for (const [key, value] of Object.entries(grouped)) {
-      const data: any = value;
-      let obj: any = { area_id: key, sales: [] };
-      data.forEach((d: any) => {
-        obj.sales.push(d)
+      const val: any = value;
+      val.forEach((v: any) => {
+        v['supplied'] = sales_grouped[v?.area_id] && sales_grouped[v?.area_id][v?.product]?.reduce((t: any, v: any) => t + v.supplied, 0) || 0;
       })
-      this.entries.push(obj);
     }
+    this.tableData = grouped;
   }
-
   onAreaClick(area_id: any) {
     this.gs.product_details = this.tableData[area_id];
     this.showParent = false;
   }
 
   onConfirm() {
-    const updated_products: any = this.gs.updated_products;
-    this.entries.forEach((e: any) => {
-      if (e.area_id === updated_products[0].area_id) {
-        const remove_area_id = updated_products.map((u: any) => {
-          delete u.area_id;
-          return u;
-        })
-        e.sales = remove_area_id;
-      }
-    })
-    this._id ? this.updateSales() : this.addSales();
-    this.showParent = true;
-  }
-
-  addSales() {
+    const data: any = this.gs.data_entry;
+    const { price, product, area_id, delivery_count, paymentMode, payments, count } = data;
     const payload = {
+      product,
+      area_id,
+      supplied: delivery_count,
+      paymentMode,
+      ...payments,
+      price,
+      count,
       allocation_date: this.convertDateFormat(new Date()),
       executive_id: this.executive_id,
-      entries: this.entries
-    }
+    };
     this.PService.addSales(payload).subscribe((res: any) => {
       this.searchSales();
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
-  }
-
-  updateSales() {
-    const payload = {
-      allocation_date: this.convertDateFormat(new Date()),
-      executive_id: this.executive_id,
-      entries: this.entries,
-      _id: this._id
-    }
-    this.PService.updateSales(payload).subscribe((res: any) => {
-      this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
-      this.searchSales();
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  searchSales() {
-    this.PService.searchSales({ search_key: { executive_id: this.executive_id, allocation_date: this.convertDateFormat(new Date()) } }).subscribe((res: any) => {
-      const data = res?.data[0] || [];
-      if (data && data._id) {
-        this._id = data?._id;
-        let obj: any = {};
-        data.entries.forEach((e: any) => {
-          obj[e.area_id] = obj[e.area_id] || [];
-          e.sales.forEach((s: any) => {
-            obj[e.area_id].push({
-              ...s, area_id: e.area_id
-            })
-          })
-        })
-        this.tableData = obj;
-        this.entriesData(obj);
-      }
-      else {
-        this.searchAreaAllocation();
-      }
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
+    this.showParent = true;
   }
 
   searchProducts() {

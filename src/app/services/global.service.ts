@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalService {
 
-  product_details =[];
-updated_products = [];
+  product_details = [];
+  updated_products = [];
+  data_entry = {};
 
   constructor() { }
 
