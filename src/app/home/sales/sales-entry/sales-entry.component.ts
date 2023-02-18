@@ -92,7 +92,7 @@ export class SalesEntryComponent implements OnInit {
       area_id,
       supplied: delivery_count,
       paymentMode,
-      ...payments,
+      payments,
       price,
       count,
       allocation_date: this.convertDateFormat(new Date()),

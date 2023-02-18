@@ -138,14 +138,10 @@ export class ReportComponent implements OnInit {
 
   formatSalesData(response: any) {
     let sales_obj: any = {};
-    response?.forEach((e: any) => {
-      e?.entries?.forEach((d: any) => {
-        d?.sales.forEach((s: any) => {
-          const key = `${d.area_id}#${e.executive_id}#${s.product}`;
+    response?.forEach((d: any) => {
+          const key = `${d.area_id}#${d.executive_id}#${d.product}`;
           if (!sales_obj[key]) sales_obj[key] = [];
-          sales_obj[key].push(s);
-        })
-      })
+          sales_obj[key].push(d);
     })
     return sales_obj;
   }
