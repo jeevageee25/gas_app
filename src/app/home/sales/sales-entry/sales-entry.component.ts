@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -46,32 +47,25 @@ export class SalesEntryComponent implements OnInit {
   }
 
   searchSales() {
-    this.PService.searchSales({
-      search_key: {
-        executive_id: this.executive_id,
-        allocation_date: this.convertDateFormat(new Date()),
-      }
-    }).subscribe((res: any) => {
-      const data = res?.data || [];
-      this.searchAreaAllocation(data);
-    }, e => {
+    const allocation_date = this.convertDateFormat(new Date());
+    const obs1 = this.PService.searchSales({ search_key: { executive_id: this.executive_id, allocation_date } });
+    const obs2 = this.PService.searchAreaAllocation({ search_key: { allocation_date } })
+    combineLatest(obs1, obs2).subscribe((res: any) => {
+      const data1 = res[0]?.data || [];
+      const data2 = res[1]?.data[0] || [];
+      this.searchAreaAllocation(data1, data2);
+    }, (e: any) => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
   }
 
-  searchAreaAllocation(sales: any) {
-    const allocation_date = new Date();
-    this.PService.searchAreaAllocation({ search_key: { allocation_date: this.convertDateFormat(allocation_date) } }).subscribe((res: any) => {
-      const data = res?.data[0] || [];
-      if (data?.allocation_data?.length) {
-        const exec_match = data.allocation_data.find((a: any) => a.executive_id === this.executive_id);
-        if (exec_match) {
-          this.formatData(exec_match.allocations, sales);
-        }
+  searchAreaAllocation(sales: any, data: any) {
+    if (data?.allocation_data?.length) {
+      const exec_match = data.allocation_data.find((a: any) => a.executive_id === this.executive_id);
+      if (exec_match) {
+        this.formatData(exec_match.allocations, sales);
       }
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
+    }
   }
 
   formatData(data: any, sales: any = []) {
