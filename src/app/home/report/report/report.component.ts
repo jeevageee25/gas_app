@@ -176,7 +176,8 @@ export class ReportComponent implements OnInit {
           total_supplied += supplied;
           total_expected_amount += ((supplied || 0) * e.price);
           let collected = 0;
-          if (sales_list[0]?.paymentMode === 'cash') {
+          sales_list.forEach((sales:any)=>{
+          if (sales?.paymentMode === 'cash') {
             for (const [c, v] of Object.entries(sales_list[0]?.payments)) {
               let a: any = c;
               let b: any = v;
@@ -198,9 +199,10 @@ export class ReportComponent implements OnInit {
             collected: Number((collected).toFixed(2)),
             difference: Number((expected_amount - collected).toFixed(2)),
             expected_amount,
-            payment_method: sales_list[0]?.paymentMode || '-',
-            sales_list
+            payment_method: sales?.paymentMode || '-',
+            sales
           })
+        })
         })
         tableData.push({
           area_id: area_key,
@@ -221,7 +223,7 @@ export class ReportComponent implements OnInit {
     this.dialogService.open(PaymentDetailComponent, {
       header: 'Payment Details',
       width: '40%',
-      data: row.sales_list[0]
+      data: row.sales
     });
   }
 
