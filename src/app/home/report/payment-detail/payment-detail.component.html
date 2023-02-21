@@ -1,0 +1,5 @@
+<div class="noteTable">
+    <div class="payment" *ngFor="let item of data | keyvalue ">
+        <p style="margin:0">{{item.key}}</p>
+        <b>{{item.value}}</b>
+    </div>

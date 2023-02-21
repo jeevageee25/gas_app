@@ -87,6 +87,10 @@ export class SalesEntryComponent implements OnInit {
   onConfirm() {
     const data: any = this.gs.data_entry;
     const { price, product, area_id, delivery_count, paymentMode, payments, count } = data;
+    if(!delivery_count){
+      this.toastService.showWarningToaster('Warning', 'Please enter the Supplied count');
+      return;
+    }
     const payload = {
       product,
       area_id,

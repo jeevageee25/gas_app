@@ -12,10 +12,12 @@ import { ToastService } from 'src/app/services/toast.service';
 export class SalesProductsComponent implements OnInit {
   products: any = [];
   payment_options = [
-    { key: 'Cash', value: 'cash' },
-    { key: 'Upi', value: 'upi' },
-    { key: 'Card', value: 'card' },
+    { key: 'Credit', value: 'credit' },
     { key: 'Cheque', value: 'cheque' },
+    { key: 'Credit Card', value: 'c_card' },
+    { key: 'Debit Card', value: 'd_card' },
+    { key: 'UPI', value: 'upi' },
+    { key: 'Cash', value: 'cash' },
   ]
 
   payment = new FormControl('');

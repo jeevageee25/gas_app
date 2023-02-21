@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReportComponent } from './report/report.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ReportComponent
+    ReportComponent,
+    PaymentDetailComponent
   ],
   imports: [
     CommonModule,

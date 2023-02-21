@@ -5,6 +5,8 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { combineLatest } from 'rxjs';
+import { DialogService } from 'primeng/dynamicdialog';
+import { PaymentDetailComponent } from '../payment-detail/payment-detail.component';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -22,7 +24,7 @@ export class ReportComponent implements OnInit {
   executiveObj: any = {};
 
   constructor(private fb: FormBuilder, private PService: ProductsService,
-    private toastService: ToastService, private gs: GlobalService) { }
+    private toastService: ToastService, private gs: GlobalService, public dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -196,7 +198,8 @@ export class ReportComponent implements OnInit {
             collected: Number((collected).toFixed(2)),
             difference: Number((expected_amount - collected).toFixed(2)),
             expected_amount,
-            payment_method: sales_list[0]?.paymentMode || '-'
+            payment_method: sales_list[0]?.paymentMode || '-',
+            sales_list
           })
         })
         tableData.push({
@@ -212,6 +215,14 @@ export class ReportComponent implements OnInit {
       }
     }
     this.tableData = tableData;
+  }
+
+  openPayment(row: any) {
+    this.dialogService.open(PaymentDetailComponent, {
+      header: 'Payment Details',
+      width: '70%',
+      data: row.sales_list[0]
+    });
   }
 
   get areas() {

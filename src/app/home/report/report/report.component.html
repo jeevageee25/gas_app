@@ -73,7 +73,7 @@
             <span class="font-small ">{{row.supplied}}</span>
           </td>
           <td>
-            <span class="font-small ">{{row.payment_method}}</span>
+            <a class="font-small" style="cursor:pointer" (click)="openPayment(row)">{{row.payment_method}}</a>
           </td>
           <td>
             <span class="font-small ">{{row.expected_amount}}</span>
