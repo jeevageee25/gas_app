@@ -8,10 +8,11 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 })
 export class PaymentDetailComponent implements OnInit {
   data = {};
+  r_data: any = {};
   constructor(public config: DynamicDialogConfig,) { }
 
   ngOnInit(): void {
-    console.log('PAYMENT_INFO', this.config.data);
+    this.r_data = this.config.data;
     this.data = this.config.data.payments;
   }
 

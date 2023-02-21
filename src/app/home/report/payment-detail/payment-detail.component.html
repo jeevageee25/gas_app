@@ -1,5 +1,6 @@
 <div class="noteTable">
     <div class="payment" *ngFor="let item of data | keyvalue ">
-        <p style="margin:0">{{item.key}}</p>
+        <p *ngIf='r_data?.paymentMode === "cash"' style="margin:0">{{item.key}}</p>
+        <p *ngIf='r_data?.paymentMode !== "cash"' style="margin:0">Transaction ID</p>
         <b>{{item.value}}</b>
     </div>

@@ -220,7 +220,7 @@ export class ReportComponent implements OnInit {
   openPayment(row: any) {
     this.dialogService.open(PaymentDetailComponent, {
       header: 'Payment Details',
-      width: '70%',
+      width: '40%',
       data: row.sales_list[0]
     });
   }
