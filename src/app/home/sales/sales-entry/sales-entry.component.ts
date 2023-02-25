@@ -17,6 +17,7 @@ export class SalesEntryComponent implements OnInit {
   showParent = true;
   _id: any = '';
   productObj: any = {};
+  banner_info:any = {};
 
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) {
@@ -72,10 +73,16 @@ export class SalesEntryComponent implements OnInit {
     let grouped: any = this.gs.groupBy(data, ['area_id']);
     const sales_grouped: any = this.gs.groupBy(sales, ['area_id', 'product']);
     for (const [key, value] of Object.entries(grouped)) {
+    let b_allocated = 0;
+    let b_supplied = 0;
       const val: any = value;
       val.forEach((v: any) => {
-        v['supplied'] = sales_grouped[v?.area_id] && sales_grouped[v?.area_id][v?.product]?.reduce((t: any, v: any) => t + v.supplied, 0) || 0;
+        b_allocated += v.count;
+       const supplied = sales_grouped[v?.area_id] && sales_grouped[v?.area_id][v?.product]?.reduce((t: any, v: any) => t + v.supplied, 0) || 0;
+       v['supplied'] = supplied;
+       b_supplied += supplied;
       })
+      this.banner_info[key] = {allocated: b_allocated, supplied: b_supplied};
     }
     this.tableData = grouped;
   }

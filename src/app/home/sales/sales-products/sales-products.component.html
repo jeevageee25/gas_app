@@ -1,110 +1,113 @@
 <p-accordion>
     <p-accordionTab [header]="productObj[item.product]" *ngFor="let item of products;let i=index;">
-        <div class="accordian-container">
-            <div>
-                <span>Allocated</span>
-                <p class="count">{{item.count}}</p>
+        <div style="padding-left: 3px;">
+            <div class="accordian-container">
+                <div>
+                    <span>Allocated</span>
+                    <p class="count">{{item.count}}</p>
+                </div>
+                <div>
+                    <span>Supplied</span>
+                    <p class="count">{{item.supplied}}</p>
+                </div>
+                <div>
+                    <span>Count</span>
+                    <input style='width: 75%;margin: 0px 5px;' autocomplete="off" type="number" pInputText
+                        [(ngModel)]="item.delivery_count">
+                </div>
+                <div>
+                    <span>Returns</span>
+                    <p class="count" *ngIf="(item.count-(item.supplied || 0) - (item.delivery_count|| 0))>-1">
+                        {{item.count && (item.count-(item.supplied || 0) - (item.delivery_count|| 0)) || 0}}</p>
+                    <p class="count" *ngIf="(item.count-(item.supplied || 0) - (item.delivery_count|| 0))<0">0</p>
+                </div>
             </div>
-            <div>
-                <span>Supplied</span>
-                <p class="count">{{item.supplied}}</p>
-            </div>
-            <div>
-                <span>Count</span>
-                <input style='width: 75%;margin: 0px 5px;' autocomplete="off" type="number" pInputText
-                    [(ngModel)]="item.delivery_count">
-            </div>
-            <div>
-                <span>Returns</span>
-                <p class="count" *ngIf="(item.count-(item.supplied || 0) - (item.delivery_count|| 0))>-1">{{item.count && (item.count-(item.supplied || 0) - (item.delivery_count|| 0)) || 0}}</p>
-                <p class="count" *ngIf="(item.count-(item.supplied || 0) - (item.delivery_count|| 0))<0">0</p>
-            </div>
-        </div>
-        <br />
-        <div class="col-md-4">
-            <div class="row wrap">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" style="padding: 0;">
-                    <div class="form-group">
-                        <div class="custom-label"> Mode of Payment<span class='mandate'>*</span></div>
-                        <p-dropdown class="custom-pdropdown" optionLabel="key" optionValue="value"
-                            [(ngModel)]="item.paymentMode" (onChange)="onModechange(i, $event)"
-                            [options]="payment_options" [placeholder]="'Select Payment'">
-                        </p-dropdown>
+            <br />
+            <div class="col-md-4">
+                <div class="row wrap">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" style="padding: 0;">
+                        <div class="form-group">
+                            <div class="custom-label"> Mode of Payment<span class='mandate'>*</span></div>
+                            <p-dropdown class="custom-pdropdown" optionLabel="key" optionValue="value"
+                                [(ngModel)]="item.paymentMode" (onChange)="onModechange(i, $event)"
+                                [options]="payment_options" [placeholder]="'Select Payment'">
+                            </p-dropdown>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <br />
-        <div *ngIf="item.paymentMode === 'cash'">
-            <table class="noteTable">
-                <tr class="note-header">
-                    <th>Notes</th>
-                    <th>Count</th>
-                    <th class="txt-right">Amount</th>
-                </tr>
-                <tr>
-                    <td class="val">2000</td>
-                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['2000']"></td>
-                    <td class="txt-right val">{{2000*(item.payments['2000']||0) | currency:'INR' }}</td>
-                </tr>
-                <tr>
-                    <td class="val">500</td>
-                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['500']"></td>
-                    <td class="txt-right val">{{500*(item.payments['500']||0) | currency:'INR'}}</td>
+            <br />
+            <div *ngIf="item.paymentMode === 'cash'">
+                <table class="noteTable">
+                    <tr class="note-header">
+                        <th>Notes</th>
+                        <th>Count</th>
+                        <th class="txt-right">Amount</th>
+                    </tr>
+                    <tr>
+                        <td class="val">2000</td>
+                        <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['2000']"></td>
+                        <td class="txt-right val">{{2000*(item.payments['2000']||0) | currency:'INR' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="val">500</td>
+                        <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['500']"></td>
+                        <td class="txt-right val">{{500*(item.payments['500']||0) | currency:'INR'}}</td>
 
-                </tr>
-                <tr>
-                    <td class="val">100</td>
-                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['100']"></td>
-                    <td class="txt-right val">{{100*(item.payments['100'] ||0) | currency:'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="val">100</td>
+                        <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['100']"></td>
+                        <td class="txt-right val">{{100*(item.payments['100'] ||0) | currency:'INR'}}</td>
 
-                </tr>
-                <tr>
-                    <td class="val">50</td>
-                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['50']"></td>
-                    <td class="txt-right val">{{50*(item.payments['50']||0) | currency:'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="val">50</td>
+                        <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['50']"></td>
+                        <td class="txt-right val">{{50*(item.payments['50']||0) | currency:'INR'}}</td>
 
-                </tr>
-                <tr>
-                    <td class="val">20</td>
-                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['20']"></td>
-                    <td class="txt-right val">{{20*(item.payments['20'] ||0) | currency:'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="val">20</td>
+                        <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['20']"></td>
+                        <td class="txt-right val">{{20*(item.payments['20'] ||0) | currency:'INR'}}</td>
 
-                </tr>
-                <tr>
-                    <td class="val">10</td>
-                    <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['10']"></td>
-                    <td class="txt-right val">{{10*(item.payments['10'] ||0) | currency:'INR'}}</td>
-                </tr>
-                <tr>
-                    <td class="val">5</td>
-                    <td><input style='width: 80%;margin: 5px;' autocomplete="off" type="number" pInputText
-                            [(ngModel)]="item.payments['5']"></td>
-                    <td class="txt-right val">{{5*(item.payments['5']||0) | currency:'INR'}}</td>
-                </tr>
-                <tr style="height: 45px;">
-                    <td class="val"></td>
-                    <td class="val total-count">Total </td>
-                    <td class="txt-right val total-count">{{calculateTotal(item) | currency:'INR'}}</td>
-                </tr>
-                <tr style="height: 45px;">
-                    <td class="val"></td>
-                    <td class="val total-count">
-                        <span class="expected-revenue">Expected Revenue</span>
-                    </td>
-                    <td class="txt-right val total-count">{{calculateExpectedTotal(item) | currency:'INR'}}</td>
-                </tr>
-            </table>
-        </div>
-        <div *ngIf="item.paymentMode && item.paymentMode !== 'cash'">
-            <input style='width: 100%;' autocomplete="off" type="text" pInputText placeholder="Enter Txn Id"
-                [(ngModel)]="item.payments.txn_id">
+                    </tr>
+                    <tr>
+                        <td class="val">10</td>
+                        <td><input style='width: 80%;margin:5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['10']"></td>
+                        <td class="txt-right val">{{10*(item.payments['10'] ||0) | currency:'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="val">5</td>
+                        <td><input style='width: 80%;margin: 5px;' autocomplete="off" type="number" pInputText
+                                [(ngModel)]="item.payments['5']"></td>
+                        <td class="txt-right val">{{5*(item.payments['5']||0) | currency:'INR'}}</td>
+                    </tr>
+                    <tr style="height: 45px;">
+                        <td class="val"></td>
+                        <td class="val total-count">Total </td>
+                        <td class="txt-right val total-count">{{calculateTotal(item) | currency:'INR'}}</td>
+                    </tr>
+                    <tr style="height: 45px;">
+                        <td class="val"></td>
+                        <td class="val total-count">
+                            <span class="expected-revenue">Expected Revenue</span>
+                        </td>
+                        <td class="txt-right val total-count">{{calculateExpectedTotal(item) | currency:'INR'}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div *ngIf="item.paymentMode && item.paymentMode !== 'cash'">
+                <input style='width: 100%;' autocomplete="off" type="text" pInputText placeholder="Enter Txn Id"
+                    [(ngModel)]="item.payments.txn_id">
+            </div>
         </div>
         <div class="accordian-footer">
             <button pButton pRipple label="Back" (click)='onBack()' class="p-button-warning"></button>
