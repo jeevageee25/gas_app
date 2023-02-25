@@ -19,14 +19,14 @@ export class HeaderComponent implements OnInit {
 
   initPages() {
     this.pages = [
-      { name: "Products", link: ['home', 'products'], icon: "pi pi-database" },
-      { name: "Delivery Area", link: ['home', 'delivery-area'], icon: "pi pi-globe" },
       { name: "Allocate Executive Area", link: ['home', 'area-allocation'], icon: "pi pi-user-plus" },
+      { name: "Default Area Allocation", link: ['home', 'default-area'], icon: "pi pi-users" },
+      { name: "Delivery Area", link: ['home', 'delivery-area'], icon: "pi pi-globe" },
       { name: "Roles", link: ['home', 'roles'], icon: "pi pi-sitemap" },
       { name: "Employees", link: ['home', 'employees'], icon: "pi pi-users" },
-      { name: "Default Area Allocation", link: ['home', 'default-area'], icon: "pi pi-users" },
-      { name: "Sales Entry", link: ['home', 'sales-entry'], icon: "pi pi-users" },
+      { name: "Products", link: ['home', 'products'], icon: "pi pi-database" },
       { name: "Reports", link: ['home', 'report'], icon: "pi pi-users" },
+      { name: "Sales Entry", link: ['home', 'sales-entry'], icon: "pi pi-users" },
     ];
     const session: any = sessionStorage.getItem('previledge');
     const previlege: any = JSON.parse(session);

@@ -104,7 +104,7 @@
                     </tr>
                 </table>
             </div>
-            <div *ngIf="item.paymentMode && item.paymentMode !== 'cash'">
+            <div *ngIf="item.paymentMode && item.paymentMode !== 'cash' &&  item.paymentMode !== 'credit'">
                 <input style='width: 100%;' autocomplete="off" type="text" pInputText placeholder="Enter Txn Id"
                     [(ngModel)]="item.payments.txn_id">
             </div>
