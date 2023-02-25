@@ -197,7 +197,7 @@ export class ReportComponent implements OnInit {
             price: e.price,
             supplied:sales.supplied,
             collected: Number((collected).toFixed(2)),
-            difference: Number((collected - expected_amount).toFixed(2)),
+            difference: Number((expected_amount - collected).toFixed(2)),
             expected_amount,
             payment_method: sales?.paymentMode || '-',
             sales
@@ -211,7 +211,7 @@ export class ReportComponent implements OnInit {
           supplied: total_supplied,
           collected: Number((total_collected_amount).toFixed(2)),
           expected_amount: Number((total_expected_amount).toFixed(2)),
-          difference: Number(( total_collected_amount - total_expected_amount).toFixed(2)),
+          difference: Number((total_expected_amount - total_collected_amount).toFixed(2)),
           list
         });
       }
