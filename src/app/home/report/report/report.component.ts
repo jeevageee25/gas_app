@@ -187,17 +187,17 @@ export class ReportComponent implements OnInit {
             }
           }
           else {
-            collected = supplied * e.price;
+            collected = sales.supplied * e.price;
           }
           total_collected_amount += collected;
-          const expected_amount = Number(((supplied || 0) * (e.price || 0)).toFixed(2));
+          const expected_amount = Number(((sales.supplied || 0) * (e.price || 0)).toFixed(2));
           list.push({
             product_id: e.product,
             allocated: e.count,
             price: e.price,
-            supplied,
+            supplied:sales.supplied,
             collected: Number((collected).toFixed(2)),
-            difference: Number((expected_amount - collected).toFixed(2)),
+            difference: Number((collected - expected_amount).toFixed(2)),
             expected_amount,
             payment_method: sales?.paymentMode || '-',
             sales
@@ -211,7 +211,7 @@ export class ReportComponent implements OnInit {
           supplied: total_supplied,
           collected: Number((total_collected_amount).toFixed(2)),
           expected_amount: Number((total_expected_amount).toFixed(2)),
-          difference: Number((total_expected_amount - total_collected_amount).toFixed(2)),
+          difference: Number(( total_collected_amount - total_expected_amount).toFixed(2)),
           list
         });
       }

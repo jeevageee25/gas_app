@@ -68,7 +68,7 @@ export class SalesProductsComponent implements OnInit {
   }
 
   calculateExpectedTotal(item: any) {
-    return (item.price || 0) * (item.supplied || 0);
+    return (item.price || 0) * (item.delivery_count || 0);
   }
 
   onSubmit(item:any) {
