@@ -1,9 +1,9 @@
 <div class="page-content">
-    <div class="row wrap" *ngIf='showParent'>
-        <div class="col-md-2 col-sm-4 col-xs-4" *ngFor="let area of areas">
+    <div class="row wrap" *ngIf='showParent && areas?.length' style="display:block">
+        <div class="col-md-12" *ngFor="let area of areas">
             <div class="card" (click)="onAreaClick(area)">
                 {{areaObj[area]}}
-                <div style="display: flex;justify-content: center;">
+                <div style="display: flex;justify-content: center;min-width: 65vw;">
                     <p>
                         <b>AL :&nbsp;</b><span>{{banner_info[area]?.allocated}}</span>
                     </p>
@@ -17,6 +17,9 @@
             </div>
         </div>
     </div>
+    <div class="row wrap" *ngIf='!areas?.length'>
+        <b style="text-align: center;color: #9f9999;">No Allocations</b>
+</div>
     <div class="row wrap" *ngIf='!showParent'>
         <app-sales-products [productObj]='productObj' (back)="showParent=true"
             (confirm)="onConfirm()" style="overflow: auto;height: 59vh;"></app-sales-products>

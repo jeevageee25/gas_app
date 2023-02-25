@@ -5,14 +5,14 @@
                 <div class=" col-xs-12">
                     <div class="form-group">
                         <div class="custom-label">Login <span class='mandate'>*</span></div>
-                        <input style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
+                        <input (keyup.enter)="onloginClick()" style='width: 100%;' autocomplete="off" type="text" id="name" pInputText
                             formControlName="user_name" placeholder="Enter Username / Email">
                     </div>
                 </div>
                 <div class=" col-sm-12 col-xs-12">
                     <div class="form-group">
                         <div class="custom-label">Password<span class='mandate'>*</span></div>
-                        <input style='width: 100%;' autocomplete="off" type="password" id="name" pInputText
+                        <input style='width: 100%;' (keyup.enter)="onloginClick()" autocomplete="off" type="password" id="name" pInputText
                             formControlName="password" placeholder="Enter Password">
                     </div>
                 </div>
