@@ -1,3 +1,7 @@
+<div style="display:block;">
+<button pButton pRipple label="Back" (click)='onBack()' class="p-button-warning"></button>
+</div>
+<br>
 <p-accordion>
     <p-accordionTab [header]="productObj[item.product]" *ngFor="let item of products;let i=index;">
         <div style="padding-left: 3px;">

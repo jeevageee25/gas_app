@@ -1,4 +1,4 @@
-<div class="page-content">
+<div class="page-content" style="padding-top: 15px;">
     <div class="row wrap" *ngIf='showParent && areas?.length' style="display:block">
         <div class="col-md-12" *ngFor="let area of areas">
             <div class="card" (click)="onAreaClick(area)">
@@ -11,7 +11,7 @@
                         <b>SD :&nbsp;</b><span>{{banner_info[area]?.supplied}}</span>
                     </p>
                     <p>
-                        <b>RN :&nbsp;</b><span>{{banner_info[area]?.supplied}}</span>
+                        <b>RN :&nbsp;</b><span>{{banner_info[area]?.allocated-banner_info[area]?.supplied}}</span>
                     </p>
                 </div>
             </div>
