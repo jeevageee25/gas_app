@@ -48,6 +48,9 @@
           <span class="font-small ">{{row.collected}}</span>
         </td>
         <td>
+          <span class="font-small ">{{row.credit_amount}}</span>
+        </td>
+        <td>
           <span class="font-small values"
             [ngClass]="{'green': row.difference>0, 'red' : row.difference<0 }">{{row.difference}}</span>
         </td>
@@ -75,7 +78,7 @@
           <td>
             <span *ngIf='row.payment_method==="credit"' class="font-small">{{row.payment_method}}</span>
             <a *ngIf='row.payment_method!=="credit"' class="font-small" style="cursor:pointer"
-              (click)="openPayment(row)">{{row.payment_method}}</a>
+              (click)="openPayment(row)">{{paymentObj[row.payment_method]}}</a>
           </td>
           <td>
             <span class="font-small ">{{row.expected_amount}}</span>

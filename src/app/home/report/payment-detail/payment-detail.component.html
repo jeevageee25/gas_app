@@ -1,6 +1,37 @@
-<div class="noteTable">
+<div class="noteTable" *ngIf='r_data?.paymentMode !== "cash"'>
     <div class="payment" *ngFor="let item of data | keyvalue ">
-        <p *ngIf='r_data?.paymentMode === "cash"' style="margin:0">{{item.key}}</p>
         <p *ngIf='r_data?.paymentMode !== "cash"' style="margin:0">Transaction ID</p>
         <b>{{item.value}}</b>
     </div>
+</div>
+
+<div class="noteTable" *ngIf='r_data?.paymentMode === "cash"'>
+    <div class="payment">
+        <p style="margin:0">5</p>
+        <b>{{data['5']}}</b>
+    </div>
+    <div class="payment">
+        <p style="margin:0">10</p>
+        <b>{{data['10']}}</b>
+    </div>
+    <div class="payment">
+        <p style="margin:0">20</p>
+        <b>{{data['20']}}</b>
+    </div>
+    <div class="payment">
+        <p style="margin:0">50</p>
+        <b>{{data['50']}}</b>
+    </div>
+    <div class="payment">
+        <p style="margin:0">100</p>
+        <b>{{data['100']}}</b>
+    </div>
+    <div class="payment">
+        <p style="margin:0">500</p>
+        <b>{{data['500']}}</b>
+    </div>
+    <div class="payment">
+        <p style="margin:0">2000</p>
+        <b>{{data['2000']}}</b>
+    </div>
+</div>

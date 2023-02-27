@@ -22,7 +22,14 @@ export class ReportComponent implements OnInit {
   areaObj: any = {};
   productObj: any = {};
   executiveObj: any = {};
-
+  paymentObj:any = {
+    'credit' : 'Credit', 
+    'cheque': 'Cheque',
+    'c_card': 'Credit Card',
+    'd_card': 'Debit Card',
+    'upi': 'UPI',
+    'cash': 'Cash'
+}
   constructor(private fb: FormBuilder, private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService, public dialogService: DialogService) { }
 
@@ -55,6 +62,7 @@ export class ReportComponent implements OnInit {
       { key: 'supplied', title: 'Supplied' },
       { key: 'expected_amount', title: 'Expected Amount' },
       { key: 'collected_amount', title: 'Collected Amount' },
+      { key: 'credit_amount', title: 'Credit' },
       { key: 'difference', title: 'Difference' },
     ];
     this.nestedColumns = [
@@ -159,6 +167,7 @@ export class ReportComponent implements OnInit {
     const grouped = this.gs.groupBy(for_grouping, ['area_id', 'executive_id']);
     let tableData = [];
     for (const [area_key, area_value] of Object.entries(grouped)) {
+      let credit_amount = 0;
       const area_values: any = area_value;
       for (const [exec_key, exec_value] of Object.entries(area_values)) {
         const exec_values: any = exec_value;
@@ -178,13 +187,17 @@ export class ReportComponent implements OnInit {
           let collected = 0;
           sales_list.forEach((sales:any)=>{
           if (sales?.paymentMode === 'cash') {
-            for (const [c, v] of Object.entries(sales_list[0]?.payments)) {
+            for (const [c, v] of Object.entries(sales?.payments)) {
               let a: any = c;
               let b: any = v;
               if (v != 0) {
                 collected += (a * b);
               }
             }
+          }
+          else if (sales?.paymentMode === 'credit'){
+            collected = sales.supplied * e.price;
+            credit_amount+= (sales.supplied * e.price);
           }
           else {
             collected = sales.supplied * e.price;
@@ -212,7 +225,8 @@ export class ReportComponent implements OnInit {
           collected: Number((total_collected_amount).toFixed(2)),
           expected_amount: Number((total_expected_amount).toFixed(2)),
           difference: Number((total_expected_amount - total_collected_amount).toFixed(2)),
-          list
+          list,
+          credit_amount
         });
       }
     }

@@ -7,13 +7,13 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
   styleUrls: ['./payment-detail.component.scss']
 })
 export class PaymentDetailComponent implements OnInit {
-  data = {};
+  data: any = {};
   r_data: any = {};
   constructor(public config: DynamicDialogConfig,) { }
 
   ngOnInit(): void {
     this.r_data = this.config.data;
-    this.data = this.config.data.payments;
+    this.data = { ...this.config.data.payments };
   }
 
 }
