@@ -17,8 +17,8 @@ export class SalesEntryComponent implements OnInit {
   showParent = true;
   _id: any = '';
   productObj: any = {};
-  banner_info:any = {};
-
+  banner_info: any = {};
+  top_info: any = { al: 0, sup: 0, rm: 0 }
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) {
     const session: any = sessionStorage.getItem('user_info');
@@ -73,16 +73,28 @@ export class SalesEntryComponent implements OnInit {
     let grouped: any = this.gs.groupBy(data, ['area_id']);
     const sales_grouped: any = this.gs.groupBy(sales, ['area_id', 'product']);
     for (const [key, value] of Object.entries(grouped)) {
-    let b_allocated = 0;
-    let b_supplied = 0;
+      let b_allocated = 0;
+      let b_supplied = 0;
+      let b_allocated_amount = 0;
+      let b_supplied_amount = 0;
       const val: any = value;
       val.forEach((v: any) => {
         b_allocated += v.count;
-       const supplied = sales_grouped[v?.area_id] && sales_grouped[v?.area_id][v?.product]?.reduce((t: any, v: any) => t + v.supplied, 0) || 0;
-       v['supplied'] = supplied;
-       b_supplied += supplied;
+        const supplied = sales_grouped[v?.area_id] && sales_grouped[v?.area_id][v?.product]?.reduce((t: any, v: any) => t + v.supplied, 0) || 0;
+        v['supplied'] = supplied;
+        b_supplied += supplied;
+        b_allocated_amount += (v.count * v.price);
+        b_supplied_amount += (supplied * v.price);
       })
-      this.banner_info[key] = {allocated: b_allocated, supplied: b_supplied};
+      this.banner_info[key] = {
+        allocated: b_allocated, supplied: b_supplied,
+        b_allocated_amount: Number(b_allocated_amount.toFixed(2)),
+        b_supplied_amount: Number(b_supplied_amount.toFixed(2)),
+        b_remaining_amount: Number((b_allocated_amount - b_supplied_amount).toFixed(2)),
+      };
+      this.top_info.al = Number((this.top_info.al + b_allocated_amount).toFixed(2))
+      this.top_info.sup = Number((this.top_info.sup + b_supplied_amount).toFixed(2))
+      this.top_info.rm = Number((this.top_info.rm + b_allocated_amount - b_supplied_amount).toFixed(2))
     }
     this.tableData = grouped;
   }
@@ -94,7 +106,7 @@ export class SalesEntryComponent implements OnInit {
   onConfirm() {
     const data: any = this.gs.data_entry;
     const { price, product, area_id, delivery_count, paymentMode, payments, count } = data;
-    if(!delivery_count){
+    if (!delivery_count) {
       this.toastService.showWarningToaster('Warning', 'Please enter the Supplied count');
       return;
     }

@@ -1,8 +1,19 @@
 <div class="page-content" style="padding-top: 15px;">
+    <div *ngIf='showParent && areas?.length' style="padding: 26px;color: #719e36;font-weight: 500;">
+        <div style="display: flex;justify-content: space-between;">
+            <b>Allocated Amount :&nbsp;</b><span>Rs {{top_info['al']}}</span>
+        </div>
+        <div style="display: flex;justify-content: space-between;">
+            <b>Expected Amount :&nbsp;</b><span>Rs {{top_info['sup']}}</span>
+        </div>
+        <div style="display: flex;justify-content: space-between;">
+            <b>Remaining Amount :&nbsp;</b><span>Rs {{top_info['rm']}}</span>
+        </div>
+    </div>
     <div class="row wrap" *ngIf='showParent && areas?.length' style="display:block">
         <div class="col-md-12" *ngFor="let area of areas">
             <div class="card" (click)="onAreaClick(area)">
-                {{areaObj[area]}}
+                <b>{{areaObj[area]}}</b>
                 <div style="display: flex;justify-content: center;min-width: 65vw;">
                     <p>
                         <b>AL :&nbsp;</b><span>{{banner_info[area]?.allocated}}</span>
@@ -14,14 +25,25 @@
                         <b>RN :&nbsp;</b><span>{{banner_info[area]?.allocated-banner_info[area]?.supplied}}</span>
                     </p>
                 </div>
+                <div>
+                    <div style="display: flex;justify-content: space-between;">
+                        <b>Allocated Amount :&nbsp;</b><span>Rs {{banner_info[area]?.b_allocated_amount}}</span>
+                    </div>
+                    <div style="display: flex;justify-content: space-between;">
+                        <b>Expected Amount :&nbsp;</b><span>Rs {{banner_info[area]?.b_supplied_amount}}</span>
+                    </div>
+                    <div style="display: flex;justify-content: space-between;">
+                        <b>Remaining Amount :&nbsp;</b><span>Rs {{banner_info[area]?.b_remaining_amount}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="row wrap" *ngIf='!areas?.length'>
         <b style="text-align: center;color: #9f9999;">No Allocations</b>
-</div>
+    </div>
     <div class="row wrap" *ngIf='!showParent'>
-        <app-sales-products [productObj]='productObj' (back)="showParent=true"
-            (confirm)="onConfirm()" style="overflow: auto;height: 59vh;"></app-sales-products>
+        <app-sales-products [productObj]='productObj' (back)="showParent=true" (confirm)="onConfirm()"
+            style="overflow: auto;height: 59vh;"></app-sales-products>
     </div>
 </div>
