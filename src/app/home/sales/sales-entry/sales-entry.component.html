@@ -1,13 +1,13 @@
 <div class="page-content" style="padding-top: 15px;">
-    <div *ngIf='showParent && areas?.length' style="padding:0px 26px;color: #2b751a;font-weight: 500;">
+    <div *ngIf='showParent && areas?.length' style="padding:0px 35px;color: #2b751a;font-weight: 500;">
         <div style="display: flex;justify-content: space-between;">
-            <b>Allocated Amount :&nbsp;</b><span>Rs {{top_info['al']}}</span>
+            <b>Allocated Amt (Rs) :&nbsp;</b><span>{{top_info['al']}}</span>
         </div>
         <div style="display: flex;justify-content: space-between;">
-            <b>Expected Amount :&nbsp;</b><span>Rs {{top_info['sup']}}</span>
+            <b>Expected Amt (Rs) :&nbsp;</b><span>{{top_info['sup']}}</span>
         </div>
         <div style="display: flex;justify-content: space-between;">
-            <b>Remaining Amount :&nbsp;</b><span>Rs {{top_info['rm']}}</span>
+            <b>Remaining Amt (Rs) :&nbsp;</b><span>{{top_info['rm']}}</span>
         </div>
     </div>
     <div class="row wrap" *ngIf='showParent && areas?.length' style="display:block">
@@ -27,13 +27,13 @@
                 </div>
                 <div>
                     <div style="display: flex;justify-content: space-between;">
-                        <b>Allocated Amount :&nbsp;</b><span>Rs {{banner_info[area]?.b_allocated_amount}}</span>
+                        <b>Allocated Amt (Rs) :&nbsp;</b><span>{{banner_info[area]?.b_allocated_amount}}</span>
                     </div>
                     <div style="display: flex;justify-content: space-between;">
-                        <b>Expected Amount :&nbsp;</b><span>Rs {{banner_info[area]?.b_supplied_amount}}</span>
+                        <b>Expected Amt (Rs) :&nbsp;</b><span>{{banner_info[area]?.b_supplied_amount}}</span>
                     </div>
                     <div style="display: flex;justify-content: space-between;">
-                        <b>Remaining Amount :&nbsp;</b><span>Rs {{banner_info[area]?.b_remaining_amount}}</span>
+                        <b>Remaining Amt (Rs) :&nbsp;</b><span>{{banner_info[area]?.b_remaining_amount}}</span>
                     </div>
                 </div>
             </div>
