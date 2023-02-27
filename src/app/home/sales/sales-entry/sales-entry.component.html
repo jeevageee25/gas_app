@@ -1,13 +1,13 @@
-<div class="page-content" style="padding-top: 15px;">
+<div class="page-content" style="padding-top: 15px;overflow: auto;height: 70vh;">
     <div *ngIf='showParent && areas?.length' style="padding:0px 35px;color: #2b751a;font-weight: 500;">
         <div style="display: flex;justify-content: space-between;">
-            <b>Allocated Amt (Rs) :&nbsp;</b><span>{{top_info['al']}}</span>
+            <span>Allocated Amt (Rs) :&nbsp;</span><span>{{top_info['al']}}</span>
         </div>
         <div style="display: flex;justify-content: space-between;">
-            <b>Expected Amt (Rs) :&nbsp;</b><span>{{top_info['sup']}}</span>
+            <span>Expected Amt (Rs) :&nbsp;</span><span>{{top_info['sup']}}</span>
         </div>
         <div style="display: flex;justify-content: space-between;">
-            <b>Remaining Amt (Rs) :&nbsp;</b><span>{{top_info['rm']}}</span>
+            <span>Remaining Amt (Rs) :&nbsp;</span><span>{{top_info['rm']}}</span>
         </div>
     </div>
     <div class="row wrap" *ngIf='showParent && areas?.length' style="display:block">
@@ -27,13 +27,13 @@
                 </div>
                 <div>
                     <div style="display: flex;justify-content: space-between;">
-                        <b>Allocated Amt (Rs) :&nbsp;</b><span>{{banner_info[area]?.b_allocated_amount}}</span>
+                        <span>Allocated Amt (Rs) :&nbsp;</span><span>{{banner_info[area]?.b_allocated_amount}}</span>
                     </div>
                     <div style="display: flex;justify-content: space-between;">
-                        <b>Expected Amt (Rs) :&nbsp;</b><span>{{banner_info[area]?.b_supplied_amount}}</span>
+                        <span>Expected Amt (Rs) :&nbsp;</span><span>{{banner_info[area]?.b_supplied_amount}}</span>
                     </div>
                     <div style="display: flex;justify-content: space-between;">
-                        <b>Remaining Amt (Rs) :&nbsp;</b><span>{{banner_info[area]?.b_remaining_amount}}</span>
+                        <span>Remaining Amt (Rs) :&nbsp;</span><span>{{banner_info[area]?.b_remaining_amount}}</span>
                     </div>
                 </div>
             </div>
@@ -44,6 +44,6 @@
     </div>
     <div class="row wrap" *ngIf='!showParent'>
         <app-sales-products [productObj]='productObj' (back)="showParent=true" (confirm)="onConfirm()"
-            style="overflow: auto;height: 59vh;"></app-sales-products>
+            style="overflow: auto;height: 68vh;"></app-sales-products>
     </div>
 </div>
