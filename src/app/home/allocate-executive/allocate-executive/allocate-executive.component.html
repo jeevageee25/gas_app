@@ -48,13 +48,20 @@
                         </div>
                         <div class="card-body">
                             <div class="row wrap" style="padding-bottom: 15px;">
-                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                     <p-dropdown class="custom-pdropdown" optionLabel="area" optionValue="_id"
                                         formControlName="selectedArea" [options]="areaData"
                                         [placeholder]="'Select Area'">
                                     </p-dropdown>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-xs-12"></div>
+                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12" style="padding: 0;">
+                                    <p-multiSelect class="custom-pdropdown" optionLabel="name" optionValue="_id"
+                                        formControlName="selectedProduct" [options]="products"
+                                        [placeholder]="'Select Product'">
+                                    </p-multiSelect>
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12"
                                     style="padding: 0;text-align: end;">
                                     <button type="button" pButton pRipple type="button" (click)='onAddArea(t, item)'
                                         label="Add" class="p-button-success addArea"></button>

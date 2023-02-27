@@ -68,7 +68,7 @@ export class AllocateExectuveComponent implements OnInit {
 
   searchProducts() {
     this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
-      this.products = res?.data || []
+      this.products = res?.data || [];
       this.products.map((i: any) => {
         this.productObj[i._id] = `${i.category} - ${i.name}`;
         this.productPriceObj[i._id] = i.price;
@@ -122,6 +122,7 @@ export class AllocateExectuveComponent implements OnInit {
       this.tableDataCtrls.push(this.fb.group({
         executive_id: new FormControl(e_id, Validators.required),
         selectedArea: new FormControl(''),
+        selectedProduct: new FormControl([]),
         allocations
       }))
     }
@@ -131,12 +132,15 @@ export class AllocateExectuveComponent implements OnInit {
     if (item.value.selectedArea) {
       const formc: any = this.alloationForm.controls['tableData'] as FormArray;
       const formA = formc.controls[t].get('allocations') as FormArray;
-      formA.push(this.fb.group({
-        area_id: new FormControl(item.value.selectedArea, Validators.required),
-        product: new FormControl('', Validators.required),
-        count: new FormControl('', Validators.required)
-      }));
+      item.value.selectedProduct.forEach((s: any) => {
+        formA.push(this.fb.group({
+          area_id: new FormControl(item.value.selectedArea, Validators.required),
+          product: new FormControl(s, Validators.required),
+          count: new FormControl('', Validators.required)
+        }));
+      })
       formc.controls[t].get('selectedArea').setValue('');
+      formc.controls[t].get('selectedProduct').setValue([]);
     }
   }
 
@@ -160,6 +164,8 @@ export class AllocateExectuveComponent implements OnInit {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
       })
+      delete a.selectedArea;
+      delete a.selectedProduct;
     })
     const { allocation_date } = this.dateForm.value;
     this.PService.addAreaAllocation({ allocation_date: this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
@@ -190,6 +196,8 @@ export class AllocateExectuveComponent implements OnInit {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
       })
+      delete a.selectedArea;
+      delete a.selectedProduct;
     })
     this.PService.updateAreaAllocation({ _id, allocation_data }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
@@ -234,6 +242,7 @@ export class AllocateExectuveComponent implements OnInit {
       this.tableDataCtrls.push(this.fb.group({
         executive_id: new FormControl(d.executive_id, Validators.required),
         selectedArea: new FormControl(''),
+        selectedProduct: new FormControl([]),
         allocations
       }))
     })
@@ -254,7 +263,7 @@ export class AllocateExectuveComponent implements OnInit {
 
   isFieldInvalid(fieldType: string, item: any): boolean {
     return item.controls[fieldType]?.invalid &&
-      (item.controls[fieldType]?.touched ||  item.controls[fieldType]?.dirty);
+      (item.controls[fieldType]?.touched || item.controls[fieldType]?.dirty);
   }
 
   get executive_options() {
