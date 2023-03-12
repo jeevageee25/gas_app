@@ -44,6 +44,10 @@ const routes: Routes = [
         path: 'report',
         loadChildren: () => import('./report/report.module').then(m => m.ReportModule)
       },
+      {
+        path: 'credit-settlement',
+        loadChildren: () => import('./credit-settlement/credit-settlement.module').then(m => m.CreditSettlementModule)
+      },
     ]
   }
 ]
@@ -52,7 +56,7 @@ const routes: Routes = [
   declarations: [
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     CommonModule,

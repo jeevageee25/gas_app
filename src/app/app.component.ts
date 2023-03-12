@@ -32,6 +32,7 @@ export class AppComponent {
       { name: "Allocate Executive Area", link: ['home', 'area-allocation'], icon: "pi pi-user-plus" },
       { name: "Default Area Allocation", link: ['home', 'default-area'], icon: "pi pi-users" },
       { name: "Delivery Area", link: ['home', 'delivery-area'], icon: "pi pi-globe" },
+      { name: "Credit Settlement", link: ['home', 'credit-settlement'], icon: "pi pi-money-bill" },
       { name: "Roles", link: ['home', 'roles'], icon: "pi pi-sitemap" },
       { name: "Employees", link: ['home', 'employees'], icon: "pi pi-users" },
       { name: "Products", link: ['home', 'products'], icon: "pi pi-database" },

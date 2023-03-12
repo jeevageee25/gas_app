@@ -60,8 +60,9 @@ export class PreviledgesComponent implements OnInit {
       { screen: 'Employees', create: false, view: false, update: false, delete: false },
       { screen: 'Default Area Allocation', create: false, view: false, update: false, delete: false },
       { screen: 'Sales Entry', create: false, view: false, update: false, delete: false },
-      { screen: 'Reports', create: false, view: false, update: false, delete: false },
       { screen: 'User Mangement', create: false, view: false, update: false, delete: false },
+      { screen: "Credit Settlement", create: false, view: false, update: false, delete: false },
+      { screen: 'Reports', create: false, view: false, update: false, delete: false },
     ];
   }
 
