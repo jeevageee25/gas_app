@@ -180,7 +180,7 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.previl.update) {
+    if (!this.previl.create) {
       this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
       return;
     }
@@ -197,6 +197,10 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   updateAreaAllocation() {
+    if (!this.previl.update) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     const { _id } = this.dateForm.value;
     const allocation_data = this.tableDataCtrls.value.filter((t: any) => t.allocations.length);
     allocation_data.forEach((a: any) => {
