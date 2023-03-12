@@ -4,6 +4,7 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ConfirmationService } from 'primeng/api';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-allocate-executive',
@@ -22,12 +23,14 @@ export class AllocateExectuveComponent implements OnInit {
   productPriceObj: any = {};
   executive_id = new FormControl();
   defaultData: any = [];
+  previl = this.gs.getPreviledge('Allocate Executive Area');
 
   constructor(
     private confirmationService: ConfirmationService,
     private toastService: ToastService,
     private fb: FormBuilder,
-    private PService: ProductsService) { }
+    private PService: ProductsService,
+    private gs: GlobalService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -177,6 +180,10 @@ export class AllocateExectuveComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.previl.update) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     if (this.alloationForm.invalid) {
       this.alloationForm.markAllAsTouched()
       this.toastService.showWarningToaster('Warning', 'Please fill all the fields');

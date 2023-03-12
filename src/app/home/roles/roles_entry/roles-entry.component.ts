@@ -6,6 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { PreviledgesComponent } from '../previledges/previledges.component';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-roles-entry',
@@ -17,7 +18,9 @@ export class RolesComponent implements OnInit {
   configuration: Config = { ...DefaultConfig };
   columns: Columns[] = [];
   tableData = [];
-  constructor(public dialogService: DialogService, private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
+  previl = this.gs.getPreviledge('Roles');
+
+  constructor(private gs: GlobalService, public dialogService: DialogService, private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -44,6 +47,10 @@ export class RolesComponent implements OnInit {
   }
 
   addRole() {
+    if (!this.previl.create) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     if (this.inputForm.invalid) {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
@@ -59,6 +66,10 @@ export class RolesComponent implements OnInit {
   }
 
   updateRole() {
+    if (!this.previl.update) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     if (this.inputForm.invalid) {
       this.toastService.showWarningToaster('Warning', 'Please fill the Mandatory Fields !');
       return;
@@ -95,6 +106,10 @@ export class RolesComponent implements OnInit {
   }
 
   confirm(event: Event, row: any) {
+    if (!this.previl.delete) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     const target: any = event.target;
     this.confirmationService.confirm({
       target,

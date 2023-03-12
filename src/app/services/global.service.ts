@@ -21,4 +21,9 @@ export class GlobalService {
     });
     return grouped;
   }
+
+  getPreviledge(screen:any){
+    const data:any = sessionStorage.getItem('previledge');
+    return  JSON.parse(data).find((d:any)=>d.screen===screen);
+  }
 }

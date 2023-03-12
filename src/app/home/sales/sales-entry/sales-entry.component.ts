@@ -19,6 +19,8 @@ export class SalesEntryComponent implements OnInit {
   productObj: any = {};
   banner_info: any = {};
   top_info: any = { al: 0, sup: 0, rm: 0 }
+  previl = this.gs.getPreviledge('Sales Entry');
+
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) {
     const session: any = sessionStorage.getItem('user_info');
@@ -104,6 +106,10 @@ export class SalesEntryComponent implements OnInit {
   }
 
   onConfirm() {
+    if (!this.previl.delete) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     const data: any = this.gs.data_entry;
     const { price, product, area_id, delivery_count, paymentMode, payments, count } = data;
     if (!delivery_count) {

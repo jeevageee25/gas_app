@@ -4,6 +4,7 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ConfirmationService } from 'primeng/api';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-default-entry',
@@ -19,7 +20,9 @@ export class DefaultEntryComponent implements OnInit {
   areaData = [];
   areaObj: any = {};
   executiveObj: any = {};
-  constructor(private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
+  previl = this.gs.getPreviledge('Default Area Allocation');
+
+  constructor(private gs: GlobalService, private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -49,6 +52,10 @@ export class DefaultEntryComponent implements OnInit {
   }
 
   addAreaAllocation() {
+    if (!this.previl.create) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     if (this.inputForm.invalid) {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
@@ -69,6 +76,10 @@ export class DefaultEntryComponent implements OnInit {
   }
 
   updateAreaAllocation() {
+    if (!this.previl.update) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     if (this.inputForm.invalid) {
       this.toastService.showWarningToaster('Warning', 'Please fill the Mandatory Fields !');
       return;
@@ -105,6 +116,10 @@ export class DefaultEntryComponent implements OnInit {
   }
 
   confirm(event: Event, row: any) {
+    if (!this.previl.delete) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     const target: any = event.target;
     this.confirmationService.confirm({
       target,
