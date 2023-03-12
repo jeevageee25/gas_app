@@ -56,7 +56,7 @@ export class ExecutiveEntryComponent implements OnInit {
       return;
     }
     const { staff_name, role, siebel_code, user_name, password } = this.inputForm.value;
-    this.PService.addEmployee({ staff_name, role, siebel_code, user_name, password }).subscribe((res: any) => {
+    this.PService.addEmployee({ staff_name, role, siebel_code, user_name, password, profile_update: true }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
       this.searchEmployee();
       this.inputForm.reset();
