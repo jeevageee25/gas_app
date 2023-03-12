@@ -1,7 +1,10 @@
-<div style="display: flex;overflow: auto;background: #fff;">
-<img style='height: 49px;' src="../../../assets/images/indane.jpeg">
-<p-tabView style="flex: 2;" (onChange)="handleChange($event)">
+<div style="display: flex;background: #fff;justify-content: space-between;">
+    <div>
+        <p-button class="hamburger" type="text" (click)="changeSidebar()" icon="pi pi-bars"></p-button>
+        <img style='height: 49px;' src="../../../assets/images/indane.jpeg">
+    </div>
+    <!-- <p-tabView style="flex: 2;" (onChange)="handleChange($event)">
     <p-tabPanel [header]="item.name" [leftIcon]="item.icon" *ngFor="let item of pages"></p-tabPanel>
-</p-tabView>
-<b class="logout" (click)="onLogout()">Logout</b>
+</p-tabView> -->
+    <b class="logout" (click)="onLogout()">Logout</b>
 </div>

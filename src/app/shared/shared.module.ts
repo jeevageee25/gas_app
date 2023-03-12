@@ -16,6 +16,8 @@ import {CalendarModule} from 'primeng/calendar';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {CheckboxModule} from 'primeng/checkbox';
 import {AccordionModule} from 'primeng/accordion';
+import {SidebarModule} from 'primeng/sidebar';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -36,7 +38,8 @@ import {AccordionModule} from 'primeng/accordion';
     CalendarModule,
     DynamicDialogModule,
     CheckboxModule,
-    AccordionModule
+    AccordionModule,
+    SidebarModule
   ],
   exports:[
     DividerModule,
@@ -55,7 +58,8 @@ import {AccordionModule} from 'primeng/accordion';
     CalendarModule,
     DynamicDialogModule,
     CheckboxModule,
-    AccordionModule
+    AccordionModule,
+    SidebarModule
   ]
 })
 export class SharedModule { }

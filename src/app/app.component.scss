@@ -5,7 +5,7 @@
     cursor: default;
 }
 
-::ng-deep .ngx-table__header-search{
+::ng-deep .ngx-table__header-search {
     padding: 20px 5px;
 }
 
@@ -19,4 +19,27 @@
 
 ::ng-deep .p-calendar-w-btn .p-datepicker-trigger:hover {
     background: #719e36;
+}
+
+.list {
+    padding: 0;
+}
+
+.innerList {
+    list-style-type: none;
+    padding: 15px 5px;
+    cursor: pointer;
+}
+
+.innerList:hover {
+    background: #eda05f !important;
+}
+
+.innerList:nth-child(even) {
+    background: #e6e6e6;
+}
+
+::ng-deep .p-sidebar-header {
+background: #fbe5d6;
+font-weight: bold;
 }

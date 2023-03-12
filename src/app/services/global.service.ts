@@ -8,7 +8,8 @@ export class GlobalService {
   product_details = [];
   updated_products = [];
   data_entry = {};
-
+  displaysidebar = false;
+  
   constructor() { }
 
   groupBy(arr: any, groups: any) {

@@ -17,3 +17,19 @@
 .logout:hover {
     color: #ea5600;
 }
+
+::ng-deep .hamburger button {
+    background-color: #fff;
+    color: #db5a00;
+    border: none;
+    height: -webkit-fill-available;
+}
+
+::ng-deep .hamburger button:hover{
+    background-color: none !important;
+}
+
+::ng-deep .hamburger .p-button:enabled:hover {
+    background: none !important;
+    color: #db5a00 !important;
+}

@@ -1,3 +1,12 @@
 <router-outlet></router-outlet>
-<p-toast  position="top-center"></p-toast>
+<p-toast position="top-center"></p-toast>
 <p-confirmPopup></p-confirmPopup>
+
+<p-sidebar [visible]="displaysidebar" (visibleChange)="hideSidebar($event)">
+      <ng-template pTemplate="header">Pages</ng-template>
+    <ul class="list">
+        <li class="innerList" (click)="handleChange(i)" *ngFor="let item of pages;let i=index">
+            <i [class]="item.icon"></i> {{item?.name}}
+        </li>
+    </ul>
+</p-sidebar>

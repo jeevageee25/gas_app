@@ -9,6 +9,8 @@ import { HomeModule } from './home/home.module';
 import { ServicesModule } from './services/services.module';
 import { ConfirmPopupModule } from "primeng/confirmpopup";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SharedModule } from './shared/shared.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ServicesModule,
     HttpClientModule,
     ConfirmPopupModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SharedModule,
+    TabViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]
