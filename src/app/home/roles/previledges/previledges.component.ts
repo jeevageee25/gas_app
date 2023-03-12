@@ -3,6 +3,7 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-previledges',
@@ -13,8 +14,9 @@ export class PreviledgesComponent implements OnInit {
   configuration: Config = { ...DefaultConfig };
   columns: Columns[] = [];
   tableData: any = [];
+  previl = this.gs.getPreviledge('User Mangement');
 
-  constructor(private toastService: ToastService, private PService: ProductsService, public config: DynamicDialogConfig, public ref: DynamicDialogRef) { }
+  constructor(private gs: GlobalService, private toastService: ToastService, private PService: ProductsService, public config: DynamicDialogConfig, public ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
     this.initData();
@@ -58,11 +60,16 @@ export class PreviledgesComponent implements OnInit {
       { screen: 'Employees', create: false, view: false, update: false, delete: false },
       { screen: 'Default Area Allocation', create: false, view: false, update: false, delete: false },
       { screen: 'Sales Entry', create: false, view: false, update: false, delete: false },
-      { screen: 'Reports', create: false, view: false, update: false, delete: false }
+      { screen: 'Reports', create: false, view: false, update: false, delete: false },
+      { screen: 'User Mangement', create: false, view: false, update: false, delete: false },
     ];
   }
 
   update() {
+    if (!this.previl.update) {
+      this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
+      return;
+    }
     const data = this.config?.data;
     this.PService.updateRole({ _id: data._id, previledge: this.tableData }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
