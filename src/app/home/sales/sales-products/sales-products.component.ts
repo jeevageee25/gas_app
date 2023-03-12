@@ -80,6 +80,10 @@ export class SalesProductsComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please select Payment !');
       return;
     }
+    if(item.paymentMode==='credit' && (!item.payments.customer_name || !item.payments.mobile)){
+      this.toastService.showWarningToaster('Warning', 'Please enter mandatory fields !');
+      return;
+    }
     this.gs.data_entry = JSON.parse(JSON.stringify(item));
     this.confirm.emit();
   } 

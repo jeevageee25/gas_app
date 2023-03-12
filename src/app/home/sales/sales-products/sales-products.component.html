@@ -1,5 +1,5 @@
 <div style="display:block;">
-<button pButton pRipple label="Back" (click)='onBack()' class="p-button-warning"></button>
+    <button pButton pRipple label="Back" (click)='onBack()' class="p-button-warning"></button>
 </div>
 <br>
 <p-accordion>
@@ -111,6 +111,13 @@
             <div *ngIf="item.paymentMode && item.paymentMode !== 'cash' &&  item.paymentMode !== 'credit'">
                 <input style='width: 100%;' autocomplete="off" type="text" pInputText placeholder="Enter Txn Id"
                     [(ngModel)]="item.payments.txn_id">
+            </div>
+            <div *ngIf="item.paymentMode && item.paymentMode !== 'cash' &&  item.paymentMode === 'credit'">
+                <input style='width: 100%;' autocomplete="off" type="text" pInputText placeholder="Customer Name *"
+                    [(ngModel)]="item.payments.customer_name">
+                    <br>
+                <input style='width: 100%;margin-top: 3px;' autocomplete="off" type="text" pInputText placeholder="Customer Mobile # *"
+                    [(ngModel)]="item.payments.mobile">
             </div>
         </div>
         <div class="accordian-footer">

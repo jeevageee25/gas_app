@@ -106,7 +106,7 @@ export class SalesEntryComponent implements OnInit {
   }
 
   onConfirm() {
-    if (!this.previl.delete) {
+    if (!this.previl.create) {
       this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
       return;
     }
