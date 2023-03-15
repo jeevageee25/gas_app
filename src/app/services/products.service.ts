@@ -135,4 +135,22 @@ export class ProductsService {
     return this.http.delete(environment.apiurl + `api/sales_entry/delete/${_id}`)
   }
 
+  // PAYMENT
+
+  searchPayment(payload:any){
+    return this.http.post(environment.apiurl + `api/payment/search`, payload)
+  }
+
+  addPayment(payload:any){
+    return this.http.post(environment.apiurl + `api/payment/add`, payload)
+  }
+
+  updatePayment(payload:any){
+    return this.http.post(environment.apiurl + `api/payment/update`, payload)
+  }
+
+  deletePayment(_id:any){
+    return this.http.delete(environment.apiurl + `api/payment/delete/${_id}`)
+  }
+
 }
