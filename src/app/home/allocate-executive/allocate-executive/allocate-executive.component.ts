@@ -171,7 +171,7 @@ export class AllocateExectuveComponent implements OnInit {
       delete a.selectedProduct;
     })
     const { allocation_date } = this.dateForm.value;
-    this.PService.addAreaAllocation({ allocation_date: this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
+    this.PService.addAreaAllocation({date: allocation_date,  allocation_date: this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
       this.searchAreaAllocation();
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
     }, e => {
