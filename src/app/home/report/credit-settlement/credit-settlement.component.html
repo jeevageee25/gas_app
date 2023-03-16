@@ -1,1 +1,41 @@
-<p>credit-settlement works!</p>
+<div>
+    <div class="row">
+        <div class="table-title">Credit List</div>
+        <ngx-table [configuration]="configuration" [detailsTemplate]="detailsTemplate" #table [data]="tableData"
+            class="custom-table" [columns]="columns">
+            <ng-template let-row let-index="index">
+                <td>
+                    <span class="font-small">{{index+1}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.name}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.mobile}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.total_amount}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.paid_amount}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.remaining_amount}}</span>
+                </td>
+            </ng-template>
+            <ng-template #detailsTemplate let-row let-index1="index">
+                <ngx-table [id]="'child-'+index1" [configuration]="nestedConfiguration" [data]="row.payments"
+                    [columns]="nestedColumns">
+                    <ng-template let-row let-changeEvent let-index="index">
+                        <td>
+                            <span class="font-small ">{{row.created_date | date}}</span>
+                        </td>
+                        <td>
+                            <span class="font-small ">{{row.amount}}</span>
+                        </td>
+                    </ng-template>
+                </ngx-table>
+            </ng-template>
+        </ngx-table>
+    </div>
+</div>
