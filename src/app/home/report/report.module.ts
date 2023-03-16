@@ -4,6 +4,9 @@ import { ReportComponent } from './report/report.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
+import { CreditSettlementComponent } from './credit-settlement/credit-settlement.component';
+import { DailyTransactionComponent } from './daily-transaction/daily-transaction.component';
+import { SalesReportComponent } from './sales-report/sales-report.component';
 
 const routes: Routes = [
   {
@@ -15,7 +18,10 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ReportComponent,
-    PaymentDetailComponent
+    PaymentDetailComponent,
+    CreditSettlementComponent,
+    DailyTransactionComponent,
+    SalesReportComponent
   ],
   imports: [
     CommonModule,
