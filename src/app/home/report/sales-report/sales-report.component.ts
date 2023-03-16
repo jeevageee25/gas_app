@@ -29,6 +29,7 @@ export class SalesReportComponent implements OnInit {
     this.createForm();
     this.initTable();
     this.initConfig();
+    this.getData();
   }
 
 
@@ -36,8 +37,8 @@ export class SalesReportComponent implements OnInit {
     const date = new Date();
     date.setHours(0, 0, 0, 0)
     this.dateForm = this.fb.group({
-      from_date: [null, Validators.required],
-      to_date: [null, Validators.required]
+      from_date: [date, Validators.required],
+      to_date: [new Date(), Validators.required]
     })
   }
 
