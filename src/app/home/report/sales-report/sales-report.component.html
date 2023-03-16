@@ -1,15 +1,28 @@
 <div>
     <div class="row wrap">
-      <div class="col-md-4">
+      <div class="col-sm-12">
         <form [formGroup]="dateForm">
           <div class="row">
-            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding: 0;">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding: 0;">
               <div class="form-group">
-                <div class="custom-label">Date<span class='mandate'>*</span></div>
-                <p-calendar [showIcon]="true" formControlName="allocation_date"></p-calendar>
+                  <div class="custom-label">Frequency<span class='mandate'>*</span></div>
+                  <p-dropdown class="custom-pdropdown" [(ngModel)]="frequency" [options]="d_frequency">
+                  </p-dropdown>
+              </div>
+          </div>
+            <div *ngIf='frequency==="Custom"' class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;margin-left: 5px;">
+              <div class="form-group">
+                <div class="custom-label">From Date<span class='mandate'>*</span></div>
+                <p-calendar [showIcon]="true" formControlName="from_date"></p-calendar>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+            <div *ngIf='frequency==="Custom"' class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;margin-left: 5px;">
+              <div class="form-group">
+                <div class="custom-label">To Date<span class='mandate'>*</span></div>
+                <p-calendar [showIcon]="true" formControlName="to_date"></p-calendar>
+              </div>
+            </div>
+            <div *ngIf='frequency==="Custom"' class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
               style="margin-top:10px;align-self: flex-end !important;">
               <button pButton pRipple type="button" label="Search" (click)="getData()" class="p-button-success"></button>
             </div>
@@ -19,7 +32,7 @@
     </div>
     <br />
     <div class="row">
-      <div class="table-title">Reports</div>
+      <div class="table-title">Sales Reports</div>
       <ngx-table [id]="'table'" [configuration]="configuration" #table [data]="tableData" [columns]="columns"
         class="custom-table"  style="font-size: medium;overflow: auto;">
         <ng-template let-row let-changeEvent let-index="index">

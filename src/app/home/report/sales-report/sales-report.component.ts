@@ -19,9 +19,8 @@ export class SalesReportComponent implements OnInit {
   configuration: Config = { ...DefaultConfig };
   columns: Columns[] = [];
   tableData = [{}];
-  areaObj: any = {};
-  productObj: any = {};
-  executiveObj: any = {};
+  d_frequency = ['Daily', 'Weekly', 'Monthly', 'Quaterly', 'Yearly', 'Custom'];
+  frequency = 'Custom';
 
   constructor(private fb: FormBuilder, private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService, public dialogService: DialogService) { }
@@ -30,8 +29,6 @@ export class SalesReportComponent implements OnInit {
     this.createForm();
     this.initTable();
     this.initConfig();
-    this.searchProducts();
-    this.getData();
   }
 
 
@@ -39,7 +36,8 @@ export class SalesReportComponent implements OnInit {
     const date = new Date();
     date.setHours(0, 0, 0, 0)
     this.dateForm = this.fb.group({
-      allocation_date: [date, Validators.required]
+      from_date: [null, Validators.required],
+      to_date: [null, Validators.required]
     })
   }
 
@@ -66,43 +64,16 @@ export class SalesReportComponent implements OnInit {
     return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
   }
 
-  getAreas() {
-    this.PService.searchArea({ search_key: {} }).subscribe((res: any) => {
-      (res?.data || []).map((i: any) => {
-        this.areaObj[i._id] = i.area;
-      })
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  searchProducts() {
-    this.PService.getProducts({ search_key: {} }).subscribe((res: any) => {
-      (res?.data || []).map((i: any) => {
-        this.productObj[i._id] = `${i.category} - ${i.name}`;
-      })
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
-
-  getExecutives() {
-    this.PService.searchEmployee({ search_key: { role: "Delivery Executive" } }).subscribe((res: any) => {
-      (res?.data || [])?.map((i: any) => {
-        this.executiveObj[i._id] = i.staff_name;
-      })
-    }, e => {
-      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-    })
-  }
 
   getData() {
-    const date = new Date(this.dateForm?.get('allocation_date')?.value);
-    date.setHours(0, 0, 0, 0);
-    const allocation_date = this.convertDateFormat(date);
+    const { from_date, to_date } = this.dateForm.value;
+    if (!from_date || !to_date) {
+      this.toastService.showWarningToaster('Warning', 'Please select From Date and To Date');
+      return;
+    }
     combineLatest(
-      this.PService.searchSales({ search_key: {} }),
-      this.PService.searchAreaAllocation({ search_key: {} })
+      this.PService.searchSales({ search_key: { ...this.dateForm.value } }),
+      this.PService.searchAreaAllocation({ search_key: { ...this.dateForm.value } })
     ).subscribe((res: any) => {
       const sales_entry = res[0]?.data || [];
       const allocation_data = res[1]?.data || [];
@@ -121,8 +92,8 @@ export class SalesReportComponent implements OnInit {
           })
         })
         const { credit, collected } = this.formatReports(s_grouped[date] || [])
-        const difference = Number((credit+collected-expected).toFixed(2));
-        tableData.push({ date, credit:Number(credit.toFixed(2)), collected:Number(collected.toFixed(2)), expected:Number(expected.toFixed(2)), difference })
+        const difference = Number((credit + collected - expected).toFixed(2));
+        tableData.push({ date, credit: Number(credit.toFixed(2)), collected: Number(collected.toFixed(2)), expected: Number(expected.toFixed(2)), difference })
       }
       this.tableData = tableData;
     }, e => {
@@ -153,17 +124,4 @@ export class SalesReportComponent implements OnInit {
     })
     return { credit, collected }
   }
-
-  openPayment(row: any) {
-    this.dialogService.open(PaymentDetailComponent, {
-      header: 'Payment Details',
-      width: '40%',
-      data: row.sales
-    });
-  }
-
-  get areas() {
-    return Object.keys(this.tableData)
-  }
-
 }
