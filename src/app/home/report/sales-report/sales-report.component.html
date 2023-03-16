@@ -1,1 +1,48 @@
-<p>sales-report works!</p>
+<div>
+    <div class="row wrap">
+      <div class="col-md-4">
+        <form [formGroup]="dateForm">
+          <div class="row">
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding: 0;">
+              <div class="form-group">
+                <div class="custom-label">Date<span class='mandate'>*</span></div>
+                <p-calendar [showIcon]="true" formControlName="allocation_date"></p-calendar>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+              style="margin-top:10px;align-self: flex-end !important;">
+              <button pButton pRipple type="button" label="Search" (click)="getData()" class="p-button-success"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="table-title">Reports</div>
+      <ngx-table [id]="'table'" [configuration]="configuration" #table [data]="tableData" [columns]="columns"
+        class="custom-table"  style="font-size: medium;overflow: auto;">
+        <ng-template let-row let-changeEvent let-index="index">
+          <td>
+            <div class="font-small">{{index + 1}}</div>
+          </td>
+          <td>
+            <div class="font-small">{{row.date | date}}</div>
+          </td>
+          <td>
+            <span class="font-small ">{{row.expected}}</span>
+          </td>
+          <td>
+            <span class="font-small ">{{row.collected}}</span>
+          </td>
+          <td>
+            <span class="font-small ">{{row.credit}}</span>
+          </td>
+          <td>
+            <span class="font-small values"
+              [ngClass]="{'green': row.difference>0, 'red' : row.difference<0 }">{{row.difference}}</span>
+          </td>
+        </ng-template>
+      </ngx-table>
+    </div>
+  </div>
