@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Config, DefaultConfig, Columns } from 'ngx-easy-table';
 import { ConfirmationService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
+import { ExportService } from 'src/app/services/export.service';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -23,7 +24,7 @@ export class CreditSettlementComponent implements OnInit {
   previl = this.gs.getPreviledge('Credit Settlement');
 
 
-  constructor(private gs: GlobalService, private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
+  constructor(private exportService: ExportService, private gs: GlobalService, private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
 
   ngOnInit(): void {
     this.getData();
@@ -83,4 +84,26 @@ export class CreditSettlementComponent implements OnInit {
       { key: 'amount', title: 'Collected Amount' },
     ];
   }
+
+  onExport() {
+    let exportData: any = [];
+    let index = 1;
+    this.tableData.forEach((v: any, i: any) => {
+      exportData.push({
+        ...v,
+        index,
+      })
+      index++;
+    });
+    const columns: any = [
+      { key: "index", title: "Sl #" },
+      { key: "name", title: "Customer Name" },
+      { key: "mobile", title: "Mobile # " },
+      { key: "total_amount", title: "Expected Amount  " },
+      { key: "paid_amount", title: "Paid Amount " },
+      { key: "remaining_amount", title: "Remaining Amount" },
+    ];
+    this.exportService.exportToExcel(exportData, columns, 'Credit Report');
+  }
+
 }

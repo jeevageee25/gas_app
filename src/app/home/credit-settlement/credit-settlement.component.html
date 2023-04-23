@@ -1,85 +1,102 @@
 <div class="page-content">
     <div class="row wrap">
-        <div class="col-md-12">
-            <form [formGroup]="inputForm">
+        <div class="form-group">
+            <div class="col-md-12">
+                <form [formGroup]="inputForm">
+                    <div class="row ">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="custom-label">Customer Name <span class='mandate'>*</span></div>
+                                <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
+                                    formControlName="name" placeholder="Enter Customer Name">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="custom-label">Mobile Number <span class='mandate'>*</span></div>
+                                <input style='width: 100%;' placeholder="Enter Mobile Number" autocomplete="off"
+                                    type="text" id="rate" pInputText formControlName="mobile">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="custom-label">Amount <span class='mandate'>*</span></div>
+                                <input style='width: 100%;' placeholder="Enter Amount" autocomplete="off" type="number"
+                                    id="rate" pInputText formControlName="amount">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                            style="margin-top:10px;align-self: flex-end !important;">
+                            <button *ngIf="!inputForm.value._id" pButton pRipple type="button" (click)='addPayment()'
+                                label="Add" class="p-button-success"></button>
+                            <button *ngIf="inputForm.value._id" pButton pRipple type="button" (click)='updatePayment()'
+                                label="Update" class="p-button-success"></button>
+                            &nbsp; &nbsp;
+                            <button pButton pRipple type="reset" label="Reset" class="p-button-warning"></button>
+                        </div>
+                    </div>
+                </form>
+                <hr />
                 <div class="row ">
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <div class="custom-label">Customer Name <span class='mandate'>*</span></div>
-                            <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
-                                formControlName="name" placeholder="Enter Customer Name">
+                            <div class="custom-label">Search</div>
+                            <input style='width: 100%;' autocomplete="off" type="text" id="Search" pInputText
+                                (input)="onChange($event)" placeholder="Search">
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <div class="custom-label">Mobile Number <span class='mandate'>*</span></div>
-                            <input style='width: 100%;' placeholder="Enter Mobile Number" autocomplete="off" type="text"
-                                id="rate" pInputText formControlName="mobile">
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <div class="custom-label">Amount <span class='mandate'>*</span></div>
-                            <input style='width: 100%;' placeholder="Enter Amount"  autocomplete="off" type="number" id="rate" pInputText
-                                formControlName="amount">
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
-                        style="margin-top:10px;align-self: flex-end !important;">
-                        <button *ngIf="!inputForm.value._id" pButton pRipple type="button" (click)='addPayment()'
-                            label="Add" class="p-button-success"></button>
-                        <button *ngIf="inputForm.value._id" pButton pRipple type="button" (click)='updatePayment()'
-                            label="Update" class="p-button-success"></button>
-                        &nbsp; &nbsp;
-                        <button pButton pRipple type="reset" label="Reset" class="p-button-warning"></button>
                     </div>
                 </div>
-            </form>
+                <br />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="table-title">Credit List</div>
+            <ngx-table [configuration]="configuration" [detailsTemplate]="detailsTemplate" #table [data]="tableData"
+                class="custom-table" [columns]="columns">
+                <ng-template let-row let-index="index">
+                    <td>
+                        <span class="font-small">{{index+1}}</span>
+                    </td>
+                    <td>
+                        <span class="font-small">{{row.name}}</span>
+                    </td>
+                    <td>
+                        <span class="font-small">{{row.mobile}}</span>
+                    </td>
+                    <td>
+                        <span class="font-small">{{row.total_amount}}</span>
+                    </td>
+                    <td>
+                        <span class="font-small">{{row.paid_amount}}</span>
+                    </td>
+                    <td>
+                        <span class="font-small">{{row.remaining_amount}}</span>
+                    </td>
+                    <td>
+                        <span class="font-small">
+                            <i class="pi pi-pencil" (click)="onEdit(row)"></i>
+                        </span>
+                    </td>
+                </ng-template>
+                <ng-template #detailsTemplate let-row let-index1="index">
+                    <ngx-table [id]="'child-'+index1" [configuration]="nestedConfiguration" [data]="row.payments"
+                        [columns]="nestedColumns">
+                        <ng-template let-row let-changeEvent let-index="index">
+                            <td>
+                                <span class="font-small ">{{row.created_date | date}}</span>
+                            </td>
+                            <td>
+                                <span class="font-small ">{{row.amount}}</span>
+                            </td>
+                            <td>
+                                <span class="font-small">
+                                    <i class="pi pi-trash" (click)="confirm($event, row)"></i>
+                                </span>
+                            </td>
+                        </ng-template>
+                    </ngx-table>
+                </ng-template>
+            </ngx-table>
         </div>
     </div>
-    <br />
-    <div class="row">
-        <div class="table-title">Credit List</div>
-        <ngx-table [configuration]="configuration" [detailsTemplate]="detailsTemplate" #table [data]="tableData"
-            class="custom-table" [columns]="columns">
-            <ng-template let-row let-index="index">
-                <td>
-                    <span class="font-small">{{index+1}}</span>
-                </td>
-                <td>
-                    <span class="font-small">{{row.name}}</span>
-                </td>
-                <td>
-                    <span class="font-small">{{row.mobile}}</span>
-                </td>
-                <td>
-                    <span class="font-small">{{row.total_amount}}</span>
-                </td>
-                <td>
-                    <span class="font-small">{{row.paid_amount}}</span>
-                </td>
-                <td>
-                    <span class="font-small">{{row.remaining_amount}}</span>
-                </td>
-            </ng-template>
-            <ng-template #detailsTemplate let-row let-index1="index">
-                <ngx-table [id]="'child-'+index1" [configuration]="nestedConfiguration" [data]="row.payments"
-                    [columns]="nestedColumns">
-                    <ng-template let-row let-changeEvent let-index="index">
-                        <td>
-                            <span class="font-small ">{{row.created_date | date}}</span>
-                        </td>
-                        <td>
-                            <span class="font-small ">{{row.amount}}</span>
-                        </td>
-                        <td>
-                            <span class="font-small">
-                                <i class="pi pi-trash" (click)="confirm($event, row)"></i>
-                            </span>
-                        </td>
-                    </ng-template>
-                </ngx-table>
-            </ng-template>
-        </ngx-table>
-    </div>
-</div>

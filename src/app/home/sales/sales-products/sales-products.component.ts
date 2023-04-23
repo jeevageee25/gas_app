@@ -16,6 +16,7 @@ export class SalesProductsComponent implements OnInit {
     { key: 'Cheque', value: 'cheque' },
     { key: 'Credit Card', value: 'c_card' },
     { key: 'Debit Card', value: 'd_card' },
+    { key: 'Online (Prepaid)', value: 'prepaid' },
     { key: 'UPI', value: 'upi' },
     { key: 'Cash', value: 'cash' },
   ]

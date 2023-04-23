@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Config, DefaultConfig, Columns } from 'ngx-easy-table';
+import { Config, DefaultConfig, Columns, API, APIDefinition } from 'ngx-easy-table';
 import { ConfirmationService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
@@ -10,7 +10,8 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'app-credit-settlement',
   templateUrl: './credit-settlement.component.html',
-  styleUrls: ['./credit-settlement.component.scss']
+  styleUrls: ['./credit-settlement.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreditSettlementComponent implements OnInit {
 
@@ -22,7 +23,7 @@ export class CreditSettlementComponent implements OnInit {
   nestedColumns: Columns[] = [];
   tableData = [];
   previl = this.gs.getPreviledge('Credit Settlement');
-
+  @ViewChild('table') table: APIDefinition | any;
 
   constructor(private gs: GlobalService, private confirmationService: ConfirmationService, private toastService: ToastService, private fb: FormBuilder, private PService: ProductsService) { }
 
@@ -58,11 +59,11 @@ export class CreditSettlementComponent implements OnInit {
       })
       let tableData: any = [];
       Object.entries(tableObj).forEach(([key, v]) => {
-        let value:any = v;
+        let value: any = v;
         const arr = key.split('#');
         const payments = grouped[arr[0]] && grouped[arr[0]][arr[1]] || [];
         const paid_amount = payments.reduce((t: any, v: any) => t + v.amount, 0)
-        tableData.push({ name: arr[0], mobile: arr[1], total_amount: value, paid_amount, remaining_amount: Number((value-paid_amount).toFixed(2)), payments })
+        tableData.push({ name: arr[0], mobile: arr[1], total_amount: value, paid_amount, remaining_amount: Number((value - paid_amount).toFixed(2)), payments })
       })
       this.tableData = tableData;
     })
@@ -96,6 +97,10 @@ export class CreditSettlementComponent implements OnInit {
     })
   }
 
+  onEdit(row: any) {
+    this.inputForm.patchValue(row);
+  }
+
   addPayment() {
     if (!this.previl.create) {
       this.toastService.showWarningToaster('Warning', 'Access denied. Please contact administrator !');
@@ -106,7 +111,7 @@ export class CreditSettlementComponent implements OnInit {
       return;
     }
     const { name, mobile, amount } = this.inputForm.value;
-    const exists:any = this.tableData.find((t: any) => t.name === name && t.mobile === mobile);
+    const exists: any = this.tableData.find((t: any) => t.name === name && t.mobile === mobile);
     if (!amount) {
       this.toastService.showWarningToaster('Warning', 'Please enter the Amount !');
       return;
@@ -180,5 +185,11 @@ export class CreditSettlementComponent implements OnInit {
     });
   }
 
+  onChange(event: Event): void {
+    this.table.apiEvent({
+      type: API.onGlobalSearch,
+      value: (event.target as HTMLInputElement).value,
+    });
+  }
 
 }

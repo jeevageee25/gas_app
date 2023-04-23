@@ -7,6 +7,7 @@ import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { PaymentDetailComponent } from '../payment-detail/payment-detail.component';
+import { ExportService } from 'src/app/services/export.service';
 
 @Component({
   selector: 'app-daily-transaction',
@@ -31,7 +32,7 @@ export class DailyTransactionComponent implements OnInit {
     'upi': 'UPI',
     'cash': 'Cash'
 }
-  constructor(private fb: FormBuilder, private PService: ProductsService,
+  constructor(private fb: FormBuilder, private PService: ProductsService,private exportService: ExportService,
     private toastService: ToastService, private gs: GlobalService, public dialogService: DialogService) { }
 
   ngOnInit(): void {
@@ -232,6 +233,34 @@ export class DailyTransactionComponent implements OnInit {
       }
     }
     this.tableData = tableData;
+  }
+
+  onExport() {
+    let exportData: any = [];
+    let index = 1;
+    this.tableData.forEach((v: any, i: any) => {
+      exportData.push({
+        ...v,
+        index,
+        area: this.areaObj[v.area_id],
+        executive_id: this.executiveObj[v.executive_id],
+        returned: v.allocated-v.supplied
+      })
+      index++;
+    });
+    const columns: any = [
+      { key: "index", title: "Sl #" },
+      { key: "area", title: "Area" },
+      { key: "executive_id", title: "Executive Name" },
+      { key: "allocated", title: "Allocated" },
+      { key: "returned", title: "Returned" },
+      { key: "supplied", title: "Supplied" },
+      { key: "expected_amount", title: "Expected Amount" },
+      { key: "collected", title: "Collected Amount" },
+      { key: "credit_amount", title: "Credit" },
+      { key: "difference", title: "Difference" },
+    ];
+    this.exportService.exportToExcel(exportData, columns, 'Daily Transaction Report');
   }
 
   openPayment(row: any) {

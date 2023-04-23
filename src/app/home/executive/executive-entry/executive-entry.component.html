@@ -27,6 +27,13 @@
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="form-group">
+                            <div class="custom-label">Mobile Number<span class='mandate'>*</span></div>
+                            <input style='width: 100%;' autocomplete="off" type="number" id="rate" pInputText
+                                formControlName="mobile_number" placeholder="Enter Mobile Number">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
                             <div class="custom-label">User Name <span class='mandate'>*</span></div>
                             <input style='width: 100%;' autocomplete="off" type="text" id="rate" pInputText
                                 formControlName="user_name" placeholder="Enter Username">
@@ -65,6 +72,9 @@
                 </td>
                 <td>
                     <span class="font-small">{{row.staff_name}}</span>
+                </td>
+                <td>
+                    <span class="font-small">{{row.mobile_number}}</span>
                 </td>
                 <td>
                     <span class="font-small">{{row.user_name}}</span>

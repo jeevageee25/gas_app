@@ -7,6 +7,8 @@ import { GlobalService } from 'src/app/services/global.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { PaymentDetailComponent } from '../payment-detail/payment-detail.component';
+import { ExportService } from 'src/app/services/export.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-sales-report',
@@ -22,7 +24,7 @@ export class SalesReportComponent implements OnInit {
   d_frequency = ['Daily', 'Weekly', 'Monthly', 'Quaterly', 'Yearly', 'Custom'];
   frequency = 'Custom';
 
-  constructor(private fb: FormBuilder, private PService: ProductsService,
+  constructor(private datePipe: DatePipe, private fb: FormBuilder, private PService: ProductsService, private exportService: ExportService,
     private toastService: ToastService, private gs: GlobalService, public dialogService: DialogService) { }
 
   ngOnInit(): void {
@@ -101,6 +103,29 @@ export class SalesReportComponent implements OnInit {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
   }
+
+  onExport() {
+    let exportData: any = [];
+    let index = 1;
+    this.tableData.forEach((v: any, i: any) => {
+      exportData.push({
+        ...v,
+        index,
+        date: this.datePipe.transform(v.date, "MMM d, y")
+      })
+      index++;
+    });
+    const columns: any = [
+      { key: "index", title: "Sl #" },
+      { key: "date", title: "Date" },
+      { key: "expected", title: "Expected Amount" },
+      { key: "collected", title: "Collected Amount " },
+      { key: "credit", title: "Credit" },
+      { key: "difference", title: "Difference" },
+    ];
+    this.exportService.exportToExcel(exportData, columns, 'Sales Report');
+  }
+
 
   formatReports(sales_list: any) {
     let collected = 0;

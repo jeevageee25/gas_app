@@ -35,6 +35,7 @@ export class ExecutiveEntryComponent implements OnInit {
       { key: 'role', title: 'Role' },
       { key: 'siebel_code', title: 'Siebel Code' },
       { key: 'staff_name', title: 'Staff Name' },
+      { key: 'mobile_number', title: 'Mobile Number' },
       { key: 'user_name', title: 'User Name' },
       { key: 'password', title: 'Password' },
       { key: '', title: 'Actions' }
@@ -47,6 +48,7 @@ export class ExecutiveEntryComponent implements OnInit {
       role: ['', Validators.required],
       siebel_code: ['', Validators.required],
       staff_name: ['', Validators.required],
+      mobile_number: ['', Validators.required],
       user_name: ['', Validators.required],
       password: ['', Validators.required]
     })
@@ -61,8 +63,8 @@ export class ExecutiveEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
     }
-    const { staff_name, role, siebel_code, user_name, password } = this.inputForm.value;
-    this.PService.addEmployee({ staff_name, role, siebel_code, user_name, password, profile_update: true }).subscribe((res: any) => {
+    const { staff_name, role, siebel_code, user_name, password, mobile_number } = this.inputForm.value;
+    this.PService.addEmployee({ staff_name, role, siebel_code, user_name, password, profile_update: true, mobile_number }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
       this.searchEmployee();
       this.inputForm.reset();
@@ -80,8 +82,8 @@ export class ExecutiveEntryComponent implements OnInit {
       this.toastService.showWarningToaster('Warning', 'Please fill all the Mandatory Fields !');
       return;
     }
-    const { _id, staff_name, role, siebel_code, user_name, password } = this.inputForm.value;
-    this.PService.updateEmployee({ _id, staff_name, role, siebel_code, user_name, password }).subscribe((res: any) => {
+    const { _id, staff_name, role, siebel_code, user_name, password, mobile_number } = this.inputForm.value;
+    this.PService.updateEmployee({ _id, staff_name, role, siebel_code, user_name, password, mobile_number }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchEmployee();
       this.inputForm.reset();

@@ -1,6 +1,9 @@
 <div>
     <div class="row">
-        <div class="table-title">Credit Settlement Report</div>
+        <div class="table-title">Credit Settlement Report
+            <button pButton pRipple type="button" label="Export" (click)="onExport()" class="p-button-success"></button>
+        </div>
+      
         <ngx-table [configuration]="configuration" [detailsTemplate]="detailsTemplate" #table [data]="tableData"
             class="custom-table" [columns]="columns">
             <ng-template let-row let-index="index">

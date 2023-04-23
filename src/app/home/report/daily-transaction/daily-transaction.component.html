@@ -19,7 +19,9 @@
     </div>
     <br />
     <div class="row">
-      <div class="table-title">Daily Transaction Report</div>
+      <div class="table-title">Daily Transaction Report
+        <button pButton pRipple type="button" label="Export" (click)="onExport()" class="p-button-success"></button>
+      </div>
       <ngx-table [id]="'table'" [configuration]="configuration" #table [data]="tableData" [columns]="columns"
         class="custom-table" [detailsTemplate]="detailsTemplate" style="font-size: medium;overflow: auto;">
         <ng-template let-row let-changeEvent let-index="index">
@@ -52,7 +54,7 @@
           </td>
           <td>
             <span class="font-small values"
-              [ngClass]="{'green': row.difference>0, 'red' : row.difference<0 }">{{row.difference}}</span>
+              [ngClass]="{'red': row.difference>0, 'green' : row.difference<0 }">{{row.difference}}</span>
           </td>
         </ng-template>
       </ngx-table>
@@ -88,7 +90,7 @@
             </td>
             <td>
               <span class="font-small values"
-                [ngClass]="{'green': row.difference>0, 'red' : row.difference<0 }">{{row.difference}}</span>
+                [ngClass]="{'red': row.difference>0, 'green' : row.difference<0 }">{{row.difference}}</span>
             </td>
           </ng-template>
         </ngx-table>

@@ -5,6 +5,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ProductsService } from 'src/app/services/products.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { GlobalService } from 'src/app/services/global.service';
+import { ExportService } from 'src/app/services/export.service';
 
 @Component({
   selector: 'app-allocate-executive',
@@ -26,6 +27,7 @@ export class AllocateExectuveComponent implements OnInit {
   previl = this.gs.getPreviledge('Allocate Executive Area');
 
   constructor(
+    private exportService: ExportService,
     private confirmationService: ConfirmationService,
     private toastService: ToastService,
     private fb: FormBuilder,
@@ -34,10 +36,9 @@ export class AllocateExectuveComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.getDefaultAllocation();
+    this.searchProducts();
     this.getExecutives();
     this.getAreas();
-    this.searchProducts();
   }
 
   createForm() {
@@ -76,6 +77,8 @@ export class AllocateExectuveComponent implements OnInit {
         this.productObj[i._id] = `${i.category} - ${i.name}`;
         this.productPriceObj[i._id] = i.price;
       })
+      const get_14_id = this.products.find((i: any) => i.name === '14.2 Kg')
+      this.getDefaultAllocation(get_14_id?._id);
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
@@ -92,12 +95,12 @@ export class AllocateExectuveComponent implements OnInit {
     })
   }
 
-  getDefaultAllocation() {
+  getDefaultAllocation(default_id = null) {
     this.PService.searchDefaultAreaAllocation({ search_key: {} }).subscribe((res: any) => {
       this.defaultData = res?.data.map((t: any) => {
         return {
           allocations: t.area_ids.map((a: any) => {
-            return { area_id: a, count: null, product: null }
+            return { area_id: a, count: 0, product: default_id }
           }),
           executive_id: t.executive_id
         }
@@ -118,7 +121,7 @@ export class AllocateExectuveComponent implements OnInit {
           this.fb.group({
             area_id: new FormControl(a.area_id, Validators.required),
             product: new FormControl(a.product, Validators.required),
-            count: new FormControl(a.count, Validators.required)
+            count: new FormControl(a.count)
           })
         )
       })
@@ -139,7 +142,7 @@ export class AllocateExectuveComponent implements OnInit {
         formA.push(this.fb.group({
           area_id: new FormControl(item.value.selectedArea, Validators.required),
           product: new FormControl(s, Validators.required),
-          count: new FormControl('', Validators.required)
+          count: new FormControl(0)
         }));
       })
       formc.controls[t].get('selectedArea').setValue('');
@@ -171,8 +174,9 @@ export class AllocateExectuveComponent implements OnInit {
       delete a.selectedProduct;
     })
     const { allocation_date } = this.dateForm.value;
-    this.PService.addAreaAllocation({date: allocation_date,  allocation_date: this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
+    this.PService.addAreaAllocation({ date: allocation_date, allocation_date: this.convertDateFormat(allocation_date), allocation_data }).subscribe((res: any) => {
       this.searchAreaAllocation();
+      this.onExport();
       this.toastService.showSuccessToaster('Success', 'Added Successfully !');
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
@@ -213,6 +217,7 @@ export class AllocateExectuveComponent implements OnInit {
     this.PService.updateAreaAllocation({ _id, allocation_data }).subscribe((res: any) => {
       this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
       this.searchAreaAllocation();
+      this.onExport();
     }, e => {
       this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
     })
@@ -246,7 +251,7 @@ export class AllocateExectuveComponent implements OnInit {
           this.fb.group({
             area_id: new FormControl(a.area_id, Validators.required),
             product: new FormControl(a.product, Validators.required),
-            count: new FormControl(a.count, Validators.required)
+            count: new FormControl(a.count)
           })
         )
       })
@@ -275,6 +280,32 @@ export class AllocateExectuveComponent implements OnInit {
   isFieldInvalid(fieldType: string, item: any): boolean {
     return item.controls[fieldType]?.invalid &&
       (item.controls[fieldType]?.touched || item.controls[fieldType]?.dirty);
+  }
+
+  onExport() {
+    const formValue = this.alloationForm.value;
+    let exportData: any = [];
+    let index = 1;
+    formValue.tableData.forEach((t: any) => {
+      t.allocations.forEach((a: any, i: any) => {
+        exportData.push({
+          index,
+          area: this.areaObj[a.area_id],
+          name: this.executiveObj[t.executive_id],
+          product: this.productObj[a.product],
+          count: a.count
+        });
+        index++;
+      });
+    })
+    const columns: any = [
+      { key: "index", title: "Sl #" },
+      { key: "area", title: "Area" },
+      { key: "name", title: "Executive Name" },
+      { key: "product", title: "Product" },
+      { key: "count", title: "Count" },
+    ];
+    this.exportService.exportToExcel(exportData, columns, 'Allocation List');
   }
 
   get executive_options() {
