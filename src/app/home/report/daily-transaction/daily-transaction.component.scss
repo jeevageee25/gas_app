@@ -15,3 +15,13 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.pendingStatus {
+    color: #f2c027;
+    font-weight: 800;
+}
+
+.approvedStatus {
+    color: green;
+    font-weight: 800;
+}

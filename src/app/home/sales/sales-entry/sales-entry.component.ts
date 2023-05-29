@@ -20,6 +20,8 @@ export class SalesEntryComponent implements OnInit {
   banner_info: any = {};
   top_info: any = { al: 0, sup: 0, rm: 0 }
   previl = this.gs.getPreviledge('Sales Entry');
+  expenditure = 0;
+  allocationData: any = [];
 
   constructor(private PService: ProductsService,
     private toastService: ToastService, private gs: GlobalService) {
@@ -64,6 +66,7 @@ export class SalesEntryComponent implements OnInit {
 
   searchAreaAllocation(sales: any, data: any) {
     if (data?.allocation_data?.length) {
+      this.allocationData = data;
       const exec_match = data.allocation_data.find((a: any) => a.executive_id === this.executive_id);
       if (exec_match) {
         this.formatData(exec_match.allocations, sales);
@@ -80,6 +83,7 @@ export class SalesEntryComponent implements OnInit {
       let b_allocated_amount = 0;
       let b_supplied_amount = 0;
       const val: any = value;
+      let exp = 0;
       val.forEach((v: any) => {
         b_allocated += v.count;
         const supplied = sales_grouped[v?.area_id] && sales_grouped[v?.area_id][v?.product]?.reduce((t: any, v: any) => t + v.supplied, 0) || 0;
@@ -87,12 +91,15 @@ export class SalesEntryComponent implements OnInit {
         b_supplied += supplied;
         b_allocated_amount += (v.count * v.price);
         b_supplied_amount += (supplied * v.price);
+        exp += v.expenditure;
       })
       this.banner_info[key] = {
         allocated: b_allocated, supplied: b_supplied,
         b_allocated_amount: Number(b_allocated_amount.toFixed(2)),
         b_supplied_amount: Number(b_supplied_amount.toFixed(2)),
         b_remaining_amount: Number((b_allocated_amount - b_supplied_amount).toFixed(2)),
+        expenditure: Number(exp.toFixed(2)),
+        area_id: key
       };
       this.top_info.al = Number((this.top_info.al + b_allocated_amount).toFixed(2))
       this.top_info.sup = Number((this.top_info.sup + b_supplied_amount).toFixed(2))
@@ -146,6 +153,27 @@ export class SalesEntryComponent implements OnInit {
     })
   }
 
+  onSubmit(row: any) {
+    if (!this.expenditure && this.expenditure != 0) {
+      this.toastService.showWarningToaster('Warning', 'Please enter the expenditure');
+      return;
+    }
+    const { allocation_data, _id } = this.allocationData;
+    allocation_data.forEach((a: any) => {
+      if (a.executive_id === this.executive_id) {
+        a.allocations.forEach((s: any) => {
+          if (s.area_id === row.area_id) {
+            s.expenditure = row.expenditure;
+          }
+        })
+      }
+    })
+    this.PService.updateAreaAllocation({ _id, allocation_data }).subscribe((res: any) => {
+      this.toastService.showSuccessToaster('Success', 'Updated Successfully !');
+    }, e => {
+      this.toastService.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
+  }
   get areas() {
     return Object.keys(this.tableData)
   }

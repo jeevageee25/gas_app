@@ -44,12 +44,17 @@ export class LoginComponent implements OnInit {
 
   searchRole(role: any) {
     this.ps.searchRole({ search_key: { role } }).subscribe((res: any) => {
-      if (res.data[0]){
-      sessionStorage.setItem('previledge', JSON.stringify(res.data[0].previledge))
-      this.router.navigate(['/products'])
-    }
-  }, e => {
-  this.toast.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
-})
+      if (res.data[0]) {
+        sessionStorage.setItem('previledge', JSON.stringify(res.data[0].previledge))
+        if (role === "Delivery Executive") {
+          this.router.navigate(['/home/sales-entry'])
+        }
+        else {
+          this.router.navigate(['/products'])
+        }
+      }
+    }, e => {
+      this.toast.showErrorToaster('Error', 'Something went wrong !. Please try again later.');
+    })
   }
 }

@@ -9,10 +9,11 @@
         <div style="display: flex;justify-content: space-between;">
             <span>Remaining Amt (Rs) :&nbsp;</span><span>{{top_info['rm']}}</span>
         </div>
+        <hr />
     </div>
     <div class="row wrap" *ngIf='showParent && areas?.length' style="display:block">
         <div class="col-md-12" *ngFor="let area of areas">
-            <div class="card" (click)="onAreaClick(area)">
+            <div class="card">
                 <b>{{areaObj[area]}}</b>
                 <div style="display: flex;justify-content: center;min-width: 65vw;">
                     <p>
@@ -35,6 +36,18 @@
                     <div style="display: flex;justify-content: space-between;">
                         <span>Remaining Amt (Rs) :&nbsp;</span><span>{{banner_info[area]?.b_remaining_amount}}</span>
                     </div>
+                    <div style="display: flex;justify-content: space-between;">
+                        <span>Expenditure (Rs) :</span>
+                        <input style='width: 30%;margin: 0px 5px;' autocomplete="off" type="number" pInputText
+                            [(ngModel)]="banner_info[area].expenditure">
+                        <button type="button" pButton pRipple type="button" (click)='onSubmit(banner_info[area])'
+                            label="Submit" class="p-button-success"></button>
+                    </div>
+                </div>
+                <br>
+                <div style="display: flex;justify-content: center;">
+                    <button style='width: 20%;' type="button" pButton pRipple type="button" (click)="onAreaClick(area)"
+                        label="Entry" class="p-button-warning"></button>
                 </div>
             </div>
         </div>
