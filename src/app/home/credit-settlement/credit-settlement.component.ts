@@ -65,7 +65,7 @@ export class CreditSettlementComponent implements OnInit {
         const paid_amount = payments.reduce((t: any, v: any) => t + v.amount, 0)
         tableData.push({ name: arr[0], mobile: arr[1], total_amount: value, paid_amount, remaining_amount: Number((value - paid_amount).toFixed(2)), payments })
       })
-      this.tableData = tableData;
+      this.tableData = tableData.filter((i:any)=>i.remaining_amount>0);
     })
   }
 

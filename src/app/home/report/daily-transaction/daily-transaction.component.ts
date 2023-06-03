@@ -233,7 +233,7 @@ export class DailyTransactionComponent implements OnInit {
           allocated: total_allocated,
           supplied: total_supplied,
           expenditure,
-          status: exec_values[0].status,
+          status: exec_values[0].status || 'Pending',
           collected: Number((total_collected_amount).toFixed(2)),
           expected_amount: Number((total_expected_amount).toFixed(2)),
           difference: Number((total_expected_amount - total_collected_amount - expenditure).toFixed(2)),
@@ -300,6 +300,11 @@ export class DailyTransactionComponent implements OnInit {
 
   statusUpdate(status: any) {
     const selected = this.tableData.filter((t: any) => t.selected);
+    const pendingAmount = selected.some((t: any) => t.difference !== 0);
+    if(status === "Approved" && pendingAmount){
+      this.toastService.showWarningToaster('Warning', 'Please check the difference amount');
+      return
+    }
     const area_id = selected.map((s: any) => s.area_id);
     const executive_id = selected.map((s: any) => s.executive_id);
     if (selected.length === 0) {

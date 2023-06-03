@@ -169,6 +169,7 @@ export class AllocateExectuveComponent implements OnInit {
     allocation_data.forEach((a: any) => {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
+        b.count = b.count || 0;
       })
       delete a.selectedArea;
       delete a.selectedProduct;
@@ -210,6 +211,7 @@ export class AllocateExectuveComponent implements OnInit {
     allocation_data.forEach((a: any) => {
       a.allocations.forEach((b: any) => {
         b.price = this.productPriceObj[b.product];
+        b.count = b.count || 0;
       })
       delete a.selectedArea;
       delete a.selectedProduct;
